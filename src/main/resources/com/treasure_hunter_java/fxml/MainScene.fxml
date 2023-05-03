@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="757.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.treasure_hunter_java.MainController">
+   <children>
+      <VBox prefHeight="400.0" prefWidth="203.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="554.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label prefHeight="75.0" prefWidth="193.0" text="Treasure Hunter" textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="71.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <VBox.margin>
+                  <Insets left="15.0" />
+               </VBox.margin>
+            </Label>
+            <Button fx:id="searchPasswordsButton" mnemonicParsing="false" onAction="#onSearchPasswordsButtonClick" prefHeight="55.0" prefWidth="203.0" style="-fx-background-color: #ffffff;" text="Поиск паролей">
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="64.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8-keepass-50.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets right="45.0" />
+               </padding>
+            </Button>
+            <Button fx:id="generateDictionaryButton" mnemonicParsing="false" onAction="#onGenerateDictionaryButtonClick" prefHeight="55.0" prefWidth="203.0" style="-fx-background-color: #ffffff;" text="Генерация словаря">
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8-словарь-64.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <padding>
+                  <Insets right="25.0" />
+               </padding>
+            </Button>
+            <Button fx:id="reportButton" mnemonicParsing="false" onAction="#onReportButtonClick" prefHeight="55.0" prefWidth="203.0" style="-fx-background-color: #ffffff;" text="Отчет">
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8-бизнес-отчет-53.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets right="100.0" />
+               </padding>
+            </Button>
+            <Button fx:id="zipButton" mnemonicParsing="false" onAction="#onZipButtonClick" prefHeight="55.0" prefWidth="203.0" style="-fx-background-color: #ffffff;" text="Упаковка в ZIP">
+               <graphic>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8-zip-64.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <padding>
+                  <Insets right="50.0" />
+               </padding>
+            </Button>
+            <Button fx:id="telegramButton" mnemonicParsing="false" onAction="#onTelegramButtonClick" prefHeight="55.0" prefWidth="203.0" style="-fx-background-color: #ffffff;" text="Отправка боту">
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8-телеграм-50.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <padding>
+                  <Insets right="50.0" />
+               </padding>
+            </Button>
+            <Button fx:id="start" mnemonicParsing="false" onAction="#onStartButtonClick" prefHeight="55.0" prefWidth="203.0" style="-fx-background-color: #ffffff;" text="Начать">
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8-иди-50.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <padding>
+                  <Insets right="95.0" />
+               </padding>
+            </Button>
+         </children>
+      </VBox>
+      <VBox layoutX="234.0" layoutY="41.0" prefHeight="169.0" prefWidth="145.0">
+         <children>
+            <Label prefHeight="51.0" prefWidth="145.0" text="Google Chrome">
+               <graphic>
+                  <ImageView fitHeight="22.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8-google-chrome-64.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <CheckBox fx:id="passwordsGoogle" mnemonicParsing="false" prefHeight="33.0" prefWidth="138.0" text="Пароли">
+               <graphic>
+                  <ImageView fitHeight="33.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8-пароль-50.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </CheckBox>
+            <CheckBox mnemonicParsing="false" prefHeight="47.0" prefWidth="140.0" text="Cookies">
+               <graphic>
+                  <ImageView fitHeight="47.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8-печенье-64.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </CheckBox>
+            <CheckBox fx:id="historyGoogle" mnemonicParsing="false" text="История">
+               <graphic>
+                  <ImageView fitHeight="33.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8-история-заказов-50.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </CheckBox>
+         </children>
+      </VBox>
+      <VBox layoutX="422.0" layoutY="41.0" prefHeight="169.0" prefWidth="145.0">
+         <children>
+            <Label prefHeight="51.0" prefWidth="145.0" text="Chromium">
+               <graphic>
+                  <ImageView fitHeight="22.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8-google-chrome-64.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <CheckBox mnemonicParsing="false" prefHeight="33.0" prefWidth="138.0" text="Пароли">
+               <graphic>
+                  <ImageView fitHeight="33.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8-пароль-50.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </CheckBox>
+            <CheckBox mnemonicParsing="false" prefHeight="47.0" prefWidth="140.0" text="Cookies">
+               <graphic>
+                  <ImageView fitHeight="47.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8-печенье-64.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </CheckBox>
+            <CheckBox mnemonicParsing="false" text="История">
+               <graphic>
+                  <ImageView fitHeight="33.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8-история-заказов-50.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </CheckBox>
+         </children>
+      </VBox>
+      <VBox layoutX="598.0" layoutY="41.0" prefHeight="169.0" prefWidth="145.0">
+         <children>
+            <Label prefHeight="51.0" prefWidth="145.0" text="Opera">
+               <graphic>
+                  <ImageView fitHeight="22.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8-опера-50.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <CheckBox mnemonicParsing="false" prefHeight="33.0" prefWidth="138.0" text="Пароли">
+               <graphic>
+                  <ImageView fitHeight="33.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8-пароль-50.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </CheckBox>
+            <CheckBox mnemonicParsing="false" prefHeight="47.0" prefWidth="140.0" text="Cookies">
+               <graphic>
+                  <ImageView fitHeight="47.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8-печенье-64.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </CheckBox>
+            <CheckBox mnemonicParsing="false" text="История">
+               <graphic>
+                  <ImageView fitHeight="33.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8-история-заказов-50.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </CheckBox>
+         </children>
+      </VBox>
+      <VBox layoutX="306.0" layoutY="217.0" prefHeight="169.0" prefWidth="145.0">
+         <children>
+            <Label prefHeight="51.0" prefWidth="145.0" text="Atom">
+               <graphic>
+                  <ImageView fitHeight="22.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8-atom-editor-50.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <CheckBox mnemonicParsing="false" prefHeight="33.0" prefWidth="138.0" text="Пароли">
+               <graphic>
+                  <ImageView fitHeight="33.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8-пароль-50.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </CheckBox>
+            <CheckBox mnemonicParsing="false" prefHeight="47.0" prefWidth="140.0" text="Cookies">
+               <graphic>
+                  <ImageView fitHeight="47.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8-печенье-64.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </CheckBox>
+            <CheckBox mnemonicParsing="false" text="История">
+               <graphic>
+                  <ImageView fitHeight="33.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8-история-заказов-50.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </CheckBox>
+         </children>
+      </VBox>
+      <VBox layoutX="495.0" layoutY="217.0" prefHeight="169.0" prefWidth="145.0">
+         <children>
+            <Label prefHeight="51.0" prefWidth="145.0" text="Edge">
+               <graphic>
+                  <ImageView fitHeight="22.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8-microsoft-edge-50.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <CheckBox mnemonicParsing="false" prefHeight="33.0" prefWidth="138.0" text="Пароли">
+               <graphic>
+                  <ImageView fitHeight="33.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8-пароль-50.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </CheckBox>
+            <CheckBox mnemonicParsing="false" prefHeight="47.0" prefWidth="140.0" text="Cookies">
+               <graphic>
+                  <ImageView fitHeight="47.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8-печенье-64.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </CheckBox>
+            <CheckBox mnemonicParsing="false" text="История">
+               <graphic>
+                  <ImageView fitHeight="33.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8-история-заказов-50.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </CheckBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.treasure_hunter_java.HelloController">
+   <children>
+      <HBox prefHeight="52.0" prefWidth="600.0">
+         <children>
+            <ComboBox fx:id="functionsComboBox" prefHeight="52.0" prefWidth="167.0" promptText="Поиск паролей" />
+            <Button mnemonicParsing="false" prefHeight="52.0" prefWidth="172.0" text="Выбрать рабочую папку" />
+            <Button mnemonicParsing="false" prefHeight="52.0" prefWidth="123.0" text="Запаковать в zip" />
+            <Button cache="true" prefHeight="52.0" prefWidth="141.0" text="Начать">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <effect>
+                  <ColorAdjust contrast="1.0" />
+               </effect>
+               <graphic>
+                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@free-icon-play-1073695.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </HBox>
+      <ImageView fitHeight="70.0" fitWidth="79.0" layoutX="221.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fitHeight="70.0" fitWidth="79.0" layoutX="359.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fitHeight="70.0" fitWidth="79.0" layoutX="487.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true" />
+   </children>
+</AnchorPane>
