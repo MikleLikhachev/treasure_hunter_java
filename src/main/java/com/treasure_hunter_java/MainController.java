@@ -74,7 +74,7 @@ public class MainController implements Initializable {
             System.out.println(Decrypt.decryptPasswords(Main.mainWorkDirectory.toString() + "/chrome_data"));
         }
         if (historyGoogle.isSelected()){
-            System.out.println(Decrypt.getHistory());
+            System.out.println(Decrypt.getHistory(Main.mainWorkDirectory.toString() + "/chrome_data/history"));
         }
     }
 

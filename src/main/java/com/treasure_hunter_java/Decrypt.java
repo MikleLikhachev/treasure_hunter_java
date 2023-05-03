@@ -108,9 +108,9 @@ public class Decrypt {
 
     }
 
-    public static String getHistory(){
+    public static String getHistory(String historyPath){
         String text = "" + "\n";
-        File dbFile = new File(HISTORY_PATH);
+        File dbFile = new File(historyPath);
         Connection conn = null;
         try {
             Class.forName("org.sqlite.JDBC");
