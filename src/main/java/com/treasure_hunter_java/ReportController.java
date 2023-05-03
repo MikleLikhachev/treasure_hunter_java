@@ -1,2 +1,4 @@
-package com.treasure_hunter_java;public class ReportController {
+package com.treasure_hunter_java;
+
+public class ReportController {
 }

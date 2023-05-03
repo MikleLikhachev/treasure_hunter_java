@@ -1,2 +1,4 @@
-package com.treasure_hunter_java;public class ZipController {
+package com.treasure_hunter_java;
+
+public class ZipController {
 }
