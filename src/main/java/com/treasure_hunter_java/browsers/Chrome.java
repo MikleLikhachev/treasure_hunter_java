@@ -23,6 +23,10 @@ public class Chrome {
             }
         }
 
+        if (profiles.isEmpty()) {
+            profiles.add(Path.of(dirName + ""));
+        }
+
     }
 
     public ArrayList<Path> getProfiles() {
