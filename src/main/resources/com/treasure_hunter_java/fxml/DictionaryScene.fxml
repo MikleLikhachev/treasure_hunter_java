@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="757.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.treasure_hunter_java.DictionaryController">
+<AnchorPane prefHeight="420.0" prefWidth="757.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.treasure_hunter_java.DictionaryController">
    <children>
       <VBox layoutX="213.0" layoutY="73.0" prefHeight="279.0" prefWidth="235.0">
          <children>
@@ -45,11 +45,19 @@
       <VBox layoutX="554.0" layoutY="236.0" prefHeight="200.0" prefWidth="189.0">
          <children>
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="45.0" prefWidth="189.0" text="По длине" />
-            <Label alignment="CENTER" prefHeight="17.0" prefWidth="189.0" text="5" />
-            <Slider max="50.0" prefHeight="22.0" prefWidth="160.0" value="5.0" />
-            <Slider max="50.0" value="25.0">
+            <Label alignment="CENTER" prefHeight="17.0" prefWidth="189.0" text="От" />
+            <Slider max="50.0" prefHeight="22.0" prefWidth="160.0" value="5.0">
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin></Slider>
+            <Label alignment="CENTER" prefHeight="17.0" prefWidth="189.0" text="До">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Label>
+            <Slider max="50.0" prefHeight="22.0" prefWidth="160.0" value="25.0">
                <padding>
-                  <Insets top="25.0" />
+                  <Insets top="5.0" />
                </padding>
             </Slider>
          </children>
@@ -136,6 +144,15 @@
                <padding>
                   <Insets right="50.0" />
                </padding>
+            </Button>
+            <Button mnemonicParsing="false" prefHeight="55.0" prefWidth="203.0" style="-fx-background-color: #ffffff;" text="Выбрать рабочую папку">
+               <graphic>
+                  <ImageView fitHeight="35.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8-папка-50.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
             </Button>
             <Button fx:id="start" mnemonicParsing="false" onAction="#onStartButtonClick" prefHeight="55.0" prefWidth="203.0" style="-fx-background-color: #ffffff;" text="Начать">
                <graphic>
