@@ -94,7 +94,7 @@
                   <Insets right="45.0" />
                </padding>
             </Button>
-            <Button fx:id="generateDictionaryButton" mnemonicParsing="false" onAction="#onGenerateDictionaryButtonClick" prefHeight="55.0" prefWidth="203.0" style="-fx-background-color: #ffffff;" text="Генерация словаря">
+            <Button fx:id="generateDictionaryButton" mnemonicParsing="false" onAction="#onGenerateDictionaryButtonClick" prefHeight="55.0" prefWidth="203.0" style="-fx-background-color: #cccccc;" text="Генерация словаря">
                <graphic>
                   <ImageView fitHeight="40.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
                      <image>

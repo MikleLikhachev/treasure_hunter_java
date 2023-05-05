@@ -45,12 +45,6 @@ public class MainController implements Initializable {
     private CheckBox historyOpera;
 
     @FXML
-    private CheckBox passwordsEdge;
-
-    @FXML
-    private CheckBox historyEdge;
-
-    @FXML
     private CheckBox passwordsChromium;
 
     @FXML
@@ -141,25 +135,6 @@ public class MainController implements Initializable {
         }
     }
 
-    private void getEdgeData(CopyFiles copyFiles) throws Exception {
-
-        Edge edge = new Edge();
-        edge.collectProfiles();
-        String browserName = "/edge_data/";
-
-        if (passwordsEdge.isSelected()) {
-            copyFiles.copyLoginData(edge.getProfiles(), edge.getLocalState(), browserName);
-            writeData(Decrypt.decryptPasswords(Main.mainWorkDirectory + browserName),
-                    "passwords.txt", browserName);
-        }
-
-        if (historyEdge.isSelected()) {
-            copyFiles.copyHistory(edge.getProfiles(), edge.getLocalState(), browserName);
-            writeData(Decrypt.getHistory(Main.mainWorkDirectory.toString() + browserName + "History"),
-                    "history.txt", browserName);
-        }
-    }
-
     private void getChromiumData(CopyFiles copyFiles) throws Exception {
 
         Chromium chromium = new Chromium();
@@ -199,8 +174,10 @@ public class MainController implements Initializable {
         getGoogleData(new CopyFiles());
         getAtomData(new CopyFiles());
         getOperaData(new CopyFiles());
-        getEdgeData(new CopyFiles());
         getChromiumData(new CopyFiles());
+        GenerateDictionary test = new GenerateDictionary();
+        test.extractPassword(new File(Main.mainWorkDirectory + "/chrome_data/passwords.txt"));
+        test.searchCapitalsLetters();
 
     }
 
