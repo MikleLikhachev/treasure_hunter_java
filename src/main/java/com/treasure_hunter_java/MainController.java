@@ -1,9 +1,6 @@
 package com.treasure_hunter_java;
 
-import com.treasure_hunter_java.browsers.Atom;
-import com.treasure_hunter_java.browsers.Chrome;
-import com.treasure_hunter_java.browsers.Edge;
-import com.treasure_hunter_java.browsers.Opera;
+import com.treasure_hunter_java.browsers.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,6 +11,9 @@ import javafx.stage.Stage;
 import jfxtras.styles.jmetro.JMetro;
 import jfxtras.styles.jmetro.Style;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
@@ -51,6 +51,12 @@ public class MainController implements Initializable {
     private CheckBox historyEdge;
 
     @FXML
+    private CheckBox passwordsChromium;
+
+    @FXML
+    private CheckBox historyChromium;
+
+    @FXML
     private Button generateDictionaryButton;
 
     @FXML
@@ -66,19 +72,34 @@ public class MainController implements Initializable {
     private Button start;
 
     public static Stage currentStage;
+
+    private void writeData(String text, String dataName, String browserDirectory) throws IOException {
+
+        File file = new File(Main.mainWorkDirectory + browserDirectory + dataName);
+
+        try (FileWriter fw = new FileWriter(file);
+             BufferedWriter bw = new BufferedWriter(fw))
+        {
+            bw.write(text);
+        }
+
+    }
     private void getGoogleData(CopyFiles copyFiles) throws Exception {
 
         Chrome chrome = new Chrome();
         chrome.collectProfiles();
-        String browserName = "/chrome_data";
+        String browserName = "/chrome_data/";
 
         if (passwordsGoogle.isSelected()){
             copyFiles.copyLoginData(chrome.getProfiles(), chrome.getLocalState(), browserName);
-            Decrypt.decryptPasswords(Main.mainWorkDirectory + browserName);
+            writeData(Decrypt.decryptPasswords(Main.mainWorkDirectory + browserName),
+                    "passwords.txt", browserName);
         }
 
         if (historyGoogle.isSelected()){
-            System.out.println(Decrypt.getHistory(Main.mainWorkDirectory.toString() + "/chrome_data/history"));
+            copyFiles.copyHistory(chrome.getProfiles(), chrome.getLocalState(), browserName);
+            writeData(Decrypt.getHistory(Main.mainWorkDirectory.toString() + browserName + "History"),
+                    "history.txt", browserName);
         }
     }
 
@@ -86,15 +107,18 @@ public class MainController implements Initializable {
 
         Atom atom = new Atom();
         atom.collectProfiles();
-        String browserName = "/atom_data";
+        String browserName = "/atom_data/";
 
         if (passwordsAtom.isSelected()) {
             copyFiles.copyLoginData(atom.getProfiles(), atom.getLocalState(), browserName);
-            Decrypt.decryptPasswords(Main.mainWorkDirectory + browserName);
+            writeData(Decrypt.decryptPasswords(Main.mainWorkDirectory + browserName),
+                    "passwords.txt", browserName);
         }
 
         if (historyAtom.isSelected()){
-            Decrypt.getHistory(Main.mainWorkDirectory.toString() + "/atom_data/history");
+            copyFiles.copyHistory(atom.getProfiles(), atom.getLocalState(), browserName);
+            writeData(Decrypt.getHistory(Main.mainWorkDirectory.toString() + browserName + "History"),
+                    "history.txt", browserName);
         }
     }
 
@@ -102,15 +126,18 @@ public class MainController implements Initializable {
 
         Opera opera = new Opera();
         opera.collectProfiles();
-        String browserName = "/opera_data";
+        String browserName = "/opera_data/";
 
         if (passwordsOpera.isSelected()) {
             copyFiles.copyLoginData(opera.getProfiles(), opera.getLocalState(), browserName);
-            System.out.println(Decrypt.decryptPasswords(Main.mainWorkDirectory + browserName));
+            writeData(Decrypt.decryptPasswords(Main.mainWorkDirectory + browserName),
+                    "passwords.txt", browserName);
         }
 
         if (historyOpera.isSelected()) {
-            Decrypt.getHistory(Main.mainWorkDirectory.toString() + "/opera_data/history");
+            copyFiles.copyHistory(opera.getProfiles(), opera.getLocalState(), browserName);
+            writeData(Decrypt.getHistory(Main.mainWorkDirectory.toString() + browserName + "History"),
+                    "history.txt", browserName);
         }
     }
 
@@ -118,15 +145,37 @@ public class MainController implements Initializable {
 
         Edge edge = new Edge();
         edge.collectProfiles();
-        String browserName = "/edge_data";
+        String browserName = "/edge_data/";
 
         if (passwordsEdge.isSelected()) {
             copyFiles.copyLoginData(edge.getProfiles(), edge.getLocalState(), browserName);
-            Decrypt.decryptPasswords(Main.mainWorkDirectory + browserName);
+            writeData(Decrypt.decryptPasswords(Main.mainWorkDirectory + browserName),
+                    "passwords.txt", browserName);
         }
 
         if (historyEdge.isSelected()) {
-            Decrypt.getHistory(Main.mainWorkDirectory.toString() + "edge_data/history");
+            copyFiles.copyHistory(edge.getProfiles(), edge.getLocalState(), browserName);
+            writeData(Decrypt.getHistory(Main.mainWorkDirectory.toString() + browserName + "History"),
+                    "history.txt", browserName);
+        }
+    }
+
+    private void getChromiumData(CopyFiles copyFiles) throws Exception {
+
+        Chromium chromium = new Chromium();
+        chromium.collectProfiles();
+        String browserName = "/chromium_data/";
+
+        if (passwordsChromium.isSelected()) {
+            copyFiles.copyLoginData(chromium.getProfiles(), chromium.getLocalState(), browserName);
+            writeData(Decrypt.decryptPasswords(Main.mainWorkDirectory + browserName),
+                    "passwords.txt", browserName);
+        }
+
+        if (historyChromium.isSelected()) {
+            copyFiles.copyHistory(chromium.getProfiles(), chromium.getLocalState(), browserName);
+            writeData(Decrypt.getHistory(Main.mainWorkDirectory.toString() + browserName + "History"),
+                    "history.txt", browserName);
         }
     }
 
@@ -151,6 +200,7 @@ public class MainController implements Initializable {
         getAtomData(new CopyFiles());
         getOperaData(new CopyFiles());
         getEdgeData(new CopyFiles());
+        getChromiumData(new CopyFiles());
 
     }
 

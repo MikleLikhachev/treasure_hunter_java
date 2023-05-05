@@ -95,6 +95,15 @@
                   <Insets right="50.0" />
                </padding>
             </Button>
+            <Button mnemonicParsing="false" prefHeight="55.0" prefWidth="203.0" style="-fx-background-color: #ffffff;" text="Выбрать рабочую папку">
+               <graphic>
+                  <ImageView fitHeight="35.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8-папка-50.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
             <Button fx:id="start" mnemonicParsing="false" onAction="#onStartButtonClick" prefHeight="55.0" prefWidth="203.0" style="-fx-background-color: #ffffff;" text="Начать">
                <graphic>
                   <ImageView fitHeight="40.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
@@ -109,7 +118,7 @@
             </Button>
          </children>
       </VBox>
-      <VBox layoutX="234.0" layoutY="41.0" prefHeight="169.0" prefWidth="145.0">
+      <VBox layoutX="306.0" layoutY="41.0" prefHeight="169.0" prefWidth="145.0">
          <children>
             <Label prefHeight="51.0" prefWidth="145.0" text="Google Chrome">
                <graphic>
@@ -155,7 +164,7 @@
             </CheckBox>
          </children>
       </VBox>
-      <VBox layoutX="422.0" layoutY="41.0" prefHeight="169.0" prefWidth="145.0">
+      <VBox layoutX="516.0" layoutY="41.0" prefHeight="169.0" prefWidth="145.0">
          <children>
             <Label prefHeight="51.0" prefWidth="145.0" text="Chromium">
                <graphic>
@@ -169,7 +178,7 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <CheckBox mnemonicParsing="false" prefHeight="33.0" prefWidth="138.0" text="Пароли">
+            <CheckBox fx:id="passwordsChromium" mnemonicParsing="false" prefHeight="33.0" prefWidth="138.0" text="Пароли">
                <graphic>
                   <ImageView fitHeight="33.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -190,7 +199,7 @@
                   </ImageView>
                </graphic>
             </CheckBox>
-            <CheckBox mnemonicParsing="false" text="История">
+            <CheckBox fx:id="historyChromium" mnemonicParsing="false" text="История">
                <graphic>
                   <ImageView fitHeight="33.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -201,7 +210,7 @@
             </CheckBox>
          </children>
       </VBox>
-      <VBox layoutX="598.0" layoutY="41.0" prefHeight="169.0" prefWidth="145.0">
+      <VBox layoutX="516.0" layoutY="217.0" prefHeight="169.0" prefWidth="145.0">
          <children>
             <Label prefHeight="51.0" prefWidth="145.0" text="Opera">
                <graphic>
@@ -283,52 +292,6 @@
                </graphic>
             </CheckBox>
             <CheckBox fx:id="historyAtom" mnemonicParsing="false" text="История">
-               <graphic>
-                  <ImageView fitHeight="33.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../icons/icons8-история-заказов-50.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </CheckBox>
-         </children>
-      </VBox>
-      <VBox layoutX="495.0" layoutY="217.0" prefHeight="169.0" prefWidth="145.0">
-         <children>
-            <Label prefHeight="51.0" prefWidth="145.0" text="Edge">
-               <graphic>
-                  <ImageView fitHeight="22.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../icons/icons8-microsoft-edge-50.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Label>
-            <CheckBox fx:id="passwordsEdge" mnemonicParsing="false" prefHeight="33.0" prefWidth="138.0" text="Пароли">
-               <graphic>
-                  <ImageView fitHeight="33.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../icons/icons8-пароль-50.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </CheckBox>
-            <CheckBox mnemonicParsing="false" prefHeight="47.0" prefWidth="140.0" text="Cookies">
-               <graphic>
-                  <ImageView fitHeight="47.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../icons/icons8-печенье-64.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </CheckBox>
-            <CheckBox fx:id="historyEdge" mnemonicParsing="false" text="История">
                <graphic>
                   <ImageView fitHeight="33.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                      <image>

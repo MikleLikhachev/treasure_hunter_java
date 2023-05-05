@@ -6,7 +6,7 @@ module com.treasure_hunter_java {
     requires org.bouncycastle.provider;
     requires org.apache.commons.codec;
     requires java.sql;
-    requires org.xerial.sqlitejdbc;
+    requires sqlite.jdbc;
 
 
     opens com.treasure_hunter_java to javafx.fxml;

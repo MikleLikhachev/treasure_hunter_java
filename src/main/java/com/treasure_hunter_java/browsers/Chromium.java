@@ -6,9 +6,9 @@ import java.util.ArrayList;
 
 public class Chromium {
 
-    Path dirName = Path.of("C:/Users/Mikle/AppData/Local/Google/Chrome/User Data/");
+    Path dirName = Path.of("C:/Users/Mikle/AppData/Local/Chromium/User Data/");
 
-    Path localStatePath = Path.of("C:/Users/Mikle/AppData/Local/Google/Chrome/User Data/Local State");
+    Path localStatePath = Path.of("C:/Users/Mikle/AppData/Local/Chromium/User Data/Local State");
 
     ArrayList<Path> profiles = new ArrayList<>();
 

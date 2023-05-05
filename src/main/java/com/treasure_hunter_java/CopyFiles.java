@@ -59,12 +59,12 @@ public class CopyFiles {
             Path loginDataCopy = Path.of(directory + "/Login Data");
 
 
-            if (Files.exists(loginData) && !Files.exists(loginDataCopy)) {
+            if (Files.exists(loginData) /*&& !Files.exists(loginDataCopy)*/) {
                 Files.copy(loginData, loginDataCopy, StandardCopyOption.REPLACE_EXISTING);
             }
         }
 
-        if (Files.exists(localState) && !Files.exists(localStateCopy)) {
+        if (Files.exists(localState) /*&& !Files.exists(localStateCopy)*/) {
             Files.copy(localState, localStateCopy, StandardCopyOption.REPLACE_EXISTING);
         }
     }
@@ -84,9 +84,9 @@ public class CopyFiles {
             }
         }
 
-        if (Files.exists(localState) && !Files.exists(localStateCopy)) {
+        /*if (Files.exists(localState) && !Files.exists(localStateCopy)) {
             Files.copy(localState, localStateCopy, StandardCopyOption.REPLACE_EXISTING);
-        }
+        }*/
     }
 
 }
