@@ -1,6 +1,9 @@
 package com.treasure_hunter_java;
 
+import com.treasure_hunter_java.browsers.Atom;
 import com.treasure_hunter_java.browsers.Chrome;
+import com.treasure_hunter_java.browsers.Edge;
+import com.treasure_hunter_java.browsers.Opera;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -30,6 +33,24 @@ public class MainController implements Initializable {
     private CheckBox historyGoogle;
 
     @FXML
+    private CheckBox passwordsAtom;
+
+    @FXML
+    private CheckBox historyAtom;
+
+    @FXML
+    private CheckBox passwordsOpera;
+
+    @FXML
+    private CheckBox historyOpera;
+
+    @FXML
+    private CheckBox passwordsEdge;
+
+    @FXML
+    private CheckBox historyEdge;
+
+    @FXML
     private Button generateDictionaryButton;
 
     @FXML
@@ -45,8 +66,68 @@ public class MainController implements Initializable {
     private Button start;
 
     public static Stage currentStage;
-    private void google() {
+    private void getGoogleData(CopyFiles copyFiles) throws Exception {
 
+        Chrome chrome = new Chrome();
+        chrome.collectProfiles();
+        String browserName = "/chrome_data";
+
+        if (passwordsGoogle.isSelected()){
+            copyFiles.copyLoginData(chrome.getProfiles(), chrome.getLocalState(), browserName);
+            Decrypt.decryptPasswords(Main.mainWorkDirectory + browserName);
+        }
+
+        if (historyGoogle.isSelected()){
+            System.out.println(Decrypt.getHistory(Main.mainWorkDirectory.toString() + "/chrome_data/history"));
+        }
+    }
+
+    private void getAtomData(CopyFiles copyFiles) throws Exception {
+
+        Atom atom = new Atom();
+        atom.collectProfiles();
+        String browserName = "/atom_data";
+
+        if (passwordsAtom.isSelected()) {
+            copyFiles.copyLoginData(atom.getProfiles(), atom.getLocalState(), browserName);
+            Decrypt.decryptPasswords(Main.mainWorkDirectory + browserName);
+        }
+
+        if (historyAtom.isSelected()){
+            Decrypt.getHistory(Main.mainWorkDirectory.toString() + "/atom_data/history");
+        }
+    }
+
+    private void getOperaData(CopyFiles copyFiles) throws Exception {
+
+        Opera opera = new Opera();
+        opera.collectProfiles();
+        String browserName = "/opera_data";
+
+        if (passwordsOpera.isSelected()) {
+            copyFiles.copyLoginData(opera.getProfiles(), opera.getLocalState(), browserName);
+            System.out.println(Decrypt.decryptPasswords(Main.mainWorkDirectory + browserName));
+        }
+
+        if (historyOpera.isSelected()) {
+            Decrypt.getHistory(Main.mainWorkDirectory.toString() + "/opera_data/history");
+        }
+    }
+
+    private void getEdgeData(CopyFiles copyFiles) throws Exception {
+
+        Edge edge = new Edge();
+        edge.collectProfiles();
+        String browserName = "/edge_data";
+
+        if (passwordsEdge.isSelected()) {
+            copyFiles.copyLoginData(edge.getProfiles(), edge.getLocalState(), browserName);
+            Decrypt.decryptPasswords(Main.mainWorkDirectory + browserName);
+        }
+
+        if (historyEdge.isSelected()) {
+            Decrypt.getHistory(Main.mainWorkDirectory.toString() + "edge_data/history");
+        }
     }
 
     private final String white = "-fx-background-color: #ffffff";
@@ -54,7 +135,7 @@ public class MainController implements Initializable {
     private final String grey =  "-fx-background-color: #cccccc";
 
     @FXML
-    protected void onSearchPasswordsButtonClick() throws IOException {
+    protected void onSearchPasswordsButtonClick() {
 
         generateDictionaryButton.setStyle(white);
         reportButton.setStyle(white);
@@ -65,17 +146,12 @@ public class MainController implements Initializable {
 
     @FXML
     protected void onStartButtonClick() throws Exception {
-        CopyFiles test = new CopyFiles();
-        Chrome chrome = new Chrome();
-        chrome.collectProfiles();
 
-        test.copyFiles(chrome.getProfiles(), chrome.getLocalState(), "/chrome_data");
-        if (passwordsGoogle.isSelected()){
-            System.out.println(Decrypt.decryptPasswords(Main.mainWorkDirectory.toString() + "/chrome_data"));
-        }
-        if (historyGoogle.isSelected()){
-            System.out.println(Decrypt.getHistory(Main.mainWorkDirectory.toString() + "/chrome_data/history"));
-        }
+        getGoogleData(new CopyFiles());
+        getAtomData(new CopyFiles());
+        getOperaData(new CopyFiles());
+        getEdgeData(new CopyFiles());
+
     }
 
     @FXML

@@ -215,7 +215,7 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <CheckBox mnemonicParsing="false" prefHeight="33.0" prefWidth="138.0" text="Пароли">
+            <CheckBox fx:id="passwordsOpera" mnemonicParsing="false" prefHeight="33.0" prefWidth="138.0" text="Пароли">
                <graphic>
                   <ImageView fitHeight="33.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -236,7 +236,7 @@
                   </ImageView>
                </graphic>
             </CheckBox>
-            <CheckBox mnemonicParsing="false" text="История">
+            <CheckBox fx:id="historyOpera" mnemonicParsing="false" text="История">
                <graphic>
                   <ImageView fitHeight="33.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -261,7 +261,7 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <CheckBox mnemonicParsing="false" prefHeight="33.0" prefWidth="138.0" text="Пароли">
+            <CheckBox fx:id="passwordsAtom" mnemonicParsing="false" prefHeight="33.0" prefWidth="138.0" text="Пароли">
                <graphic>
                   <ImageView fitHeight="33.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -282,7 +282,7 @@
                   </ImageView>
                </graphic>
             </CheckBox>
-            <CheckBox mnemonicParsing="false" text="История">
+            <CheckBox fx:id="historyAtom" mnemonicParsing="false" text="История">
                <graphic>
                   <ImageView fitHeight="33.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -307,7 +307,7 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <CheckBox mnemonicParsing="false" prefHeight="33.0" prefWidth="138.0" text="Пароли">
+            <CheckBox fx:id="passwordsEdge" mnemonicParsing="false" prefHeight="33.0" prefWidth="138.0" text="Пароли">
                <graphic>
                   <ImageView fitHeight="33.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -328,7 +328,7 @@
                   </ImageView>
                </graphic>
             </CheckBox>
-            <CheckBox mnemonicParsing="false" text="История">
+            <CheckBox fx:id="historyEdge" mnemonicParsing="false" text="История">
                <graphic>
                   <ImageView fitHeight="33.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                      <image>
