@@ -1,4 +1,4 @@
-package com.treasure_hunter_java;
+package com.treasure_hunter_java.dictionary;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -37,19 +37,42 @@ public class GenerateDictionary {
         }
 
         System.out.println(capitalsLettersPasswords);
-
     }
 
-    public void searchSmallLetter() {
+    public void searchOnlyCapitalsLetters() {
 
-        ArrayList<String> smallLetterPasswords = new ArrayList<>();
+        ArrayList<String> onlyCapitalsLettersPasswords = new ArrayList<>();
+
+        for (String psw : passwords.keySet()) {
+            if (psw.matches("^[A-Z]+$")) {
+                onlyCapitalsLettersPasswords.add(psw);
+            }
+        }
+        System.out.println(onlyCapitalsLettersPasswords);
+    }
+
+    public void searchSmallLetters() {
+
+        ArrayList<String> smallLettersPasswords = new ArrayList<>();
 
         for (String psw : passwords.keySet()) {
             if (psw.matches(".*[a-z].*")) {
-                smallLetterPasswords.add(psw);
+                smallLettersPasswords.add(psw);
             }
         }
-        System.out.println(smallLetterPasswords);
+        System.out.println(smallLettersPasswords);
+    }
+
+    public void searchOnlySmallLetters() {
+
+        ArrayList<String> onlySmallLettersPasswords = new ArrayList<>();
+
+        for (String psw : passwords.keySet()) {
+            if (psw.matches("^[a-z]+$")) {
+                onlySmallLettersPasswords.add(psw);
+            }
+        }
+        System.out.println(onlySmallLettersPasswords);
     }
 
 }

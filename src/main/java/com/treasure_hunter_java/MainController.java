@@ -1,6 +1,7 @@
 package com.treasure_hunter_java;
 
 import com.treasure_hunter_java.browsers.*;
+import com.treasure_hunter_java.dictionary.GenerateDictionary;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,8 +17,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Path;
-import java.util.HashMap;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -178,6 +177,9 @@ public class MainController implements Initializable {
         GenerateDictionary test = new GenerateDictionary();
         test.extractPassword(new File(Main.mainWorkDirectory + "/chrome_data/passwords.txt"));
         test.searchCapitalsLetters();
+        test.searchSmallLetters();
+        test.searchOnlyCapitalsLetters();
+        test.searchOnlySmallLetters();
 
     }
 
