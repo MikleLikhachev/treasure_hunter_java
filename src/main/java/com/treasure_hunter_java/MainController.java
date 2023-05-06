@@ -180,10 +180,8 @@ public class MainController implements Initializable {
         getAtomData(new CopyFiles());
         getOperaData(new CopyFiles());
         getChromiumData(new CopyFiles());
-        GenerateDictionary test = new GenerateDictionary();
-        test.extractPassword(new File(Main.mainWorkDirectory + "/chrome_data/passwords.txt"));
-        test.searchCapitalsLetters();
-
+        //GenerateDictionary test = new GenerateDictionary();
+        //test.extractPassword(new File(Main.mainWorkDirectory + "/chrome_data/passwords.txt"));
     }
 
     @FXML

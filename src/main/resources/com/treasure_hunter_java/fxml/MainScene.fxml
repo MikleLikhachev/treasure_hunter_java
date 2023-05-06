@@ -95,7 +95,7 @@
                   <Insets right="50.0" />
                </padding>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="55.0" prefWidth="203.0" style="-fx-background-color: #ffffff;" text="Выбрать рабочую папку">
+            <Button fx:id="selectDirectoryButton" mnemonicParsing="false" onAction="#onSelectDirectoryButtonClick" prefHeight="55.0" prefWidth="203.0" style="-fx-background-color: #ffffff;" text="Выбрать рабочую папку">
                <graphic>
                   <ImageView fitHeight="35.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                      <image>

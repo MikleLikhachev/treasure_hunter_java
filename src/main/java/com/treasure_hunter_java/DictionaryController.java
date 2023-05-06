@@ -37,6 +37,18 @@ public class DictionaryController {
     private Button generateDictionaryButton;
 
     @FXML
+    private CheckBox googleChrome;
+
+    @FXML
+    private CheckBox opera;
+
+    @FXML
+    private CheckBox chromium;
+
+    @FXML
+    private CheckBox atom;
+
+    @FXML
     private CheckBox strictFilter;
 
     @FXML
@@ -71,7 +83,6 @@ public class DictionaryController {
 
     @FXML
     private Button selectDirectoryButton;
-
 
     @FXML
     private Button start;
@@ -140,17 +151,11 @@ public class DictionaryController {
     @FXML
     public void onStartButtonClick(ActionEvent actionEvent) {
 
-        GenerateDictionary dictionary = new GenerateDictionary();
-        dictionary.extractPassword(new File(Main.mainWorkDirectory + "/chrome_data/passwords.txt"));
-
-        Filter filter = new Filter(isContainsCapitalLetters.isSelected(), isContainsSmallLetters.isSelected(),
-                isContainsDigits.isSelected(), isContainsSpecialSign.isSelected(),
-                isContainsSpace.isSelected(), (int) lengthFrom.getValue(), (int) lengthTo.getValue());
-
-        for (Password pass : dictionary.filterPasswords(filter, strictFilter.isSelected())){
-            System.out.println(pass.getPassword());
-        }
-
+        GenerateDictionary dictionary = new GenerateDictionary(strictFilter.isSelected(), isContainsCapitalLetters.isSelected(),
+                isContainsSmallLetters.isSelected(), isContainsDigits.isSelected(), isContainsSpecialSign.isSelected(),
+                isContainsSpace.isSelected(), (int) lengthFrom.getValue(), (int) lengthTo.getValue(), googleChrome.isSelected(),
+                opera.isSelected(), chromium.isSelected(), atom.isSelected());
+        dictionary.compileDictionary();
     }
 
 }

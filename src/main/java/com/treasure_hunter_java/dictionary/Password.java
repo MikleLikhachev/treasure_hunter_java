@@ -12,10 +12,6 @@ public class Password {
         return password;
     }
 
-    public int getCountUsed(){
-        return countUsed;
-    }
-
     public void increaseCountUsed(){
         this.countUsed += 1;
     }
@@ -23,6 +19,8 @@ public class Password {
     public int getLength() {
         return length;
     }
+
+    public int getCountUsed() {return countUsed;}
 
     Password(String password) {
         this.password = password;
