@@ -15,7 +15,7 @@ import java.util.Objects;
 
 public class Main extends Application {
 
-    public static Path mainWorkDirectory = Path.of("D:/Test2/");
+    public static Path mainWorkDirectory;
 
     public static Scene test;
 

@@ -2,7 +2,11 @@ package com.treasure_hunter_java.dictionary;
 
 public class Filter {
 
-    int length;
+    int lengthFrom;
+
+    int lengthTo;
+
+    String password;
 
     boolean isContainsDigits;
 
@@ -14,21 +18,24 @@ public class Filter {
 
     boolean isContainsSpace;
 
-    Filter(boolean isContainsCapitalLetters, boolean isContainsSmallLetters, boolean isContainsDigits,
-           boolean isContainsSpecialSign, boolean isContainsSpace, int length) {
+    public Filter(boolean isContainsCapitalLetters, boolean isContainsSmallLetters, boolean isContainsDigits,
+                  boolean isContainsSpecialSign, boolean isContainsSpace, Integer lengthFrom, int lengthTo) {
 
         this.isContainsCapitalLetters = isContainsCapitalLetters;
         this.isContainsSmallLetters = isContainsSmallLetters;
         this.isContainsDigits = isContainsDigits;
         this.isContainsSpecialSign = isContainsSpecialSign;
         this.isContainsSpace = isContainsSpace;
-        this.length = length;
+        this.lengthFrom = lengthFrom;
+        this.lengthTo = lengthTo;
 
     }
 
-    public int getLength() {
-        return length;
+    public int getLengthFrom() {
+        return lengthFrom;
     }
+
+    public int getLengthTo() {return lengthTo;}
 
     public boolean isContainsDigits() {
         return isContainsDigits;
@@ -48,5 +55,9 @@ public class Filter {
 
     public boolean isContainsSpace() {
         return isContainsSpace;
+    }
+
+    public String getPassword(){
+        return password;
     }
 }

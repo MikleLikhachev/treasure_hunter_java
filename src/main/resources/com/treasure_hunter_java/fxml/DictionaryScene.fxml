@@ -14,14 +14,29 @@
 
 <AnchorPane prefHeight="420.0" prefWidth="757.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.treasure_hunter_java.DictionaryController">
    <children>
-      <VBox layoutX="213.0" layoutY="73.0" prefHeight="279.0" prefWidth="235.0">
+      <VBox layoutX="234.0" layoutY="73.0" prefHeight="346.0" prefWidth="290.0">
          <children>
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="218.0" text="Набор символов" />
-            <CheckBox mnemonicParsing="false" prefHeight="35.0" text="Заглавные латинские (A-Z)" />
-            <CheckBox mnemonicParsing="false" prefHeight="35.0" text="Строчные латинские (a-z)" />
-            <CheckBox mnemonicParsing="false" prefHeight="35.0" text="Пробел" />
-            <CheckBox mnemonicParsing="false" prefHeight="35.0" text="Цифры (0-9)" />
-            <CheckBox mnemonicParsing="false" prefHeight="35.0" text="Специальные символы (!@#...)" />
+            <CheckBox fx:id="strictFilter" mnemonicParsing="false" prefWidth="235.0" text="Строгий фильтр">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </CheckBox>
+            <CheckBox fx:id="isContainsCapitalLetters" maxWidth="235.0" mnemonicParsing="false" prefHeight="35.0" text="Заглавные латинские (A-Z)" />
+            <CheckBox alignment="CENTER" disable="true" maxWidth="235.0" mnemonicParsing="false" text="Только заглавные буквы">
+               <VBox.margin>
+                  <Insets right="40.0" />
+               </VBox.margin>
+            </CheckBox>
+            <CheckBox fx:id="isContainsSmallLetters" maxWidth="235.0" mnemonicParsing="false" prefHeight="35.0" text="Строчные латинские (a-z)" />
+            <CheckBox disable="true" mnemonicParsing="false" text="Только строчные буквы">
+               <VBox.margin>
+                  <Insets left="18.0" />
+               </VBox.margin>
+            </CheckBox>
+            <CheckBox fx:id="isContainsSpace" maxWidth="235.0" mnemonicParsing="false" prefHeight="35.0" text="Пробел" />
+            <CheckBox fx:id="isContainsDigits" mnemonicParsing="false" prefHeight="35.0" text="Цифры (0-9)" />
+            <CheckBox fx:id="isContainsSpecialSign" mnemonicParsing="false" prefHeight="35.0" text="Специальные символы (!@#...)" />
             <CheckBox mnemonicParsing="false" prefHeight="35.0" text="Все печатаемые символы" />
             <CheckBox mnemonicParsing="false" prefHeight="35.0" text="Символы, которых нет на клавиатуре" />
          </children>
@@ -46,7 +61,7 @@
          <children>
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="45.0" prefWidth="189.0" text="По длине" />
             <Label alignment="CENTER" prefHeight="17.0" prefWidth="189.0" text="От" />
-            <Slider max="50.0" prefHeight="22.0" prefWidth="160.0" value="5.0">
+            <Slider fx:id="lengthFrom" max="50.0" prefHeight="22.0" prefWidth="160.0" value="5.0">
                <VBox.margin>
                   <Insets top="5.0" />
                </VBox.margin></Slider>
@@ -55,7 +70,7 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </Label>
-            <Slider max="50.0" prefHeight="22.0" prefWidth="160.0" value="25.0">
+            <Slider fx:id="lengthTo" max="50.0" prefHeight="22.0" prefWidth="160.0" value="25.0">
                <padding>
                   <Insets top="5.0" />
                </padding>
@@ -145,7 +160,7 @@
                   <Insets right="50.0" />
                </padding>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="55.0" prefWidth="203.0" style="-fx-background-color: #ffffff;" text="Выбрать рабочую папку">
+            <Button fx:id="selectDirectoryButton" mnemonicParsing="false" onAction="#onSelectDirectoryButtonClick" prefHeight="55.0" prefWidth="203.0" style="-fx-background-color: #ffffff;" text="Выбрать рабочую папку">
                <graphic>
                   <ImageView fitHeight="35.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                      <image>

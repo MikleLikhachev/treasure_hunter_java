@@ -8,6 +8,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import jfxtras.styles.jmetro.JMetro;
 import jfxtras.styles.jmetro.Style;
@@ -17,6 +19,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -60,6 +63,9 @@ public class MainController implements Initializable {
 
     @FXML
     private Button telegramButton;
+
+    @FXML
+    private Button selectDirectoryButton;
 
     @FXML
     private Button start;
@@ -177,9 +183,6 @@ public class MainController implements Initializable {
         GenerateDictionary test = new GenerateDictionary();
         test.extractPassword(new File(Main.mainWorkDirectory + "/chrome_data/passwords.txt"));
         test.searchCapitalsLetters();
-        test.searchSmallLetters();
-        test.searchOnlyCapitalsLetters();
-        test.searchOnlySmallLetters();
 
     }
 
@@ -229,6 +232,24 @@ public class MainController implements Initializable {
         generateDictionaryButton.setStyle(white);
         zipButton.setStyle(white);
         telegramButton.setStyle(grey);
+    }
+
+    @FXML
+    protected void onSelectDirectoryButtonClick() {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        File selectedDirectory = directoryChooser.showDialog(MainController.currentStage);
+
+        if (selectedDirectory != null) {
+            Main.mainWorkDirectory = Path.of(selectedDirectory.getAbsolutePath());
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Treasure hunter");
+            alert.setHeaderText("Ошибка");
+            alert.setContentText("Вы не выбрали рабочую папку.");
+            Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("icons/icon.png"))));
+            alert.showAndWait();
+        }
     }
 
     @Override
