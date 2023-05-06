@@ -29,70 +29,11 @@ public class GenerateDictionary {
         }
     }
 
-    private void descendingSort(){
-        passwords.sort(Comparator.comparing(Password::getCountUsed).reversed());
-    }
-
-    private void ascendingSort(){
-        passwords.sort(Comparator.comparing(Password::getCountUsed));
-
-    }
-
-    public void searchCapitalsLetters() {
-
-        ArrayList<Password> capitalsLettersPasswords = new ArrayList<>();
-        System.out.println(passwords);
-        for (Password password : passwords) {
-            if (password.getOnlyContainsCapitalLetters()){
-                capitalsLettersPasswords.add(password);         // !!!!
-            }
-        }
-
-        System.out.println(capitalsLettersPasswords.size());
-    }
-
-    /*public void searchOnlyCapitalsLetters() {
-
-        ArrayList<String> onlyCapitalsLettersPasswords = new ArrayList<>();
-
-        for (String psw : passwords.keySet()) {
-            if (psw.matches("^[A-Z]+$")) {
-                onlyCapitalsLettersPasswords.add(psw);
-            }
-        }
-        System.out.println(onlyCapitalsLettersPasswords);
-    }
-
-    public void searchSmallLetters() {
-
-        ArrayList<String> smallLettersPasswords = new ArrayList<>();
-
-        for (String psw : passwords.keySet()) {
-            if (psw.matches(".*[a-z].*")) {
-                smallLettersPasswords.add(psw);
-            }
-        }
-        System.out.println(smallLettersPasswords);
-    }
-
-    public void searchOnlySmallLetters() {
-
-        ArrayList<String> onlySmallLettersPasswords = new ArrayList<>();
-
-        for (String psw : passwords.keySet()) {
-            if (psw.matches("^[a-z]+$")) {
-                onlySmallLettersPasswords.add(psw);
-            }
-        }
-        System.out.println(onlySmallLettersPasswords);
-    }
-*/
-
     public List<Password> filterPasswords(Filter filter, boolean strictFilter) {
 
         if (strictFilter) {
             return passwords.stream()
-                    .filter(p -> (p.getLength() >= filter.getLengthFrom() && p.getLength() <= filter.lengthTo)
+                    .filter(p -> (p.getLength() >= filter.getLengthFrom() && p.getLength() <= filter.getLengthTo())
                             && (!filter.isContainsCapitalLetters || p.getPassword().matches(".*[A-Z].*"))
                             && (!filter.isContainsSmallLetters || p.getPassword().matches(".*[a-z].*"))
                             && (!filter.isContainsDigits || p.getPassword().matches(".*\\d.*"))
@@ -101,7 +42,7 @@ public class GenerateDictionary {
                     .collect(Collectors.toList());
         } else {
             return passwords.stream()
-                    .filter(p -> (p.getLength() >= filter.getLengthFrom() && p.getLength() <= filter.lengthTo)
+                    .filter(p -> (p.getLength() >= filter.getLengthFrom() && p.getLength() <= filter.getLengthTo())
                             || (!filter.isContainsCapitalLetters || p.getPassword().matches(".*[A-Z].*"))
                             || (!filter.isContainsSmallLetters || p.getPassword().matches(".*[a-z].*"))
                             || (!filter.isContainsDigits || p.getPassword().matches(".*\\d.*"))
