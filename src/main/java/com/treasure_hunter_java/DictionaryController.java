@@ -58,7 +58,13 @@ public class DictionaryController {
     private CheckBox isContainsCapitalLetters;
 
     @FXML
+    private CheckBox isOnlyContainsCapitalLetters;
+
+    @FXML
     private CheckBox isContainsSmallLetters;
+
+    @FXML
+    private CheckBox isOnlyContainsSmallLetters;
 
     @FXML
     private CheckBox isContainsSpecialSign;
