@@ -84,19 +84,28 @@ public class GenerateDictionary {
                 countSmallLettersFrom, countSmallLettersTo);
     }
 
+    private boolean compare(int filterFrom, int passwordData, int filterTo){
+
+        return (passwordData >= filterFrom && passwordData <= filterTo);
+
+    }
+
     private List<Password> filterPasswords(Filter filter) {
 
         if (strictFilter) {
             return passwords.stream()
-                    .filter(p -> (p.getLength() >= filter.getLengthFrom() && p.getLength() <= filter.getLengthTo())
-                            && (!filter.isContainsCapitalLetters || ((p.getCountCapitalLetters() >= filter.getCountCapitalLettersFrom()
-                                && p.getCountCapitalLetters() <= filter.getCountCapitalLettersTo())))
-                            && (!filter.isContainsSmallLetters || (p.getCountSmallLetters() >= filter.getCountSmallLettersFrom()
-                                && p.getCountSmallLetters() <= filter.getCountSmallLettersTo()))
-                            && (!filter.isContainsDigits || (p.getCountDigits() >= filter.getCountDigitsFrom()
-                                && p.getCountDigits() <= filter.getCountDigitsTo()))
-                            && (!filter.isContainsSpecialSign || (p.getCountSpecialSign() >= filter.getCountSpecialSignFrom())
-                                && p.getCountSpecialSign() <= filter.getCountSpecialSignTo())
+                    .filter(p -> (compare(filter.getLengthFrom(), p.getLength(), filter.getLengthTo()))
+                            && (!filter.isContainsCapitalLetters
+                                || compare(filter.getCountCapitalLettersFrom(), p.getCountCapitalLetters(),
+                                    filter.getCountCapitalLettersTo()))
+                            && (!filter.isContainsSmallLetters
+                                || compare(filter.getCountSmallLettersFrom(), p.getCountSmallLetters(),
+                                    filter.getCountSmallLettersTo()))
+                            && (!filter.isContainsDigits
+                                || compare(filter.getCountDigitsFrom(), p.getCountDigits(), filter.getCountDigitsTo()))
+                            && (!filter.isContainsSpecialSign
+                                || compare(filter.getCountSpecialSignFrom(), p.getCountSpecialSign(),
+                                    filter.getCountSpecialSignTo()))
                             && (!filter.isContainsSpace || p.getPassword().matches(".*\\s+.*")))
                     .collect(Collectors.toList());
         } else {

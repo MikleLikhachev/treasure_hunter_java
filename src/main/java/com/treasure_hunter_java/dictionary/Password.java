@@ -9,9 +9,9 @@ public class Password {
 
     private final int countDigits;
 
-    private final long countSpecialSign;
+    private final int countSpecialSign;
 
-    private final long countCapitalLetters;
+    private final int countCapitalLetters;
 
     private final int countSmallLetters;
 
@@ -27,7 +27,7 @@ public class Password {
         this.countUsed += 1;
     }
 
-    public long getCountCapitalLetters() {return countCapitalLetters;}
+    public int getCountCapitalLetters() {return countCapitalLetters;}
 
     public int getCountSmallLetters() {return countSmallLetters;}
 
@@ -35,7 +35,7 @@ public class Password {
         return length;
     }
 
-    public long getCountSpecialSign() {return countSpecialSign;}
+    public int getCountSpecialSign() {return countSpecialSign;}
 
     public int getCountDigits() {return countDigits;}
 
