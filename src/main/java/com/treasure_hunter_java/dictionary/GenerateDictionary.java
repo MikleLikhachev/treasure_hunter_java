@@ -18,6 +18,14 @@ public class GenerateDictionary {
     private final boolean isContainsSpace;
     private final int lengthFrom;
     private final int lengthTo;
+    private final int countCapitalLettersFrom;
+    private final int countCapitalLettersTo;
+    private final int countSmallLettersFrom;
+    private final int countSmallLettersTo;
+    private final int countDigitsFrom;
+    private final int countDigitsTo;
+    private final int countSpecialSignFrom;
+    private final int countSpecialSignTo;
     private final boolean googleChromeIsSelected;
     private final boolean operaIsSelected;
     private final boolean chromiumIsSelected;
@@ -71,7 +79,9 @@ public class GenerateDictionary {
     private Filter generateFilter() {
 
         return new Filter(isContainsCapitalLetters, isContainsSmallLetters, isContainsDigits,
-                isContainsSpecialSign, isContainsSpace, lengthFrom, lengthTo);
+                isContainsSpecialSign, isContainsSpace, lengthFrom, lengthTo, countDigitsFrom, countDigitsTo,
+                countSpecialSignFrom, countSpecialSignTo, countCapitalLettersFrom, countCapitalLettersTo,
+                countSmallLettersFrom, countSmallLettersTo);
     }
 
     private List<Password> filterPasswords(Filter filter) {
@@ -79,10 +89,14 @@ public class GenerateDictionary {
         if (strictFilter) {
             return passwords.stream()
                     .filter(p -> (p.getLength() >= filter.getLengthFrom() && p.getLength() <= filter.getLengthTo())
-                            && (!filter.isContainsCapitalLetters || p.getPassword().matches(".*[A-Z].*"))
-                            && (!filter.isContainsSmallLetters || p.getPassword().matches(".*[a-z].*"))
-                            && (!filter.isContainsDigits || p.getPassword().matches(".*\\d.*"))
-                            && (!filter.isContainsSpecialSign || p.getPassword().matches(".*[^\\w\\s].*"))
+                            && (!filter.isContainsCapitalLetters || ((p.getCountCapitalLetters() >= filter.getCountCapitalLettersFrom()
+                                && p.getCountCapitalLetters() <= filter.getCountCapitalLettersTo())))
+                            && (!filter.isContainsSmallLetters || (p.getCountSmallLetters() >= filter.getCountSmallLettersFrom()
+                                && p.getCountSmallLetters() <= filter.getCountSmallLettersTo()))
+                            && (!filter.isContainsDigits || (p.getCountDigits() >= filter.getCountDigitsFrom()
+                                && p.getCountDigits() <= filter.getCountDigitsTo()))
+                            && (!filter.isContainsSpecialSign || (p.getCountSpecialSign() >= filter.getCountSpecialSignFrom())
+                                && p.getCountSpecialSign() <= filter.getCountSpecialSignTo())
                             && (!filter.isContainsSpace || p.getPassword().matches(".*\\s+.*")))
                     .collect(Collectors.toList());
         } else {
@@ -91,14 +105,17 @@ public class GenerateDictionary {
                             || (!filter.isContainsCapitalLetters || p.getPassword().matches(".*[A-Z].*"))
                             || (!filter.isContainsSmallLetters || p.getPassword().matches(".*[a-z].*"))
                             || (!filter.isContainsDigits || p.getPassword().matches(".*\\d.*"))
-                            || (!filter.isContainsSpecialSign || p.getPassword().matches(".*[^\\w\\s].*"))
+                            || (!filter.isContainsSpecialSign || p.getPassword().matches("[^\\p{P}\\p{S}]+"))
                             || (!filter.isContainsSpace || p.getPassword().matches(".*\\s+.*")))
                     .collect(Collectors.toList());
         }
     }
 
-    public GenerateDictionary(boolean strictFilter, boolean isContainsCapitalLetters, boolean isContainsSmallLetters, boolean isContainsDigits,
-                              boolean isContainsSpecialSign, boolean isContainsSpace, Integer lengthFrom, int lengthTo,
+    public GenerateDictionary(boolean strictFilter, boolean isContainsCapitalLetters, boolean isContainsSmallLetters,
+                              boolean isContainsDigits, boolean isContainsSpecialSign, boolean isContainsSpace,
+                              int lengthFrom, int lengthTo, int countDigitsFrom, int countDigitsTo,
+                              int countSpecialSignFrom, int countSpecialSignTo, int countCapitalLettersFrom,
+                              int countCapitalLettersTo, int countSmallLettersFrom, int countSmallLettersTo,
                               boolean googleChrome, boolean opera, boolean chromium, boolean atom) {
 
         this.strictFilter = strictFilter;
@@ -109,6 +126,14 @@ public class GenerateDictionary {
         this.isContainsSpace = isContainsSpace;
         this.lengthFrom = lengthFrom;
         this.lengthTo = lengthTo;
+        this.countCapitalLettersFrom = countCapitalLettersFrom;
+        this.countCapitalLettersTo = countCapitalLettersTo;
+        this.countSmallLettersFrom = countSmallLettersFrom;
+        this.countSmallLettersTo = countSmallLettersTo;
+        this.countDigitsFrom = countDigitsFrom;
+        this.countDigitsTo = countDigitsTo;
+        this.countSpecialSignFrom = countSpecialSignFrom;
+        this.countSpecialSignTo = countSpecialSignTo;
         this.googleChromeIsSelected = googleChrome;
         this.operaIsSelected = opera;
         this.chromiumIsSelected = chromium;

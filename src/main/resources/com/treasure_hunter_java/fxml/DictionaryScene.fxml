@@ -14,7 +14,7 @@
 
 <AnchorPane prefHeight="420.0" prefWidth="757.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.treasure_hunter_java.DictionaryController">
    <children>
-      <VBox layoutX="234.0" layoutY="55.0" prefHeight="332.0" prefWidth="290.0">
+      <VBox layoutX="234.0" layoutY="4.0" prefHeight="412.0" prefWidth="290.0">
          <children>
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="218.0" text="Набор символов" />
             <CheckBox fx:id="strictFilter" mnemonicParsing="false" prefWidth="235.0" text="Строгий фильтр">
@@ -22,23 +22,51 @@
                   <Insets />
                </VBox.margin>
             </CheckBox>
-            <CheckBox fx:id="isContainsCapitalLetters" maxWidth="235.0" mnemonicParsing="false" prefHeight="35.0" text="Заглавные латинские (A-Z)" />
-            <CheckBox alignment="CENTER" disable="true" maxWidth="235.0" mnemonicParsing="false" text="Только заглавные буквы">
+            <CheckBox fx:id="isContainsCapitalLetters" maxWidth="235.0" mnemonicParsing="false" onAction="#onCapitalLettersClick" prefHeight="35.0" text="Заглавные латинские (A-Z)" />
+            <Slider fx:id="countCapitalLettersFrom" disable="true" max="50.0" prefHeight="22.0" prefWidth="157.0" value="1.0">
                <VBox.margin>
-                  <Insets right="40.0" />
+                  <Insets left="25.0" right="50.0" />
                </VBox.margin>
-            </CheckBox>
-            <CheckBox fx:id="isContainsSmallLetters" maxWidth="235.0" mnemonicParsing="false" prefHeight="35.0" text="Строчные латинские (a-z)" />
-            <CheckBox disable="true" mnemonicParsing="false" text="Только строчные буквы">
+            </Slider>
+            <Slider fx:id="countCapitalLettersTo" disable="true" max="50.0" prefHeight="22.0" prefWidth="160.0" value="1.0">
                <VBox.margin>
-                  <Insets left="18.0" />
+                  <Insets left="25.0" right="50.0" />
                </VBox.margin>
-            </CheckBox>
+            </Slider>
+            <CheckBox fx:id="isContainsSmallLetters" maxWidth="235.0" mnemonicParsing="false" onAction="#onSmallLettersClick" prefHeight="35.0" text="Строчные латинские (a-z)" />
+            <Slider fx:id="countSmallLettersFrom" disable="true" max="50.0" prefHeight="22.0" prefWidth="160.0" value="1.0">
+               <VBox.margin>
+                  <Insets left="25.0" right="50.0" />
+               </VBox.margin>
+            </Slider>
+            <Slider fx:id="countSmallLettersTo" disable="true" max="50.0" prefHeight="22.0" prefWidth="160.0" value="1.0">
+               <VBox.margin>
+                  <Insets left="25.0" right="50.0" />
+               </VBox.margin>
+            </Slider>
+            <CheckBox fx:id="isContainsDigits" mnemonicParsing="false" onAction="#onDigitsClick" prefHeight="35.0" text="Цифры (0-9)" />
+            <Slider fx:id="countDigitsFrom" disable="true" max="50.0" prefHeight="22.0" prefWidth="160.0" value="1.0">
+               <VBox.margin>
+                  <Insets left="25.0" right="50.0" />
+               </VBox.margin>
+            </Slider>
+            <Slider fx:id="countDigitsTo" disable="true" max="50.0" prefHeight="22.0" prefWidth="160.0" value="1.0">
+               <VBox.margin>
+                  <Insets left="25.0" right="50.0" />
+               </VBox.margin>
+            </Slider>
+            <CheckBox fx:id="isContainsSpecialSign" mnemonicParsing="false" onAction="#onSpecialSignClick" prefHeight="35.0" text="Специальные символы (!@#...)" />
+            <Slider fx:id="countSpecialSignFrom" disable="true" max="50.0" prefHeight="22.0" prefWidth="160.0" value="1.0">
+               <VBox.margin>
+                  <Insets left="25.0" right="50.0" />
+               </VBox.margin>
+            </Slider>
+            <Slider fx:id="countSpecialSignTo" disable="true" max="50.0" prefHeight="22.0" prefWidth="160.0" value="1.0">
+               <VBox.margin>
+                  <Insets left="25.0" right="50.0" />
+               </VBox.margin>
+            </Slider>
             <CheckBox fx:id="isContainsSpace" maxWidth="235.0" mnemonicParsing="false" prefHeight="35.0" text="Пробел" />
-            <CheckBox fx:id="isContainsDigits" mnemonicParsing="false" prefHeight="35.0" text="Цифры (0-9)" />
-            <CheckBox fx:id="isContainsSpecialSign" mnemonicParsing="false" prefHeight="35.0" text="Специальные символы (!@#...)" />
-            <CheckBox mnemonicParsing="false" prefHeight="35.0" text="Все печатаемые символы" />
-            <CheckBox mnemonicParsing="false" prefHeight="35.0" text="Символы, которых нет на клавиатуре" />
          </children>
       </VBox>
       <VBox layoutX="524.0" layoutY="167.0" prefHeight="70.0" prefWidth="189.0">
@@ -213,5 +241,45 @@
             </CheckBox>
          </children>
       </VBox>
+      <Label layoutX="227.0" layoutY="167.0" text="От">
+         <padding>
+            <Insets left="15.0" top="5.0" />
+         </padding>
+      </Label>
+      <Label layoutX="227.0" layoutY="194.0" text="До">
+         <padding>
+            <Insets left="15.0" />
+         </padding>
+      </Label>
+      <Label layoutX="225.0" layoutY="251.0" text="От">
+         <padding>
+            <Insets left="15.0" top="5.0" />
+         </padding>
+      </Label>
+      <Label layoutX="225.0" layoutY="278.0" text="До">
+         <padding>
+            <Insets left="15.0" />
+         </padding>
+      </Label>
+      <Label layoutX="225.0" layoutY="330.0" text="От">
+         <padding>
+            <Insets left="15.0" top="5.0" />
+         </padding>
+      </Label>
+      <Label layoutX="225.0" layoutY="357.0" text="До">
+         <padding>
+            <Insets left="15.0" top="2.0" />
+         </padding>
+      </Label>
+      <Label layoutX="226.0" layoutY="93.0" text="От">
+         <padding>
+            <Insets left="15.0" />
+         </padding>
+      </Label>
+      <Label layoutX="210.0" layoutY="117.0" text="До">
+         <padding>
+            <Insets left="30.0" />
+         </padding>
+      </Label>
    </children>
 </AnchorPane>

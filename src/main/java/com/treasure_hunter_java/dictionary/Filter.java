@@ -6,9 +6,20 @@ public class Filter {
 
     int lengthTo;
 
+    int countCapitalLettersFrom;
+
+    int countCapitalLettersTo;
+
+    int countSmallLettersFrom;
+
+    int countSmallLettersTo;
+
     String password;
 
     boolean isContainsDigits;
+
+    int countDigitsFrom;
+    int countDigitsTo;
 
     boolean isContainsCapitalLetters;
 
@@ -16,10 +27,17 @@ public class Filter {
 
     boolean isContainsSpecialSign;
 
+    int countSpecialSignFrom;
+    int countSpecialSignTo;
+
+
     boolean isContainsSpace;
 
     public Filter(boolean isContainsCapitalLetters, boolean isContainsSmallLetters, boolean isContainsDigits,
-                  boolean isContainsSpecialSign, boolean isContainsSpace, Integer lengthFrom, int lengthTo) {
+                  boolean isContainsSpecialSign, boolean isContainsSpace, int lengthFrom, int lengthTo,
+                  int countDigitsFrom, int countDigitsTo, int countSpecialSignFrom, int countSpecialSignTo,
+                  int countCapitalLettersFrom, int countCapitalLettersTo, int countSmallLettersFrom,
+                  int countSmallLettersTo) {
 
         this.isContainsCapitalLetters = isContainsCapitalLetters;
         this.isContainsSmallLetters = isContainsSmallLetters;
@@ -28,6 +46,15 @@ public class Filter {
         this.isContainsSpace = isContainsSpace;
         this.lengthFrom = lengthFrom;
         this.lengthTo = lengthTo;
+        this.countDigitsFrom = countDigitsFrom;
+        this.countDigitsTo = countDigitsTo;
+        this.countSpecialSignFrom = countSpecialSignFrom;
+        this.countSpecialSignTo = countSpecialSignTo;
+        this.countCapitalLettersFrom = countCapitalLettersFrom;
+        this.countCapitalLettersTo = countCapitalLettersTo;
+        this.countSmallLettersFrom = countSmallLettersFrom;
+        this.countSmallLettersTo = countSmallLettersTo;
+        System.out.println(countCapitalLettersFrom + " " + countCapitalLettersTo);
 
     }
 
@@ -36,6 +63,38 @@ public class Filter {
     }
 
     public int getLengthTo() {return lengthTo;}
+
+    public int getCountCapitalLettersFrom() {
+        return countCapitalLettersFrom;
+    }
+
+    public int getCountCapitalLettersTo() {
+        return countCapitalLettersTo;
+    }
+
+    public int getCountSmallLettersFrom() {
+        return countSmallLettersFrom;
+    }
+
+    public int getCountSmallLettersTo() {
+        return countSmallLettersTo;
+    }
+
+    public int getCountDigitsFrom() {
+        return countDigitsFrom;
+    }
+
+    public int getCountDigitsTo() {
+        return countDigitsTo;
+    }
+
+    public int getCountSpecialSignFrom() {
+        return countSpecialSignFrom;
+    }
+
+    public int getCountSpecialSignTo() {
+        return countSpecialSignTo;
+    }
 
     public boolean isContainsDigits() {
         return isContainsDigits;
