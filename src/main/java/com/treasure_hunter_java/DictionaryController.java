@@ -33,6 +33,8 @@ public class DictionaryController {
 
     private final String grey =  "-fx-background-color: #cccccc";
 
+    private final GenerateDictionary dictionary = new GenerateDictionary();
+
     @FXML
     private Button searchPasswordsButton;
 
@@ -184,15 +186,20 @@ public class DictionaryController {
     @FXML
     public void onStartButtonClick(ActionEvent actionEvent) {
 
-        GenerateDictionary dictionary = new GenerateDictionary(strictFilter.isSelected(), isContainsCapitalLetters.isSelected(),
+        Filter filter = new Filter(isContainsCapitalLetters.isSelected(),
                 isContainsSmallLetters.isSelected(), isContainsDigits.isSelected(), isContainsSpecialSign.isSelected(),
                 isContainsSpace.isSelected(), (int) lengthFrom.getValue(), (int) lengthTo.getValue(),
                 (int) countDigitsFrom.getValue(), (int)countDigitsTo.getValue(), (int) countSpecialSignFrom.getValue(),
                 (int) countSpecialSignTo.getValue(), (int) countCapitalLettersFrom.getValue(),
                 (int) countCapitalLettersTo.getValue(), (int) countSmallLettersFrom.getValue(),
-                (int) countSmallLettersTo.getValue(), googleChrome.isSelected(), opera.isSelected(),
-                chromium.isSelected(), atom.isSelected());
-        dictionary.compileDictionary();
+                (int) countSmallLettersTo.getValue());
+
+        this.dictionary.setGoogleChromeIsSelected(googleChrome.isSelected());
+        this.dictionary.setChromiumIsSelected(chromium.isSelected());
+        this.dictionary.setOperaIsSelected(opera.isSelected());
+        this.dictionary.setAtomIsSelected(atom.isSelected());
+        this.dictionary.setStrictFilterIsSelected(strictFilter.isSelected());
+        this.dictionary.compileDictionary(filter);
     }
 
     @FXML

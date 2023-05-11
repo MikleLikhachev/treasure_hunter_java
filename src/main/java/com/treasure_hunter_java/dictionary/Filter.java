@@ -33,6 +33,8 @@ public class Filter {
 
     boolean isContainsSpace;
 
+    public Filter() {}
+
     public Filter(boolean isContainsCapitalLetters, boolean isContainsSmallLetters, boolean isContainsDigits,
                   boolean isContainsSpecialSign, boolean isContainsSpace, int lengthFrom, int lengthTo,
                   int countDigitsFrom, int countDigitsTo, int countSpecialSignFrom, int countSpecialSignTo,
