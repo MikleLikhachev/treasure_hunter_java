@@ -2,7 +2,6 @@ package com.treasure_hunter_java;
 
 import com.treasure_hunter_java.dictionary.Filter;
 import com.treasure_hunter_java.dictionary.GenerateDictionary;
-import com.treasure_hunter_java.dictionary.Password;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,12 +14,10 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import jfxtras.styles.jmetro.JMetro;
 import jfxtras.styles.jmetro.Style;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -202,54 +199,37 @@ public class DictionaryController implements Initializable{
         this.dictionary.compileDictionary(filter);
     }
 
-    @FXML
-    private void onDigitsClick(){
-        minCountDigits.valueProperty().addListener((observable, oldValue, newValue) -> {
-            minCountDigits.setValue(newValue.intValue());
+    private void onCriteriaClick(Slider minSlider, Slider maxSlider, CheckBox criteriaCheckbox) {
+        minSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            minSlider.setValue(newValue.intValue());
         });
-        maxCountDigits.valueProperty().addListener((observable, oldValue, newValue) -> {
-            maxCountDigits.setValue(newValue.intValue());
+        maxSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            maxSlider.setValue(newValue.intValue());
         });
-        minCountDigits.disableProperty().bind(isContainsDigits.selectedProperty().not());
-        maxCountDigits.disableProperty().bind(isContainsDigits.selectedProperty().not());
+        minSlider.disableProperty().bind(criteriaCheckbox.selectedProperty().not());
+        maxSlider.disableProperty().bind(criteriaCheckbox.selectedProperty().not());
     }
 
     @FXML
-    private void onSpecialSignClick(){
-        minCountSpecialSign.valueProperty().addListener((observable, oldValue, newValue) -> {
-            minCountSpecialSign.setValue(newValue.intValue());
-        });
-        maxCountSpecialSign.valueProperty().addListener((observable, oldValue, newValue) -> {
-            maxCountSpecialSign.setValue(newValue.intValue());
-        });
-        minCountSpecialSign.disableProperty().bind(isContainsSpecialSign.selectedProperty().not());
-        maxCountSpecialSign.disableProperty().bind(isContainsSpecialSign.selectedProperty().not());
-
+    private void onDigitsClick() {
+        onCriteriaClick(minCountDigits, maxCountDigits, isContainsDigits);
     }
 
     @FXML
-    private void onCapitalLettersClick(){
-        minCountCapitalLetters.valueProperty().addListener((observable, oldValue, newValue) -> {
-            minCountCapitalLetters.setValue(newValue.intValue());
-        });
-        maxCountCapitalLetters.valueProperty().addListener((observable, oldValue, newValue) -> {
-            maxCountCapitalLetters.setValue(newValue.intValue());
-        });
-        minCountCapitalLetters.disableProperty().bind(isContainsCapitalLetters.selectedProperty().not());
-        maxCountCapitalLetters.disableProperty().bind(isContainsCapitalLetters.selectedProperty().not());
+    private void onSpecialSignClick() {
+        onCriteriaClick(minCountSpecialSign, maxCountSpecialSign, isContainsSpecialSign);
     }
 
     @FXML
-    private void onSmallLettersClick(){
-        minCountSmallLetters.valueProperty().addListener((observable, oldValue, newValue) -> {
-            minCountSmallLetters.setValue(newValue.intValue());
-        });
-        maxCountSmallLetters.valueProperty().addListener((observable, oldValue, newValue) -> {
-            maxCountSmallLetters.setValue(newValue.intValue());
-        });
-        minCountSmallLetters.disableProperty().bind(isContainsSmallLetters.selectedProperty().not());
-        maxCountSmallLetters.disableProperty().bind(isContainsSmallLetters.selectedProperty().not());
+    private void onCapitalLettersClick() {
+        onCriteriaClick(minCountCapitalLetters, maxCountCapitalLetters, isContainsCapitalLetters);
     }
+
+    @FXML
+    private void onSmallLettersClick() {
+        onCriteriaClick(minCountSmallLetters, maxCountSmallLetters, isContainsSmallLetters);
+    }
+
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
