@@ -23,45 +23,45 @@
                </VBox.margin>
             </CheckBox>
             <CheckBox fx:id="isContainsCapitalLetters" maxWidth="235.0" mnemonicParsing="false" onAction="#onCapitalLettersClick" prefHeight="35.0" text="Заглавные латинские (A-Z)" />
-            <Slider fx:id="countCapitalLettersFrom" disable="true" max="50.0" prefHeight="22.0" prefWidth="157.0" value="1.0">
+            <Slider fx:id="minCountCapitalLetters" disable="true" max="50.0" prefHeight="22.0" prefWidth="157.0">
                <VBox.margin>
                   <Insets left="25.0" right="50.0" />
                </VBox.margin>
             </Slider>
-            <Slider fx:id="countCapitalLettersTo" disable="true" max="50.0" prefHeight="22.0" prefWidth="160.0" value="1.0">
+            <Slider fx:id="maxCountCapitalLetters" disable="true" max="50.0" prefHeight="22.0" prefWidth="160.0">
                <VBox.margin>
                   <Insets left="25.0" right="50.0" />
                </VBox.margin>
             </Slider>
             <CheckBox fx:id="isContainsSmallLetters" maxWidth="235.0" mnemonicParsing="false" onAction="#onSmallLettersClick" prefHeight="35.0" text="Строчные латинские (a-z)" />
-            <Slider fx:id="countSmallLettersFrom" disable="true" max="50.0" prefHeight="22.0" prefWidth="160.0" value="1.0">
+            <Slider fx:id="minCountSmallLetters" disable="true" max="50.0" prefHeight="22.0" prefWidth="160.0">
                <VBox.margin>
                   <Insets left="25.0" right="50.0" />
                </VBox.margin>
             </Slider>
-            <Slider fx:id="countSmallLettersTo" disable="true" max="50.0" prefHeight="22.0" prefWidth="160.0" value="1.0">
+            <Slider fx:id="maxCountSmallLetters" disable="true" max="50.0" prefHeight="22.0" prefWidth="160.0">
                <VBox.margin>
                   <Insets left="25.0" right="50.0" />
                </VBox.margin>
             </Slider>
             <CheckBox fx:id="isContainsDigits" mnemonicParsing="false" onAction="#onDigitsClick" prefHeight="35.0" text="Цифры (0-9)" />
-            <Slider fx:id="countDigitsFrom" disable="true" max="50.0" prefHeight="22.0" prefWidth="160.0" value="1.0">
+            <Slider fx:id="minCountDigits" disable="true" max="50.0" prefHeight="22.0" prefWidth="160.0">
                <VBox.margin>
                   <Insets left="25.0" right="50.0" />
                </VBox.margin>
             </Slider>
-            <Slider fx:id="countDigitsTo" disable="true" max="50.0" prefHeight="22.0" prefWidth="160.0" value="1.0">
+            <Slider fx:id="maxCountDigits" disable="true" max="50.0" prefHeight="22.0" prefWidth="160.0">
                <VBox.margin>
                   <Insets left="25.0" right="50.0" />
                </VBox.margin>
             </Slider>
             <CheckBox fx:id="isContainsSpecialSign" mnemonicParsing="false" onAction="#onSpecialSignClick" prefHeight="35.0" text="Специальные символы (!@#...)" />
-            <Slider fx:id="countSpecialSignFrom" disable="true" max="50.0" prefHeight="22.0" prefWidth="160.0" value="1.0">
+            <Slider fx:id="minCountSpecialSign" disable="true" max="50.0" prefHeight="22.0" prefWidth="160.0">
                <VBox.margin>
                   <Insets left="25.0" right="50.0" />
                </VBox.margin>
             </Slider>
-            <Slider fx:id="countSpecialSignTo" disable="true" max="50.0" prefHeight="22.0" prefWidth="160.0" value="1.0">
+            <Slider fx:id="maxCountSpecialSign" disable="true" max="50.0" prefHeight="22.0" prefWidth="160.0">
                <VBox.margin>
                   <Insets left="25.0" right="50.0" />
                </VBox.margin>
@@ -72,14 +72,14 @@
       <VBox layoutX="524.0" layoutY="167.0" prefHeight="70.0" prefWidth="189.0">
          <children>
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="188.0" text="По маске" />
-            <TextField prefHeight="25.0" />
+            <TextField fx:id="mask" prefHeight="25.0" />
          </children>
       </VBox>
       <VBox layoutX="524.0" layoutY="237.0" prefHeight="150.0" prefWidth="189.0">
          <children>
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="45.0" prefWidth="189.0" text="По длине" />
             <Label alignment="CENTER" prefHeight="17.0" prefWidth="189.0" text="От" />
-            <Slider fx:id="lengthFrom" max="50.0" prefHeight="22.0" prefWidth="160.0" value="5.0">
+            <Slider fx:id="minLength" max="50.0" prefHeight="22.0" prefWidth="160.0" value="5.0">
                <VBox.margin>
                   <Insets top="5.0" />
                </VBox.margin></Slider>
@@ -88,7 +88,7 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </Label>
-            <Slider fx:id="lengthTo" max="50.0" prefHeight="22.0" prefWidth="160.0" value="25.0">
+            <Slider fx:id="maxLength" max="50.0" prefHeight="22.0" prefWidth="160.0" value="25.0">
                <padding>
                   <Insets top="5.0" />
                </padding>

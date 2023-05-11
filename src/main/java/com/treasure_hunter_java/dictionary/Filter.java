@@ -1,25 +1,29 @@
 package com.treasure_hunter_java.dictionary;
 
+import java.util.regex.Pattern;
+
 public class Filter {
 
-    int lengthFrom;
+    int minLength;
 
-    int lengthTo;
+    int maxLength;
 
-    int countCapitalLettersFrom;
+    int minCountCapitalLetters;
 
-    int countCapitalLettersTo;
+    int maxCountCapitalLetters;
 
-    int countSmallLettersFrom;
+    int minCountSmallLetters;
 
-    int countSmallLettersTo;
+    int maxCountSmallLetters;
 
     String password;
 
+    String mask;
+
     boolean isContainsDigits;
 
-    int countDigitsFrom;
-    int countDigitsTo;
+    int minCountDigits;
+    int maxCountDigits;
 
     boolean isContainsCapitalLetters;
 
@@ -27,8 +31,8 @@ public class Filter {
 
     boolean isContainsSpecialSign;
 
-    int countSpecialSignFrom;
-    int countSpecialSignTo;
+    int minCountSpecialSign;
+    int maxCountSpecialSign;
 
 
     boolean isContainsSpace;
@@ -36,66 +40,66 @@ public class Filter {
     public Filter() {}
 
     public Filter(boolean isContainsCapitalLetters, boolean isContainsSmallLetters, boolean isContainsDigits,
-                  boolean isContainsSpecialSign, boolean isContainsSpace, int lengthFrom, int lengthTo,
-                  int countDigitsFrom, int countDigitsTo, int countSpecialSignFrom, int countSpecialSignTo,
-                  int countCapitalLettersFrom, int countCapitalLettersTo, int countSmallLettersFrom,
-                  int countSmallLettersTo) {
+                  boolean isContainsSpecialSign, boolean isContainsSpace, int minLength, int maxLength,
+                  int minCountDigits, int maxCountDigits, int minCountSpecialSign, int maxCountSpecialSign,
+                  int minCountCapitalLetters, int maxCountCapitalLetters, int minCountSmallLetters,
+                  int maxCountSmallLetters, String mask) {
 
         this.isContainsCapitalLetters = isContainsCapitalLetters;
         this.isContainsSmallLetters = isContainsSmallLetters;
         this.isContainsDigits = isContainsDigits;
         this.isContainsSpecialSign = isContainsSpecialSign;
         this.isContainsSpace = isContainsSpace;
-        this.lengthFrom = lengthFrom;
-        this.lengthTo = lengthTo;
-        this.countDigitsFrom = countDigitsFrom;
-        this.countDigitsTo = countDigitsTo;
-        this.countSpecialSignFrom = countSpecialSignFrom;
-        this.countSpecialSignTo = countSpecialSignTo;
-        this.countCapitalLettersFrom = countCapitalLettersFrom;
-        this.countCapitalLettersTo = countCapitalLettersTo;
-        this.countSmallLettersFrom = countSmallLettersFrom;
-        this.countSmallLettersTo = countSmallLettersTo;
-        System.out.println(countCapitalLettersFrom + " " + countCapitalLettersTo);
-
+        this.minLength = minLength;
+        this.maxLength = maxLength;
+        this.minCountDigits = minCountDigits;
+        this.maxCountDigits = maxCountDigits;
+        this.minCountSpecialSign = minCountSpecialSign;
+        this.maxCountSpecialSign = maxCountSpecialSign;
+        this.minCountCapitalLetters = minCountCapitalLetters;
+        this.maxCountCapitalLetters = maxCountCapitalLetters;
+        this.minCountSmallLetters = minCountSmallLetters;
+        this.maxCountSmallLetters = maxCountSmallLetters;
+        this.mask = mask;
+        System.out.println(getMask());
     }
 
-    public int getLengthFrom() {
-        return lengthFrom;
+    public int getminLength() {
+        return minLength;
     }
 
-    public int getLengthTo() {return lengthTo;}
+    public int getmaxLength() {return maxLength;}
 
-    public int getCountCapitalLettersFrom() {
-        return countCapitalLettersFrom;
+    public int getminCountCapitalLetters() {
+        return minCountCapitalLetters;
     }
 
-    public int getCountCapitalLettersTo() {
-        return countCapitalLettersTo;
+    public int getmaxCountCapitalLetters() {
+        return maxCountCapitalLetters;
     }
 
-    public int getCountSmallLettersFrom() {
-        return countSmallLettersFrom;
+    public int getminCountSmallLetters() {
+        return minCountSmallLetters;
     }
 
-    public int getCountSmallLettersTo() {
-        return countSmallLettersTo;
+    public int getmaxCountSmallLetters() {
+        return maxCountSmallLetters;
     }
 
-    public int getCountDigitsFrom() {
-        return countDigitsFrom;
+    public int getminCountDigits() {
+        return minCountDigits;
     }
 
-    public int getCountDigitsTo() {
-        return countDigitsTo;
+    public int getmaxCountDigits() {
+        return maxCountDigits;
     }
 
-    public int getCountSpecialSignFrom() {
-        return countSpecialSignFrom;
+    public int getminCountSpecialSign() {
+        return minCountSpecialSign;
     }
 
-    public int getCountSpecialSignTo() {
-        return countSpecialSignTo;
+    public int getmaxCountSpecialSign() {
+        return maxCountSpecialSign;
     }
 
     public boolean isContainsDigits() {
@@ -120,5 +124,10 @@ public class Filter {
 
     public String getPassword(){
         return password;
+    }
+
+    public String getMask() {
+        return mask.replace("*", ".");
+
     }
 }

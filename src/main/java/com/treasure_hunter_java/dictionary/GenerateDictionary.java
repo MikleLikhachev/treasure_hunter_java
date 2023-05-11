@@ -4,7 +4,6 @@ import com.treasure_hunter_java.Main;
 
 import java.io.*;
 import java.util.*;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class GenerateDictionary {
@@ -72,29 +71,38 @@ public class GenerateDictionary {
 
         if (strictFilter) {
             return passwords.stream()
-                    .filter(p -> (compare(filter.getLengthFrom(), p.getLength(), filter.getLengthTo()))
+                    .filter(p -> (compare(filter.getminLength(), p.getLength(), filter.getmaxLength()))
                             && (!filter.isContainsCapitalLetters
-                                || compare(filter.getCountCapitalLettersFrom(), p.getCountCapitalLetters(),
-                                    filter.getCountCapitalLettersTo()))
+                                || compare(filter.getminCountCapitalLetters(), p.getCountCapitalLetters(),
+                                    filter.getmaxCountCapitalLetters()))
                             && (!filter.isContainsSmallLetters
-                                || compare(filter.getCountSmallLettersFrom(), p.getCountSmallLetters(),
-                                    filter.getCountSmallLettersTo()))
+                                || compare(filter.getminCountSmallLetters(), p.getCountSmallLetters(),
+                                    filter.getmaxCountSmallLetters()))
                             && (!filter.isContainsDigits
-                                || compare(filter.getCountDigitsFrom(), p.getCountDigits(), filter.getCountDigitsTo()))
+                                || compare(filter.getminCountDigits(), p.getCountDigits(), filter.getmaxCountDigits()))
                             && (!filter.isContainsSpecialSign
-                                || compare(filter.getCountSpecialSignFrom(), p.getCountSpecialSign(),
-                                    filter.getCountSpecialSignTo()))
-                            && (!filter.isContainsSpace || p.getPassword().matches(".*\\s+.*")))
+                                || compare(filter.getminCountSpecialSign(), p.getCountSpecialSign(),
+                                    filter.getmaxCountSpecialSign()))
+                            && (!filter.isContainsSpace || p.getPassword().matches(".*\\s+.*"))
+                            && (filter.getMask().isEmpty() || p.getPassword().matches(filter.getMask())))
                     .collect(Collectors.toList());
         } else {
             return passwords.stream()
-                    .filter(p -> (p.getLength() >= filter.getLengthFrom() && p.getLength() <= filter.getLengthTo())
-                            || (!filter.isContainsCapitalLetters || p.getPassword().matches(".*[A-Z].*"))
-                            || (!filter.isContainsSmallLetters || p.getPassword().matches(".*[a-z].*"))
-                            || (!filter.isContainsDigits || p.getPassword().matches(".*\\d.*"))
-                            || (!filter.isContainsSpecialSign || p.getPassword().matches("[^\\p{P}\\p{S}]+"))
+                    .filter(p -> compare(filter.getminLength(), p.getLength(), filter.getmaxLength())
+                            && ((!filter.isContainsCapitalLetters ||
+                                compare(filter.getminCountCapitalLetters(), p.getCountCapitalLetters(),
+                                        filter.getmaxCountCapitalLetters()))
+                            || (!filter.isContainsSmallLetters ||
+                                compare(filter.getminCountSmallLetters(), p.getCountSmallLetters(),
+                                        filter.getmaxCountSmallLetters()))
+                            || (!filter.isContainsDigits ||
+                                compare(filter.getminCountDigits(), p.getCountDigits(), filter.getmaxCountDigits()))
+                            || (!filter.isContainsSpecialSign ||
+                                compare(filter.getminCountSpecialSign(), p.getCountSpecialSign(),
+                                        filter.getmaxCountSpecialSign())))
                             || (!filter.isContainsSpace || p.getPassword().matches(".*\\s+.*")))
                     .collect(Collectors.toList());
+
         }
     }
 
@@ -129,7 +137,6 @@ public class GenerateDictionary {
         for (Password pas : filterPasswords(filter)) {
             System.out.println(pas.getPassword());
         }
-
     }
 
 }

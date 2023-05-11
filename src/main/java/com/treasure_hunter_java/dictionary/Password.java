@@ -46,9 +46,10 @@ public class Password {
         this.length = password.length();
         this.countCapitalLetters = password.replaceAll("[^A-Z]", "").length();
         this.countSmallLetters = password.replaceAll("[^a-z]", "").length();
-        System.out.println(password + " capital: " + countCapitalLetters + " small: " + countSmallLetters);
+        //System.out.println(password + " capital: " + countCapitalLetters + " small: " + countSmallLetters);
         this.countDigits = password.replaceAll("\\D", "").length();
         this.countSpecialSign = password.replaceAll("[^\\p{P}\\p{S}]+", "").length();
+        //System.out.println(Pattern.matches("M.kl.1.8.", "Mikle1985"));
     }
 
 }

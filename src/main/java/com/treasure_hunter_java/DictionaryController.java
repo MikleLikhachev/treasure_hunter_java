@@ -9,10 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Slider;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -27,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class DictionaryController {
+public class DictionaryController implements Initializable{
 
     private final String white = "-fx-background-color: #ffffff";
 
@@ -78,34 +75,37 @@ public class DictionaryController {
     private CheckBox isContainsSpace;
 
     @FXML
-    private Slider lengthFrom;
+    private Slider minLength;
 
     @FXML
-    private Slider lengthTo;
+    private Slider maxLength;
 
     @FXML
-    private Slider countCapitalLettersFrom;
+    private Slider minCountCapitalLetters;
 
     @FXML
-    private Slider countCapitalLettersTo;
+    private Slider maxCountCapitalLetters;
 
     @FXML
-    private Slider countSmallLettersFrom;
+    private Slider minCountSmallLetters;
 
     @FXML
-    private Slider countSmallLettersTo;
+    private Slider maxCountSmallLetters;
 
     @FXML
-    private Slider countDigitsFrom;
+    private Slider minCountDigits;
 
     @FXML
-    private Slider countDigitsTo;
+    private Slider maxCountDigits;
 
     @FXML
-    private Slider countSpecialSignFrom;
+    private Slider minCountSpecialSign;
 
     @FXML
-    private Slider countSpecialSignTo;
+    private Slider maxCountSpecialSign;
+
+    @FXML
+    private TextField mask;
 
     @FXML
     private Button reportButton;
@@ -188,11 +188,11 @@ public class DictionaryController {
 
         Filter filter = new Filter(isContainsCapitalLetters.isSelected(),
                 isContainsSmallLetters.isSelected(), isContainsDigits.isSelected(), isContainsSpecialSign.isSelected(),
-                isContainsSpace.isSelected(), (int) lengthFrom.getValue(), (int) lengthTo.getValue(),
-                (int) countDigitsFrom.getValue(), (int)countDigitsTo.getValue(), (int) countSpecialSignFrom.getValue(),
-                (int) countSpecialSignTo.getValue(), (int) countCapitalLettersFrom.getValue(),
-                (int) countCapitalLettersTo.getValue(), (int) countSmallLettersFrom.getValue(),
-                (int) countSmallLettersTo.getValue());
+                isContainsSpace.isSelected(), (int) minLength.getValue(), (int) maxLength.getValue(),
+                (int) minCountDigits.getValue(), (int)maxCountDigits.getValue(), (int) minCountSpecialSign.getValue(),
+                (int) maxCountSpecialSign.getValue(), (int) minCountCapitalLetters.getValue(),
+                (int) maxCountCapitalLetters.getValue(), (int) minCountSmallLetters.getValue(),
+                (int) maxCountSmallLetters.getValue(), mask.getText());
 
         this.dictionary.setGoogleChromeIsSelected(googleChrome.isSelected());
         this.dictionary.setChromiumIsSelected(chromium.isSelected());
@@ -204,53 +204,61 @@ public class DictionaryController {
 
     @FXML
     private void onDigitsClick(){
-        countDigitsFrom.valueProperty().addListener((observable, oldValue, newValue) -> {
-            countDigitsFrom.setValue(newValue.intValue());
+        minCountDigits.valueProperty().addListener((observable, oldValue, newValue) -> {
+            minCountDigits.setValue(newValue.intValue());
         });
-        countDigitsTo.valueProperty().addListener((observable, oldValue, newValue) -> {
-            countDigitsTo.setValue(newValue.intValue());
+        maxCountDigits.valueProperty().addListener((observable, oldValue, newValue) -> {
+            maxCountDigits.setValue(newValue.intValue());
         });
-        countDigitsFrom.disableProperty().bind(isContainsDigits.selectedProperty().not());
-        countDigitsTo.disableProperty().bind(isContainsDigits.selectedProperty().not());
-
-
+        minCountDigits.disableProperty().bind(isContainsDigits.selectedProperty().not());
+        maxCountDigits.disableProperty().bind(isContainsDigits.selectedProperty().not());
     }
 
     @FXML
     private void onSpecialSignClick(){
-        countSpecialSignFrom.valueProperty().addListener((observable, oldValue, newValue) -> {
-            countSpecialSignFrom.setValue(newValue.intValue());
+        minCountSpecialSign.valueProperty().addListener((observable, oldValue, newValue) -> {
+            minCountSpecialSign.setValue(newValue.intValue());
         });
-        countSpecialSignTo.valueProperty().addListener((observable, oldValue, newValue) -> {
-            countSpecialSignTo.setValue(newValue.intValue());
+        maxCountSpecialSign.valueProperty().addListener((observable, oldValue, newValue) -> {
+            maxCountSpecialSign.setValue(newValue.intValue());
         });
-        countSpecialSignFrom.disableProperty().bind(isContainsSpecialSign.selectedProperty().not());
-        countSpecialSignTo.disableProperty().bind(isContainsSpecialSign.selectedProperty().not());
+        minCountSpecialSign.disableProperty().bind(isContainsSpecialSign.selectedProperty().not());
+        maxCountSpecialSign.disableProperty().bind(isContainsSpecialSign.selectedProperty().not());
 
     }
 
     @FXML
     private void onCapitalLettersClick(){
-        countCapitalLettersFrom.valueProperty().addListener((observable, oldValue, newValue) -> {
-            countCapitalLettersFrom.setValue(newValue.intValue());
+        minCountCapitalLetters.valueProperty().addListener((observable, oldValue, newValue) -> {
+            minCountCapitalLetters.setValue(newValue.intValue());
         });
-        countCapitalLettersTo.valueProperty().addListener((observable, oldValue, newValue) -> {
-            countCapitalLettersTo.setValue(newValue.intValue());
+        maxCountCapitalLetters.valueProperty().addListener((observable, oldValue, newValue) -> {
+            maxCountCapitalLetters.setValue(newValue.intValue());
         });
-        countCapitalLettersFrom.disableProperty().bind(isContainsCapitalLetters.selectedProperty().not());
-        countCapitalLettersTo.disableProperty().bind(isContainsCapitalLetters.selectedProperty().not());
+        minCountCapitalLetters.disableProperty().bind(isContainsCapitalLetters.selectedProperty().not());
+        maxCountCapitalLetters.disableProperty().bind(isContainsCapitalLetters.selectedProperty().not());
     }
 
     @FXML
     private void onSmallLettersClick(){
-        countSmallLettersFrom.valueProperty().addListener((observable, oldValue, newValue) -> {
-            countSmallLettersFrom.setValue(newValue.intValue());
+        minCountSmallLetters.valueProperty().addListener((observable, oldValue, newValue) -> {
+            minCountSmallLetters.setValue(newValue.intValue());
         });
-        countSmallLettersTo.valueProperty().addListener((observable, oldValue, newValue) -> {
-            countSmallLettersTo.setValue(newValue.intValue());
+        maxCountSmallLetters.valueProperty().addListener((observable, oldValue, newValue) -> {
+            maxCountSmallLetters.setValue(newValue.intValue());
         });
-        countSmallLettersFrom.disableProperty().bind(isContainsSmallLetters.selectedProperty().not());
-        countSmallLettersTo.disableProperty().bind(isContainsSmallLetters.selectedProperty().not());
+        minCountSmallLetters.disableProperty().bind(isContainsSmallLetters.selectedProperty().not());
+        maxCountSmallLetters.disableProperty().bind(isContainsSmallLetters.selectedProperty().not());
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        minLength.valueProperty().addListener((observable, oldValue, newValue) -> {
+            minLength.setValue(newValue.intValue());
+        });
+        maxLength.valueProperty().addListener((observable, oldValue, newValue) -> {
+            maxLength.setValue(newValue.intValue());
+        });
     }
 
 }
