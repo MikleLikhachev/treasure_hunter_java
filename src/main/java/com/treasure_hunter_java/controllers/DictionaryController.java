@@ -1,5 +1,6 @@
-package com.treasure_hunter_java;
+package com.treasure_hunter_java.controllers;
 
+import com.treasure_hunter_java.Main;
 import com.treasure_hunter_java.dictionary.Filter;
 import com.treasure_hunter_java.dictionary.GenerateDictionary;
 import javafx.event.ActionEvent;
@@ -126,7 +127,7 @@ public class DictionaryController implements Initializable{
     @FXML
     public void onSearchPasswordsButtonClick(ActionEvent actionEvent) throws IOException {
 
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("fxml/MainScene.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/treasure_hunter_java/fxml/MainScene.fxml")));
         JMetro jMetro = new JMetro(root, Style.LIGHT);
         Scene scene = new Scene(root, 750, 500);
 
@@ -181,7 +182,7 @@ public class DictionaryController implements Initializable{
     }
 
     @FXML
-    public void onStartButtonClick(ActionEvent actionEvent) {
+    public void onStartButtonClick(ActionEvent actionEvent) throws IOException {
 
         Filter filter = new Filter(isContainsCapitalLetters.isSelected(),
                 isContainsSmallLetters.isSelected(), isContainsDigits.isSelected(), isContainsSpecialSign.isSelected(),

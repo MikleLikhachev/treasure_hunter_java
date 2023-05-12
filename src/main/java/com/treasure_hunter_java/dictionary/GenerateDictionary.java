@@ -128,14 +128,21 @@ public class GenerateDictionary {
         this.strictFilter = strictFilterIsSelected;
     }
 
-    public void compileDictionary(Filter filter) {
+    public void compileDictionary(Filter filter) throws IOException {
 
         extractGooglePasswords();
         extractChromiumPasswords();
         extractOperaPasswords();
         extractAtomPasswords();
-        for (Password pas : filterPasswords(filter)) {
-            System.out.println(pas.getPassword());
+
+        File dictionaryFile = new File(Main.mainWorkDirectory.toUri());
+        try (FileWriter fw = new FileWriter(dictionaryFile + "/dictionary.txt");
+             BufferedWriter bw = new BufferedWriter(fw))
+        {
+            for (Password pas : filterPasswords(filter))
+            {
+                bw.write(pas.getPassword() + "\n");
+            }
         }
     }
 

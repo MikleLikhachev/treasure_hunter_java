@@ -1,4 +1,6 @@
-package com.treasure_hunter_java;
+package com.treasure_hunter_java.decrypt;
+
+import com.treasure_hunter_java.Main;
 
 import java.io.File;
 import java.io.IOException;

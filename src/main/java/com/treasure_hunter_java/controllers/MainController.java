@@ -1,7 +1,9 @@
-package com.treasure_hunter_java;
+package com.treasure_hunter_java.controllers;
 
+import com.treasure_hunter_java.Main;
+import com.treasure_hunter_java.decrypt.CopyFiles;
+import com.treasure_hunter_java.decrypt.Decrypt;
 import com.treasure_hunter_java.browsers.*;
-import com.treasure_hunter_java.dictionary.GenerateDictionary;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -193,7 +195,7 @@ public class MainController implements Initializable {
         generateDictionaryButton.setStyle(grey);
         currentStage = (Stage) searchPasswordsButton.getScene().getWindow();
 
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("fxml/DictionaryScene.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/treasure_hunter_java/fxml/DictionaryScene.fxml")));
         JMetro jMetro = new JMetro(root, Style.LIGHT);
         Scene scene = new Scene(root, 750, 500);
 

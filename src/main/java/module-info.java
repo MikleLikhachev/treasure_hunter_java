@@ -13,4 +13,8 @@ module com.treasure_hunter_java {
     exports com.treasure_hunter_java;
     exports com.treasure_hunter_java.dictionary;
     opens com.treasure_hunter_java.dictionary to javafx.fxml;
+    exports com.treasure_hunter_java.controllers;
+    opens com.treasure_hunter_java.controllers to javafx.fxml;
+    exports com.treasure_hunter_java.decrypt;
+    opens com.treasure_hunter_java.decrypt to javafx.fxml;
 }
