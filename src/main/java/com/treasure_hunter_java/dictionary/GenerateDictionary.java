@@ -3,8 +3,6 @@ package com.treasure_hunter_java.dictionary;
 import com.treasure_hunter_java.Main;
 
 import java.io.*;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
@@ -26,7 +24,6 @@ public class GenerateDictionary {
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                //String password = line.split("\\| ")[2];
                 String password;
                 if (line.split("\\|").length == 3) {
                     password = line.split("\\|")[2];
@@ -72,50 +69,57 @@ public class GenerateDictionary {
         }
     }
 
-    private boolean compare(int filterFrom, int passwordData, int filterTo){
-
-        return (passwordData >= filterFrom && passwordData <= filterTo);
-
-    }
-
     private List<Password> filterPasswords(Filter filter) {
-
-        if (strictFilter) {
-            return passwords.stream()
-                    .filter(p -> (compare(filter.getminLength(), p.getLength(), filter.getmaxLength()))
-                            && (!filter.isContainsCapitalLetters
-                                || compare(filter.getminCountCapitalLetters(), p.getCountCapitalLetters(),
-                                    filter.getmaxCountCapitalLetters()))
-                            && (!filter.isContainsSmallLetters
-                                || compare(filter.getminCountSmallLetters(), p.getCountSmallLetters(),
-                                    filter.getmaxCountSmallLetters()))
-                            && (!filter.isContainsDigits
-                                || compare(filter.getminCountDigits(), p.getCountDigits(), filter.getmaxCountDigits()))
-                            && (!filter.isContainsSpecialSign
-                                || compare(filter.getminCountSpecialSign(), p.getCountSpecialSign(),
-                                    filter.getmaxCountSpecialSign()))
-                            && (!filter.isContainsSpace || p.getPassword().matches(".*\\s+.*"))
-                            && (filter.getMask().isEmpty() || p.getPassword().matches(filter.getMask())))
-                    .collect(Collectors.toList());
-        } else {
-            return passwords.stream()
-                    .filter(p -> compare(filter.getminLength(), p.getLength(), filter.getmaxLength())
-                            && ((!filter.isContainsCapitalLetters ||
-                                compare(filter.getminCountCapitalLetters(), p.getCountCapitalLetters(),
-                                        filter.getmaxCountCapitalLetters()))
-                            || (!filter.isContainsSmallLetters ||
-                                compare(filter.getminCountSmallLetters(), p.getCountSmallLetters(),
-                                        filter.getmaxCountSmallLetters()))
-                            || (!filter.isContainsDigits ||
-                                compare(filter.getminCountDigits(), p.getCountDigits(), filter.getmaxCountDigits()))
-                            || (!filter.isContainsSpecialSign ||
-                                compare(filter.getminCountSpecialSign(), p.getCountSpecialSign(),
-                                        filter.getmaxCountSpecialSign())))
-                            || (!filter.isContainsSpace || p.getPassword().matches(".*\\s+.*")))
-                    .collect(Collectors.toList());
-
-        }
+        return passwords.stream()
+                .filter(p -> compareLength(filter, p))
+                .filter(p -> filterContainsCapitalLetters(filter, p))
+                .filter(p -> filterContainsSmallLetters(filter, p))
+                .filter(p -> filterContainsDigits(filter, p))
+                .filter(p -> filterContainsSpecialSign(filter, p))
+                .filter(p -> filterContainsSpace(filter, p))
+                .filter(p -> filterMatchesMask(filter, p))
+                .toList();
     }
+
+    private boolean compareLength(Filter filter, Password password) {
+        return compare(filter.getMinLength(), password.getLength(), filter.getMaxLength());
+    }
+
+    private boolean filterContainsCapitalLetters(Filter filter, Password password) {
+        return !filter.isContainsCapitalLetters()
+                || compare(filter.getMinCountCapitalLetters(), password.getCountCapitalLetters(),
+                    filter.getMaxCountCapitalLetters());
+    }
+
+    private boolean filterContainsSmallLetters(Filter filter, Password password) {
+        return !filter.isContainsSmallLetters()
+                || compare(filter.getMinCountSmallLetters(), password.getCountSmallLetters(),
+                    filter.getMaxCountSmallLetters());
+    }
+
+    private boolean filterContainsDigits(Filter filter, Password password) {
+        return !filter.isContainsDigits()
+                || compare(filter.getMinCountDigits(), password.getCountDigits(), filter.getMaxCountDigits());
+    }
+
+    private boolean filterContainsSpecialSign(Filter filter, Password password) {
+        return !filter.isContainsSpecialSign()
+                || compare(filter.getMinCountSpecialSign(), password.getCountSpecialSign(),
+                    filter.getMaxCountSpecialSign());
+    }
+
+    private boolean filterContainsSpace(Filter filter, Password password) {
+        return !filter.isContainsSpace() || password.getPassword().matches(".*\\s+.*");
+    }
+
+    private boolean filterMatchesMask(Filter filter, Password password) {
+        return filter.getMask().isEmpty() || password.getPassword().matches(filter.getMask());
+    }
+
+    private boolean compare(int minValue, int value, int maxValue) {
+        return minValue <= value && value <= maxValue;
+    }
+
 
     public GenerateDictionary() {}
 

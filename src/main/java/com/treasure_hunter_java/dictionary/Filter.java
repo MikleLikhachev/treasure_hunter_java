@@ -64,41 +64,41 @@ public class Filter {
         System.out.println(getMask());
     }
 
-    public int getminLength() {
+    public int getMinLength() {
         return minLength;
     }
 
-    public int getmaxLength() {return maxLength;}
+    public int getMaxLength() {return maxLength;}
 
-    public int getminCountCapitalLetters() {
+    public int getMinCountCapitalLetters() {
         return minCountCapitalLetters;
     }
 
-    public int getmaxCountCapitalLetters() {
+    public int getMaxCountCapitalLetters() {
         return maxCountCapitalLetters;
     }
 
-    public int getminCountSmallLetters() {
+    public int getMinCountSmallLetters() {
         return minCountSmallLetters;
     }
 
-    public int getmaxCountSmallLetters() {
+    public int getMaxCountSmallLetters() {
         return maxCountSmallLetters;
     }
 
-    public int getminCountDigits() {
+    public int getMinCountDigits() {
         return minCountDigits;
     }
 
-    public int getmaxCountDigits() {
+    public int getMaxCountDigits() {
         return maxCountDigits;
     }
 
-    public int getminCountSpecialSign() {
+    public int getMinCountSpecialSign() {
         return minCountSpecialSign;
     }
 
-    public int getmaxCountSpecialSign() {
+    public int getMaxCountSpecialSign() {
         return maxCountSpecialSign;
     }
 
