@@ -69,13 +69,13 @@
             <CheckBox fx:id="isContainsSpace" maxWidth="235.0" mnemonicParsing="false" prefHeight="35.0" text="Пробел" />
          </children>
       </VBox>
-      <VBox layoutX="524.0" layoutY="167.0" prefHeight="70.0" prefWidth="189.0">
+      <VBox layoutX="524.0" layoutY="143.0" prefHeight="70.0" prefWidth="189.0">
          <children>
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="188.0" text="По маске" />
             <TextField fx:id="mask" prefHeight="25.0" />
          </children>
       </VBox>
-      <VBox layoutX="524.0" layoutY="237.0" prefHeight="150.0" prefWidth="189.0">
+      <VBox layoutX="524.0" layoutY="203.0" prefHeight="150.0" prefWidth="189.0">
          <children>
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="45.0" prefWidth="189.0" text="По длине" />
             <Label alignment="CENTER" prefHeight="17.0" prefWidth="189.0" text="От" />
@@ -201,7 +201,7 @@
             </Button>
          </children>
       </VBox>
-      <VBox layoutX="525.0" layoutY="46.0" prefHeight="121.0" prefWidth="188.0">
+      <VBox layoutX="536.0" layoutY="18.0" prefHeight="120.0" prefWidth="188.0">
          <children>
             <CheckBox fx:id="googleChrome" mnemonicParsing="false" prefWidth="188.0" text="Google Chrome">
                <graphic>
@@ -281,5 +281,7 @@
             <Insets left="30.0" />
          </padding>
       </Label>
+      <CheckBox fx:id="combiningDictionaries" layoutX="536.0" layoutY="352.0" mnemonicParsing="false" onAction="#onCombiningDictionaryClick" prefHeight="30.0" prefWidth="188.0" text="Объединить словари" />
+      <Button fx:id="selectDictionaryForCombining" disable="true" layoutX="570.0" layoutY="382.0" mnemonicParsing="false" onAction="#onSelectDictionaryForCombiningClick" text="Выбрать папку" />
    </children>
 </AnchorPane>

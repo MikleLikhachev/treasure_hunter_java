@@ -37,6 +37,12 @@ public class DictionaryController implements Initializable{
     private Button generateDictionaryButton;
 
     @FXML
+    private CheckBox combiningDictionaries;
+
+    @FXML
+    private Button selectDictionaryForCombining;
+
+    @FXML
     private CheckBox googleChrome;
 
     @FXML
@@ -58,13 +64,7 @@ public class DictionaryController implements Initializable{
     private CheckBox isContainsCapitalLetters;
 
     @FXML
-    private CheckBox isOnlyContainsCapitalLetters;
-
-    @FXML
     private CheckBox isContainsSmallLetters;
-
-    @FXML
-    private CheckBox isOnlyContainsSmallLetters;
 
     @FXML
     private CheckBox isContainsSpecialSign;
@@ -201,12 +201,12 @@ public class DictionaryController implements Initializable{
     }
 
     private void onCriteriaClick(Slider minSlider, Slider maxSlider, CheckBox criteriaCheckbox) {
-        minSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            minSlider.setValue(newValue.intValue());
-        });
-        maxSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            maxSlider.setValue(newValue.intValue());
-        });
+        minSlider.valueProperty().addListener((observable, oldValue, newValue) ->
+            minSlider.setValue(newValue.intValue())
+        );
+        maxSlider.valueProperty().addListener((observable, oldValue, newValue) ->
+            maxSlider.setValue(newValue.intValue())
+        );
         minSlider.disableProperty().bind(criteriaCheckbox.selectedProperty().not());
         maxSlider.disableProperty().bind(criteriaCheckbox.selectedProperty().not());
     }
@@ -231,15 +231,38 @@ public class DictionaryController implements Initializable{
         onCriteriaClick(minCountSmallLetters, maxCountSmallLetters, isContainsSmallLetters);
     }
 
+    @FXML
+    private void onCombiningDictionaryClick(){
+        selectDictionaryForCombining.disableProperty().bind(combiningDictionaries.selectedProperty().not());
+
+    }
+
+    @FXML
+    private void onSelectDictionaryForCombiningClick(){
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        File selectedDirectory = directoryChooser.showDialog(MainController.currentStage);
+
+        if (selectedDirectory != null) {
+            dictionary.dictionaryForCombining = Path.of(selectedDirectory.getAbsolutePath());
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Treasure hunter");
+            alert.setHeaderText("Ошибка");
+            alert.setContentText("Вы не выбрали папку со словарями.");
+            Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/treasure_hunter_java/icons/icon.png"))));
+            alert.showAndWait();
+        }
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        minLength.valueProperty().addListener((observable, oldValue, newValue) -> {
-            minLength.setValue(newValue.intValue());
-        });
-        maxLength.valueProperty().addListener((observable, oldValue, newValue) -> {
-            maxLength.setValue(newValue.intValue());
-        });
+        minLength.valueProperty().addListener((observable, oldValue, newValue) ->
+            minLength.setValue(newValue.intValue())
+        );
+        maxLength.valueProperty().addListener((observable, oldValue, newValue) ->
+            maxLength.setValue(newValue.intValue())
+        );
     }
 
 }

@@ -3,12 +3,17 @@ package com.treasure_hunter_java.dictionary;
 import com.treasure_hunter_java.Main;
 
 import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class GenerateDictionary {
 
     private final ArrayList<Password> passwords = new ArrayList<>();
+    public Path dictionaryForCombining;
 
     private boolean strictFilter;
     private boolean googleChromeIsSelected;
@@ -21,7 +26,13 @@ public class GenerateDictionary {
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String password = line.split("\\| ")[2];
+                //String password = line.split("\\| ")[2];
+                String password;
+                if (line.split("\\|").length == 3) {
+                    password = line.split("\\|")[2];
+                } else {
+                    password = line;
+                }
                 Optional<Password> foundPassword = passwords.stream()
                         .filter(p -> p.getPassword().equals(password)).findFirst();
                 if (foundPassword.isPresent()) {
@@ -134,9 +145,10 @@ public class GenerateDictionary {
         extractChromiumPasswords();
         extractOperaPasswords();
         extractAtomPasswords();
+        combiningDictionaries();
 
         File dictionaryFile = new File(Main.mainWorkDirectory.toUri());
-        try (FileWriter fw = new FileWriter(dictionaryFile + "/dictionary.txt");
+        try (FileWriter fw = new FileWriter(dictionaryFile + "/TreasureHunterDictionary.txt");
              BufferedWriter bw = new BufferedWriter(fw))
         {
             for (Password pas : filterPasswords(filter))
@@ -146,4 +158,31 @@ public class GenerateDictionary {
         }
     }
 
+    private void combiningDictionaries() throws IOException {
+
+        Path directory = Paths.get(dictionaryForCombining.toUri());
+
+        Files.walkFileTree(directory, new SimpleFileVisitor<>() {
+            @Override
+            public FileVisitResult visitFile(Path filePath, BasicFileAttributes attrs) throws IOException {
+                if (Files.isRegularFile(filePath) && filePath.toString().endsWith(".txt")) {
+                    // Чтение содержимого файла
+                    extractPassword(filePath.toFile());
+                    /*System.out.println("File: " + filePath);
+                    System.out.println("Content: " + content);
+                    System.out.println("----------------------------------------");*/
+                }
+                return FileVisitResult.CONTINUE;
+            }
+
+            @Override
+            public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
+                // Обработка ошибок доступа к файлу
+                System.err.println("Failed to access file: " + file);
+                return FileVisitResult.CONTINUE;
+            }
+        });
+
+
+    }
 }
