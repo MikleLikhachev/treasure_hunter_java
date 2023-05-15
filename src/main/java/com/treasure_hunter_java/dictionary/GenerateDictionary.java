@@ -6,9 +6,7 @@ import java.io.*;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
-import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.toList;
+import java.util.regex.Pattern;
 
 public class GenerateDictionary {
 
@@ -135,7 +133,7 @@ public class GenerateDictionary {
     }
 
     private boolean filterMatchesMask(Filter filter, Password password) {
-        return filter.getMask().isEmpty() || password.getPassword().matches(filter.getMask());
+        return filter.getMask().isEmpty() || Pattern.compile(filter.getMask()).matcher(password.getPassword()).find();
     }
 
     private boolean compare(int minValue, int value, int maxValue) {
@@ -174,19 +172,19 @@ public class GenerateDictionary {
         if (this.strictFilter) {name += "ST";}
         else {name += "NST";}
         name += "-L(" + filter.getMinLength() + "-" + filter.getMaxLength() + ")";
-        if (filter.isContainsCapitalLetters){
+        if (filter.isContainsCapitalLetters()){
             name += "-CL(" + filter.getMinCountCapitalLetters() + "-" + filter.getMaxCountCapitalLetters() + ")";
         }
-        if (filter.isContainsSmallLetters){
+        if (filter.isContainsSmallLetters()){
             name += "-SL(" + filter.getMinCountSmallLetters() + "-" + filter.getMaxCountSmallLetters() + ")";
         }
-        if (filter.isContainsSpecialSign){
+        if (filter.isContainsSpecialSign()){
             name += "-SS(" + filter.getMinCountSpecialSign() + "-" + filter.getMaxCountSpecialSign() + ")";
         }
-        if (filter.isContainsDigits){
+        if (filter.isContainsDigits()){
             name += "-D(" + filter.getMinCountDigits() + "-" + filter.getMaxCountDigits() + ")";
         }
-        if (filter.isContainsSpace){
+        if (filter.isContainsSpace()){
             name += "-S";
         }
         return "/" + name + ".txt";
@@ -229,7 +227,6 @@ public class GenerateDictionary {
 
                 @Override
                 public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
-                    // Обработка ошибок доступа к файлу
                     System.err.println("Failed to access file: " + file);
                     return FileVisitResult.CONTINUE;
                 }

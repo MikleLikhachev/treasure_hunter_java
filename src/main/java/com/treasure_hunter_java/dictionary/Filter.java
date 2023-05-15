@@ -4,38 +4,36 @@ import java.util.regex.Pattern;
 
 public class Filter {
 
-    int minLength;
+    private int minLength;
 
-    int maxLength;
+    private int maxLength;
 
-    int minCountCapitalLetters;
+    private int minCountCapitalLetters;
 
-    int maxCountCapitalLetters;
+    private int maxCountCapitalLetters;
 
-    int minCountSmallLetters;
+    private int minCountSmallLetters;
 
-    int maxCountSmallLetters;
+    private int maxCountSmallLetters;
 
-    String password;
+    private String mask;
 
-    String mask;
+    private boolean isContainsDigits;
 
-    boolean isContainsDigits;
+    private int minCountDigits;
+    private int maxCountDigits;
 
-    int minCountDigits;
-    int maxCountDigits;
+    private boolean isContainsCapitalLetters;
 
-    boolean isContainsCapitalLetters;
+    private boolean isContainsSmallLetters;
 
-    boolean isContainsSmallLetters;
+    private boolean isContainsSpecialSign;
 
-    boolean isContainsSpecialSign;
-
-    int minCountSpecialSign;
-    int maxCountSpecialSign;
+    private int minCountSpecialSign;
+    private int maxCountSpecialSign;
 
 
-    boolean isContainsSpace;
+    private boolean isContainsSpace;
 
     public Filter() {}
 
@@ -61,7 +59,6 @@ public class Filter {
         this.minCountSmallLetters = minCountSmallLetters;
         this.maxCountSmallLetters = maxCountSmallLetters;
         this.mask = mask;
-        System.out.println(getMask());
     }
 
     public int getMinLength() {
@@ -120,10 +117,6 @@ public class Filter {
 
     public boolean isContainsSpace() {
         return isContainsSpace;
-    }
-
-    public String getPassword(){
-        return password;
     }
 
     public String getMask() {
