@@ -36,7 +36,7 @@ public class Password {
 
     public int getCountDigits() {return countDigits;}
 
-    public int getCountUsed() {return countUsed;}
+    public int getUsageCount() {return countUsed;}
 
     Password(String password) {
         this.password = password;

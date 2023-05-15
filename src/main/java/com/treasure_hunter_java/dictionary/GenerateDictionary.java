@@ -8,6 +8,8 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toList;
+
 public class GenerateDictionary {
 
     private ArrayList<Password> passwords = new ArrayList<>();
@@ -79,6 +81,7 @@ public class GenerateDictionary {
                 .filter(p -> filterContainsSpecialSign(filter, p))
                 .filter(p -> filterContainsSpace(filter, p))
                 .filter(p -> filterMatchesMask(filter, p))
+                .sorted((p1, p2) -> Integer.compare(p2.getUsageCount(), p1.getUsageCount()))
                 .toList();
     }
 
@@ -91,6 +94,7 @@ public class GenerateDictionary {
                         || filterContainsSpecialSign(filter, p)
                         || filterContainsSpace(filter, p)))
                 .filter(p -> filterMatchesMask(filter, p))
+                .sorted((p1, p2) -> Integer.compare(p2.getUsageCount(), p1.getUsageCount()))
                 .toList();
     }
 
