@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class GenerateDictionary {
 
-    private final ArrayList<Password> passwords = new ArrayList<>();
+    private ArrayList<Password> passwords = new ArrayList<>();
     public Path dictionaryForCombining;
 
     private boolean strictFilter;
@@ -18,6 +18,7 @@ public class GenerateDictionary {
     private boolean operaIsSelected;
     private boolean chromiumIsSelected;
     private boolean atomIsSelected;
+    private boolean directoryForCombiningIsSelected;
 
     private void extractPassword(File file){
 
@@ -26,7 +27,7 @@ public class GenerateDictionary {
             while ((line = reader.readLine()) != null) {
                 String password;
                 if (line.split("\\|").length == 3) {
-                    password = line.split("\\|")[2];
+                    password = line.split("\\| ")[2];
                 } else {
                     password = line;
                 }
@@ -69,7 +70,7 @@ public class GenerateDictionary {
         }
     }
 
-    private List<Password> filterPasswords(Filter filter) {
+    private List<Password> strictFilter(Filter filter) {
         return passwords.stream()
                 .filter(p -> compareLength(filter, p))
                 .filter(p -> filterContainsCapitalLetters(filter, p))
@@ -79,6 +80,23 @@ public class GenerateDictionary {
                 .filter(p -> filterContainsSpace(filter, p))
                 .filter(p -> filterMatchesMask(filter, p))
                 .toList();
+    }
+
+    private List<Password> noneStrictFilter(Filter filter) {
+        return passwords.stream()
+                .filter(p -> compareLength(filter, p)
+                        && (filterContainsCapitalLetters(filter, p)
+                        || filterContainsSmallLetters(filter, p)
+                        || filterContainsDigits(filter, p)
+                        || filterContainsSpecialSign(filter, p)
+                        || filterContainsSpace(filter, p)))
+                .filter(p -> filterMatchesMask(filter, p))
+                .toList();
+    }
+
+    private List<Password> filterPasswords(Filter filter) {
+        if (this.strictFilter){ return strictFilter(filter); }
+        else { return noneStrictFilter(filter); }
     }
 
     private boolean compareLength(Filter filter, Password password) {
@@ -143,8 +161,36 @@ public class GenerateDictionary {
         this.strictFilter = strictFilterIsSelected;
     }
 
+    public void setDictionaryForCombiningIsSelected(boolean directoryForCombiningIsSelected){
+        this.directoryForCombiningIsSelected = directoryForCombiningIsSelected;
+    }
+
+    private String generateNameForDictionary(Filter filter) {
+        String name = "";
+        if (this.strictFilter) {name += "ST";}
+        else {name += "NST";}
+        name += "-L(" + filter.getMinLength() + "-" + filter.getMaxLength() + ")";
+        if (filter.isContainsCapitalLetters){
+            name += "-CL(" + filter.getMinCountCapitalLetters() + "-" + filter.getMaxCountCapitalLetters() + ")";
+        }
+        if (filter.isContainsSmallLetters){
+            name += "-SL(" + filter.getMinCountSmallLetters() + "-" + filter.getMaxCountSmallLetters() + ")";
+        }
+        if (filter.isContainsSpecialSign){
+            name += "-SS(" + filter.getMinCountSpecialSign() + "-" + filter.getMaxCountSpecialSign() + ")";
+        }
+        if (filter.isContainsDigits){
+            name += "-D(" + filter.getMinCountDigits() + "-" + filter.getMaxCountDigits() + ")";
+        }
+        if (filter.isContainsSpace){
+            name += "-S";
+        }
+        return "/" + name + ".txt";
+    }
+
     public void compileDictionary(Filter filter) throws IOException {
 
+        passwords.clear();
         extractGooglePasswords();
         extractChromiumPasswords();
         extractOperaPasswords();
@@ -152,11 +198,12 @@ public class GenerateDictionary {
         combiningDictionaries();
 
         File dictionaryFile = new File(Main.mainWorkDirectory.toUri());
-        try (FileWriter fw = new FileWriter(dictionaryFile + "/TreasureHunterDictionary.txt");
+        try (FileWriter fw = new FileWriter(dictionaryFile + generateNameForDictionary(filter));
              BufferedWriter bw = new BufferedWriter(fw))
         {
             for (Password pas : filterPasswords(filter))
             {
+                System.out.println(pas.getPassword());
                 bw.write(pas.getPassword() + "\n");
             }
         }
@@ -164,29 +211,25 @@ public class GenerateDictionary {
 
     private void combiningDictionaries() throws IOException {
 
-        Path directory = Paths.get(dictionaryForCombining.toUri());
+        if (directoryForCombiningIsSelected) {
+            Path directory = Paths.get(dictionaryForCombining.toUri());
 
-        Files.walkFileTree(directory, new SimpleFileVisitor<>() {
-            @Override
-            public FileVisitResult visitFile(Path filePath, BasicFileAttributes attrs) throws IOException {
-                if (Files.isRegularFile(filePath) && filePath.toString().endsWith(".txt")) {
-                    // Чтение содержимого файла
-                    extractPassword(filePath.toFile());
-                    /*System.out.println("File: " + filePath);
-                    System.out.println("Content: " + content);
-                    System.out.println("----------------------------------------");*/
+            Files.walkFileTree(directory, new SimpleFileVisitor<>() {
+                @Override
+                public FileVisitResult visitFile(Path filePath, BasicFileAttributes attrs) throws IOException {
+                    if (Files.isRegularFile(filePath) && filePath.toString().endsWith(".txt")) {
+                        extractPassword(filePath.toFile());
+                    }
+                    return FileVisitResult.CONTINUE;
                 }
-                return FileVisitResult.CONTINUE;
-            }
 
-            @Override
-            public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
-                // Обработка ошибок доступа к файлу
-                System.err.println("Failed to access file: " + file);
-                return FileVisitResult.CONTINUE;
-            }
-        });
-
-
+                @Override
+                public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
+                    // Обработка ошибок доступа к файлу
+                    System.err.println("Failed to access file: " + file);
+                    return FileVisitResult.CONTINUE;
+                }
+            });
+        }
     }
 }

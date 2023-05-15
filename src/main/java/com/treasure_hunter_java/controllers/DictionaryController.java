@@ -197,6 +197,7 @@ public class DictionaryController implements Initializable{
         this.dictionary.setOperaIsSelected(opera.isSelected());
         this.dictionary.setAtomIsSelected(atom.isSelected());
         this.dictionary.setStrictFilterIsSelected(strictFilter.isSelected());
+        this.dictionary.setDictionaryForCombiningIsSelected(combiningDictionaries.isSelected());
         this.dictionary.compileDictionary(filter);
     }
 
