@@ -4,6 +4,8 @@ import java.util.regex.Pattern;
 
 public class Filter {
 
+    private boolean isStrict;
+
     private int minLength;
 
     private int maxLength;
@@ -37,7 +39,7 @@ public class Filter {
 
     public Filter() {}
 
-    public Filter(boolean isContainsCapitalLetters, boolean isContainsSmallLetters, boolean isContainsDigits,
+    public Filter(boolean isStrict, boolean isContainsCapitalLetters, boolean isContainsSmallLetters, boolean isContainsDigits,
                   boolean isContainsSpecialSign, boolean isContainsSpace, int minLength, int maxLength,
                   int minCountDigits, int maxCountDigits, int minCountSpecialSign, int maxCountSpecialSign,
                   int minCountCapitalLetters, int maxCountCapitalLetters, int minCountSmallLetters,
@@ -60,6 +62,8 @@ public class Filter {
         this.maxCountSmallLetters = maxCountSmallLetters;
         this.mask = mask;
     }
+
+    public boolean isStrict(){return isStrict;}
 
     public int getMinLength() {
         return minLength;

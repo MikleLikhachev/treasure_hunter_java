@@ -184,7 +184,7 @@ public class DictionaryController implements Initializable{
     @FXML
     public void onStartButtonClick(ActionEvent actionEvent) throws IOException {
 
-        Filter filter = new Filter(isContainsCapitalLetters.isSelected(),
+        Filter filter = new Filter(strictFilter.isSelected(), isContainsCapitalLetters.isSelected(),
                 isContainsSmallLetters.isSelected(), isContainsDigits.isSelected(), isContainsSpecialSign.isSelected(),
                 isContainsSpace.isSelected(), (int) minLength.getValue(), (int) maxLength.getValue(),
                 (int) minCountDigits.getValue(), (int)maxCountDigits.getValue(), (int) minCountSpecialSign.getValue(),
