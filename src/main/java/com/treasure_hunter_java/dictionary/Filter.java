@@ -45,6 +45,7 @@ public class Filter {
                   int minCountCapitalLetters, int maxCountCapitalLetters, int minCountSmallLetters,
                   int maxCountSmallLetters, String mask) {
 
+        this.isStrict = isStrict;
         this.isContainsCapitalLetters = isContainsCapitalLetters;
         this.isContainsSmallLetters = isContainsSmallLetters;
         this.isContainsDigits = isContainsDigits;
