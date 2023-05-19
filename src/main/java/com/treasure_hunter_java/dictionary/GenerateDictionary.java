@@ -98,7 +98,8 @@ public class GenerateDictionary {
 
     private String generateNameForDictionary(Filter filter) {
         String name = "";
-        if (this.strictFilter) {name += "ST";}
+        if (!filter.getMask().isEmpty()) {name += filter.getMask();}
+        if (filter.isStrict()) {name += "ST";}
         else {name += "NST";}
         name += "-L(" + filter.getMinLength() + "-" + filter.getMaxLength() + ")";
         if (filter.isContainsCapitalLetters()){
@@ -135,7 +136,6 @@ public class GenerateDictionary {
         {
             for (Password pas : filterFunctionality.filterPasswords(filter))
             {
-                System.out.println(pas.getPassword());
                 bw.write(pas.getPassword() + "\n");
             }
         }

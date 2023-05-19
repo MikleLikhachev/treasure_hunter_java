@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 public class FilterFunctionality {
 
-    private List<Password> passwords;
+    private final List<Password> passwords;
 
     public FilterFunctionality(List<Password> passwords) {
         this.passwords = passwords;

@@ -17,12 +17,9 @@ public class Main extends Application {
 
     public static Path mainWorkDirectory;
 
-    public static Scene test;
-
     @Override
     public void start(Stage primaryStage) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("fxml/MainScene.fxml")));
-        //MainController.currentScene = primaryStage.getScene();
         primaryStage.setTitle("Treasure hunter");
         JMetro jMetro = new JMetro(root, Style.LIGHT);
         primaryStage.setScene(new Scene(root, 750, 500));

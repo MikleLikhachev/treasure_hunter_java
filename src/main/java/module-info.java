@@ -7,6 +7,7 @@ module com.treasure_hunter_java {
     requires org.apache.commons.codec;
     requires java.sql;
     requires sqlite.jdbc;
+    requires org.apache.commons.compress;
 
 
     opens com.treasure_hunter_java to javafx.fxml;
