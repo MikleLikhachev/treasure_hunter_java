@@ -12,11 +12,14 @@ import java.util.zip.ZipException;
 import java.util.zip.ZipOutputStream;
 
 public class DirectoryArchiver {
-    private String directoryPath = Main.mainWorkDirectory.toString();
+    private String directoryPath;
     private String outputFilePath = "";
     private String password;
 
     public DirectoryArchiver() {
+        if (Main.mainWorkDirectory != null){
+            directoryPath = Main.mainWorkDirectory.toString();
+        }
     }
 
     public DirectoryArchiver(String directoryPath, String outputFilePath) {

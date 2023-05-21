@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="757.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.treasure_hunter_java.controllers.ReportController">
+   <children>
+      <VBox layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="203.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="554.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label prefHeight="75.0" prefWidth="193.0" text="Treasure Hunter" textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="71.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <VBox.margin>
+                  <Insets left="15.0" />
+               </VBox.margin>
+            </Label>
+            <Button fx:id="searchPasswordsButton" mnemonicParsing="false" onAction="#onSearchPasswordsButtonClick" prefHeight="55.0" prefWidth="203.0" style="-fx-background-color: #ffffff;" text="Поиск паролей">
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="64.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8-keepass-50.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets right="45.0" />
+               </padding>
+            </Button>
+            <Button fx:id="generateDictionaryButton" mnemonicParsing="false" onAction="#onGenerateDictionaryButtonClick" prefHeight="55.0" prefWidth="203.0" style="-fx-background-color: #ffffff;" text="Генерация словаря">
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8-словарь-64.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <padding>
+                  <Insets right="25.0" />
+               </padding>
+            </Button>
+            <Button fx:id="reportButton" mnemonicParsing="false" onAction="#onReportButtonClick" prefHeight="55.0" prefWidth="203.0" style="-fx-background-color: #cccccc;" text="Отчет">
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8-бизнес-отчет-53.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets right="100.0" />
+               </padding>
+            </Button>
+            <Button fx:id="zipButton" mnemonicParsing="false" onAction="#onZipButtonClick" prefHeight="55.0" prefWidth="203.0" style="-fx-background-color: #ffffff;" text="Упаковка в ZIP">
+               <graphic>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8-zip-64.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <padding>
+                  <Insets right="50.0" />
+               </padding>
+            </Button>
+            <Button fx:id="telegramButton" mnemonicParsing="false" onAction="#onTelegramButtonClick" prefHeight="55.0" prefWidth="203.0" style="-fx-background-color: #ffffff;" text="Отправка боту">
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8-телеграм-50.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <padding>
+                  <Insets right="50.0" />
+               </padding>
+            </Button>
+            <Button fx:id="selectDirectoryButton" mnemonicParsing="false" onAction="#onSelectDirectoryButtonClick" prefHeight="55.0" prefWidth="203.0" style="-fx-background-color: #ffffff;" text="Выбрать рабочую папку">
+               <graphic>
+                  <ImageView fitHeight="35.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8-папка-50.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="start" mnemonicParsing="false" onAction="#onStartButtonClick" prefHeight="55.0" prefWidth="203.0" style="-fx-background-color: #ffffff;" text="Начать">
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8-иди-50.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <padding>
+                  <Insets right="95.0" />
+               </padding>
+            </Button>
+         </children>
+      </VBox>
+      <Label layoutX="241.0" layoutY="63.0" text="Выберите пункты, которые должны быть в отчёте" />
+      <CheckBox layoutX="241.0" layoutY="99.0" mnemonicParsing="false" text="Количество паролей" />
+      <CheckBox layoutX="263.0" layoutY="123.0" mnemonicParsing="false" text="Общее число паролей" />
+      <CheckBox layoutX="263.0" layoutY="147.0" mnemonicParsing="false" text="Число уникальных паролей" />
+      <CheckBox layoutX="241.0" layoutY="175.0" mnemonicParsing="false" text="Длина паролей" />
+      <CheckBox layoutX="263.0" layoutY="202.0" mnemonicParsing="false" text="Максимальная" />
+      <CheckBox layoutX="263.0" layoutY="226.0" mnemonicParsing="false" text="Средняя" />
+      <CheckBox layoutX="263.0" layoutY="252.0" mnemonicParsing="false" text="Минимальная" />
+      <CheckBox layoutX="241.0" layoutY="279.0" mnemonicParsing="false" text="Самые популярные вхождения символов" />
+      <CheckBox layoutX="263.0" layoutY="303.0" mnemonicParsing="false" text="Группа (2+) символов" />
+      <CheckBox layoutX="285.0" layoutY="328.0" mnemonicParsing="false" text="TOP-10 самых популярных вхождений" />
+      <CheckBox layoutX="263.0" layoutY="352.0" mnemonicParsing="false" text="Самый популярный символ" />
+      <CheckBox layoutX="279.0" layoutY="378.0" mnemonicParsing="false" text="TOP-10 самых популярных символов">
+         <padding>
+            <Insets left="5.0" />
+         </padding>
+      </CheckBox>
+      <CheckBox layoutX="519.0" layoutY="211.0" mnemonicParsing="false" text="Анализ истории из браузера" />
+      <CheckBox layoutX="539.0" layoutY="235.0" mnemonicParsing="false" text="Количество посещений сайтов" />
+      <CheckBox layoutX="539.0" layoutY="261.0" mnemonicParsing="false" text="Время посещений" />
+      <CheckBox layoutX="539.0" layoutY="288.0" mnemonicParsing="false" text="Пик активности" />
+      <VBox layoutX="553.0" layoutY="63.0" prefHeight="120.0" prefWidth="188.0">
+         <children>
+            <CheckBox fx:id="googleChrome" mnemonicParsing="false" prefWidth="188.0" text="Google Chrome">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8-google-chrome-64.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </CheckBox>
+            <CheckBox fx:id="opera" mnemonicParsing="false" prefWidth="188.0" text="Opera">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8-опера-50.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </CheckBox>
+            <CheckBox fx:id="chromium" mnemonicParsing="false" prefWidth="188.0" text="Chromium">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8-google-chrome-64.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </CheckBox>
+            <CheckBox fx:id="atom" mnemonicParsing="false" prefWidth="188.0" text="Atom">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8-atom-editor-50.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </CheckBox>
+         </children>
+      </VBox>
+      <DatePicker layoutX="548.0" layoutY="316.0" promptText="С" />
+      <DatePicker layoutX="548.0" layoutY="348.0" promptText="По" />
+   </children>
+</AnchorPane>

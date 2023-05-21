@@ -97,7 +97,11 @@ public class GenerateDictionary {
     }
 
     private String generateNameForDictionary(Filter filter) {
-        String name = "";
+        File directory = new File(Main.mainWorkDirectory + "/filters");
+        if (!directory.exists()) {
+            directory.mkdir();
+        }
+        String name = "/filters/";
         if (!filter.getMask().isEmpty()) {name += filter.getMask();}
         if (filter.isStrict()) {name += "ST";}
         else {name += "NST";}

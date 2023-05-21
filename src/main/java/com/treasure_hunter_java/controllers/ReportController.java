@@ -1,5 +1,6 @@
 package com.treasure_hunter_java.controllers;
 
+import com.treasure_hunter_java.report.GenerateReport;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
@@ -39,7 +40,8 @@ public class ReportController extends Controller{
 
     @FXML
     public void onStartButtonClick(ActionEvent actionEvent) throws IOException {
-
+        GenerateReport generateReport = new GenerateReport();
+        generateReport.rocket();
     }
 
 }

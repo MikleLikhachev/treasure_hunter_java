@@ -12,9 +12,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="420.0" prefWidth="757.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.treasure_hunter_java.controllers.DictionaryController">
+<AnchorPane prefHeight="450.0" prefWidth="757.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.treasure_hunter_java.controllers.DictionaryController">
    <children>
-      <VBox layoutX="234.0" layoutY="4.0" prefHeight="412.0" prefWidth="290.0">
+      <VBox layoutX="234.0" layoutY="4.0" prefHeight="404.0" prefWidth="290.0">
          <children>
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="218.0" text="Набор символов" />
             <CheckBox fx:id="strictFilter" mnemonicParsing="false" prefWidth="235.0" text="Строгий фильтр">

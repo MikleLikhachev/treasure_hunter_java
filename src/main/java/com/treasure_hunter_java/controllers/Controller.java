@@ -51,6 +51,7 @@ public class Controller {
 
     @FXML
     protected void onReportButtonClick() throws Exception {
+        setScene(zipButton, "/com/treasure_hunter_java/fxml/ReportScene.fxml");
 
     }
 

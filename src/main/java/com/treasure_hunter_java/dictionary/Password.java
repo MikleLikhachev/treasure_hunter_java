@@ -38,7 +38,7 @@ public class Password {
 
     public int getUsageCount() {return countUsed;}
 
-    Password(String password) {
+    public Password(String password) {
         this.password = password;
         this.length = password.length();
         this.countCapitalLetters = password.replaceAll("[^A-Z]", "").length();

@@ -8,6 +8,9 @@ module com.treasure_hunter_java {
     requires java.sql;
     requires sqlite.jdbc;
     requires org.apache.commons.compress;
+    requires org.apache.pdfbox;
+    requires kernel;
+    requires layout;
 
 
     opens com.treasure_hunter_java to javafx.fxml;

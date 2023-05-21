@@ -29,7 +29,7 @@
                   <Insets left="15.0" />
                </VBox.margin>
             </Label>
-            <Button fx:id="searchPasswordsButton" mnemonicParsing="false" onAction="#onSearchPasswordsButtonClick" prefHeight="55.0" prefWidth="203.0" style="-fx-background-color: #ffffff;" text="Поиск паролей">
+            <Button fx:id="searchPasswordsButton" mnemonicParsing="false" onAction="#onSearchPasswordsButtonClick" prefHeight="55.0" prefWidth="203.0" style="-fx-background-color: #cccccc;" text="Поиск паролей">
                <graphic>
                   <ImageView fitHeight="40.0" fitWidth="64.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                      <image>
