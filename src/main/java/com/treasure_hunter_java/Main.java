@@ -22,7 +22,9 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("fxml/MainScene.fxml")));
         primaryStage.setTitle("Treasure hunter");
         JMetro jMetro = new JMetro(root, Style.LIGHT);
-        primaryStage.setScene(new Scene(root, 750, 500));
+        Scene scene = new Scene(root, 750, 500);
+        scene.getStylesheets().add("src/main/resources/com/treasure_hunter_java/style.css");
+        primaryStage.setScene(scene);
         primaryStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("icons/icon.png"))));
         primaryStage.show();
 

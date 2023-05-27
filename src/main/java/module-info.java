@@ -11,6 +11,7 @@ module com.treasure_hunter_java {
     requires org.apache.pdfbox;
     requires kernel;
     requires layout;
+    requires io;
 
 
     opens com.treasure_hunter_java to javafx.fxml;

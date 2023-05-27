@@ -93,7 +93,10 @@ public class ReportController extends Controller{
 
     @FXML
     public void onStartButtonClick(ActionEvent actionEvent) throws IOException {
-        GenerateReport generateReport = new GenerateReport();
+        GenerateReport generateReport = new GenerateReport((int) groupSymbolLength.getValue(),
+                (int) topGroupSymbolsLength.getValue(), totalPasswordCount.isSelected(), uniquePasswordCount.isSelected(),
+                passwordMaxLength.isSelected(), passwordAverageLength.isSelected(), passwordMinLength.isSelected(),
+                topPopularSymbol.isSelected(), (int) topPopularSymbolCount.getValue());
         generateReport.rocket();
     }
 

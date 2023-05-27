@@ -29,8 +29,8 @@ public class GeneratePDF {
             try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
                 contentStream.setFont(font, 12);
 
-                writeTotalCount(contentStream, passwords);
-                writeUniqueCount(contentStream, passwords);
+                printTotalCount(contentStream, passwords);
+                printUniqueCount(contentStream, passwords);
             }
 
             document.save(Main.mainWorkDirectory + "/password_report.pdf");
@@ -40,7 +40,7 @@ public class GeneratePDF {
         }
     }
 
-    private static void writeTotalCount(PDPageContentStream contentStream, ArrayList<Password> passwords) throws IOException {
+    private static void printTotalCount(PDPageContentStream contentStream, ArrayList<Password> passwords) throws IOException {
         long totalCount = passwords.size();
         String totalCountText = "Total count password: " + totalCount;
         contentStream.beginText();
@@ -49,7 +49,7 @@ public class GeneratePDF {
         contentStream.endText();
     }
 
-    private static void writeUniqueCount(PDPageContentStream contentStream, ArrayList<Password> passwords) throws IOException {
+    private static void printUniqueCount(PDPageContentStream contentStream, ArrayList<Password> passwords) throws IOException {
         long uniqueCount = passwords.stream().distinct().count();
         String uniqueCountText = "Unique passwords count: " + uniqueCount;
         contentStream.beginText();

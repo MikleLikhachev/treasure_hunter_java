@@ -3,15 +3,15 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="757.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.treasure_hunter_java.controllers.ReportController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="757.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.treasure_hunter_java.controllers.ReportController">
    <children>
       <VBox layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="203.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="554.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -119,68 +119,84 @@
             </Button>
          </children>
       </VBox>
-      <Label layoutX="241.0" layoutY="63.0" text="Выберите пункты, которые должны быть в отчёте" />
-      <CheckBox layoutX="241.0" layoutY="99.0" mnemonicParsing="false" text="Количество паролей" />
-      <CheckBox layoutX="263.0" layoutY="123.0" mnemonicParsing="false" text="Общее число паролей" />
-      <CheckBox layoutX="263.0" layoutY="147.0" mnemonicParsing="false" text="Число уникальных паролей" />
-      <CheckBox layoutX="241.0" layoutY="175.0" mnemonicParsing="false" text="Длина паролей" />
-      <CheckBox layoutX="263.0" layoutY="202.0" mnemonicParsing="false" text="Максимальная" />
-      <CheckBox layoutX="263.0" layoutY="226.0" mnemonicParsing="false" text="Средняя" />
-      <CheckBox layoutX="263.0" layoutY="252.0" mnemonicParsing="false" text="Минимальная" />
-      <CheckBox layoutX="241.0" layoutY="279.0" mnemonicParsing="false" text="Самые популярные вхождения символов" />
-      <CheckBox layoutX="263.0" layoutY="303.0" mnemonicParsing="false" text="Группа (2+) символов" />
-      <CheckBox layoutX="285.0" layoutY="328.0" mnemonicParsing="false" text="TOP-10 самых популярных вхождений" />
-      <CheckBox layoutX="263.0" layoutY="352.0" mnemonicParsing="false" text="Самый популярный символ" />
-      <CheckBox layoutX="279.0" layoutY="378.0" mnemonicParsing="false" text="TOP-10 самых популярных символов">
-         <padding>
-            <Insets left="5.0" />
-         </padding>
-      </CheckBox>
-      <CheckBox layoutX="519.0" layoutY="211.0" mnemonicParsing="false" text="Анализ истории из браузера" />
-      <CheckBox layoutX="539.0" layoutY="235.0" mnemonicParsing="false" text="Количество посещений сайтов" />
-      <CheckBox layoutX="539.0" layoutY="261.0" mnemonicParsing="false" text="Время посещений" />
-      <CheckBox layoutX="539.0" layoutY="288.0" mnemonicParsing="false" text="Пик активности" />
-      <VBox layoutX="553.0" layoutY="63.0" prefHeight="120.0" prefWidth="188.0">
+      <VBox layoutX="226.0" prefHeight="420.0" prefWidth="293.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="226.0" AnchorPane.topAnchor="0.0">
          <children>
-            <CheckBox fx:id="googleChrome" mnemonicParsing="false" prefWidth="188.0" text="Google Chrome">
-               <graphic>
-                  <ImageView fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../icons/icons8-google-chrome-64.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
+            <Label text="Выберите пункты, которые должны быть в отчёте" />
+            <CheckBox fx:id="passwordCount" mnemonicParsing="false" onAction="#onPasswordCountClick" prefHeight="23.0" text="Количество паролей" />
+            <CheckBox fx:id="totalPasswordCount" disable="true" mnemonicParsing="false" prefHeight="23.0" text="Общее число паролей">
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
             </CheckBox>
-            <CheckBox fx:id="opera" mnemonicParsing="false" prefWidth="188.0" text="Opera">
-               <graphic>
-                  <ImageView fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../icons/icons8-опера-50.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
+            <CheckBox fx:id="uniquePasswordCount" disable="true" mnemonicParsing="false" prefHeight="23.0" text="Число уникальных паролей">
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
             </CheckBox>
-            <CheckBox fx:id="chromium" mnemonicParsing="false" prefWidth="188.0" text="Chromium">
-               <graphic>
-                  <ImageView fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../icons/icons8-google-chrome-64.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
+            <CheckBox fx:id="passwordLength" mnemonicParsing="false" onAction="#onPasswordLengthClick" prefHeight="23.0" text="Длина паролей" />
+            <CheckBox fx:id="passwordMaxLength" disable="true" mnemonicParsing="false" prefHeight="23.0" text="Максимальная">
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
             </CheckBox>
-            <CheckBox fx:id="atom" mnemonicParsing="false" prefWidth="188.0" text="Atom">
-               <graphic>
-                  <ImageView fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../icons/icons8-atom-editor-50.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
+            <CheckBox fx:id="passwordAverageLength" disable="true" mnemonicParsing="false" prefHeight="23.0" text="Средняя">
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
             </CheckBox>
+            <CheckBox fx:id="passwordMinLength" disable="true" mnemonicParsing="false" prefHeight="23.0" text="Минимальная">
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
+            </CheckBox>
+            <CheckBox fx:id="mostPopularSymbols" mnemonicParsing="false" onAction="#onMostPopularSymbolsClick" prefHeight="23.0" text="Самые популярные вхождения символов" />
+            <CheckBox fx:id="mostPopularGroupSymbols" disable="true" mnemonicParsing="false" onAction="#onMostPopularGroupSymbolsClick" prefHeight="23.0" text="Группа (2+) символов">
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
+            </CheckBox>
+            <Label prefHeight="23.0" text="Укажите длину вхождений символов">
+               <VBox.margin>
+                  <Insets left="45.0" />
+               </VBox.margin>
+            </Label>
+            <Slider fx:id="groupSymbolLength" disable="true">
+               <VBox.margin>
+                  <Insets left="50.0" right="50.0" />
+               </VBox.margin>
+            </Slider>
+            <CheckBox fx:id="topMostPopularGroupSymbol" disable="true" mnemonicParsing="false" onAction="#onTopMostPopularGroupSymbolClick" prefHeight="23.0" text="TOP-? самых популярных вхождений">
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
+            </CheckBox>
+            <Label prefHeight="23.0" text="Укажите количество вхождений">
+               <VBox.margin>
+                  <Insets left="50.0" />
+               </VBox.margin>
+            </Label>
+            <Slider fx:id="topGroupSymbolsLength" disable="true" prefHeight="23.0">
+               <VBox.margin>
+                  <Insets left="50.0" right="50.0" />
+               </VBox.margin>
+            </Slider>
+            <CheckBox fx:id="mostPopularSymbol" mnemonicParsing="false" onAction="#onMostPopularSymbolClick" prefHeight="23.0" text="Самый популярный символ" />
+            <CheckBox fx:id="topPopularSymbol" disable="true" mnemonicParsing="false" onAction="#onTopPopularSymbolClick" prefHeight="23.0" text="TOP-? самых популярных символов">
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
+            </CheckBox>
+            <Label prefHeight="23.0" text="Укажите количество символов">
+               <VBox.margin>
+                  <Insets left="50.0" />
+               </VBox.margin>
+            </Label>
+            <Slider fx:id="topPopularSymbolCount" disable="true" prefHeight="23.0">
+               <VBox.margin>
+                  <Insets left="50.0" right="50.0" />
+               </VBox.margin>
+            </Slider>
          </children>
       </VBox>
-      <DatePicker layoutX="548.0" layoutY="316.0" promptText="С" />
-      <DatePicker layoutX="548.0" layoutY="348.0" promptText="По" />
    </children>
 </AnchorPane>

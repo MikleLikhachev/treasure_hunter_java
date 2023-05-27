@@ -110,15 +110,17 @@ public class Decrypt {
 
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbFile.getAbsolutePath());
              Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT id, url, title, " +
-                     "datetime(last_visit_time / 1000000 + (strftime('%s', '1601-01-01')), 'unixepoch') " +
-                        "AS last_visit_time FROM urls")) {
+             ResultSet rs = stmt.executeQuery("SELECT u.id, u.url, u.title, " +
+                     "datetime(v.visit_time / 1000000 + (strftime('%s', '1601-01-01')), 'unixepoch') " +
+                     "AS visit_time " +
+                     "FROM urls u " +
+                     "JOIN visits v ON u.id = v.url")) {
 
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String url = rs.getString("url");
                 String title = rs.getString("title");
-                String date = rs.getString("last_visit_time");
+                String date = rs.getString("visit_time");
                 textBuilder.append("ID: ").append(id)
                         .append(" | URL: ").append(url)
                         .append(" | Title: ").append(title)

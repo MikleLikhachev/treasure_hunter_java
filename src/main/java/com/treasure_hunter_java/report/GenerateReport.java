@@ -1,19 +1,11 @@
 package com.treasure_hunter_java.report;
 
+import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.properties.TextAlignment;
-import com.sun.jna.platform.unix.X11;
 import com.treasure_hunter_java.Main;
 import com.treasure_hunter_java.dictionary.Password;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.font.PDFont;
-import org.apache.pdfbox.pdmodel.font.PDType0Font;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
-//import org.w3c.dom.Document;
-
 import java.io.*;
-import java.nio.charset.StandardCharsets;
+import java.net.MalformedURLException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,19 +14,48 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 import com.itextpdf.kernel.pdf.*;
 import com.itextpdf.kernel.font.*;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.io.image.ImageData;
+import com.itextpdf.io.image.ImageDataFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static java.lang.Math.round;
 
 public class GenerateReport {
 
     Path directory = Path.of(Main.mainWorkDirectory.toUri());
-    ArrayList<Password> passwords = new ArrayList<>();
-    private boolean totalCountPasswords = true;
-    private boolean uniqueCountPasswords;
+    private final ArrayList<Password> passwords = new ArrayList<>();
+    private final int groupSymbolLength;
+    private final int topGroupSymbolsLength;
+    private final boolean totalCountPasswords;
+    private final boolean uniqueCountPasswords;
+    private final boolean passwordMaxLengthIsSelected;
+    private final boolean passwordAverageLengthIsSelected;
+    private final boolean passwordMinLengthIsSelected;
+    private final boolean topPopularSymbolIsSelected;
+    private final int topPopularSymbolCount;
+    private static final String FONT_FILE_PATH = "src/main/resources/com/treasure_hunter_java/font/Times New Roman.ttf";
+    private static final Logger logger = Logger.getLogger(GenerateReport.class.getName());
+
+
+    public GenerateReport(int groupSymbolLength, int topGroupSymbolsLength, boolean totalCountPasswords,
+                          boolean uniqueCountPasswords, boolean passwordMaxLengthIsSelected,
+                          boolean passwordAverageLengthIsSelected, boolean passwordMinLengthIsSelected,
+                          boolean topPopularSymbolIsSelected, int topPopularSymbolCount) {
+        this.groupSymbolLength = groupSymbolLength;
+        this.topGroupSymbolsLength = topGroupSymbolsLength;
+        this.totalCountPasswords = totalCountPasswords;
+        this.uniqueCountPasswords = uniqueCountPasswords;
+        this.passwordMaxLengthIsSelected = passwordMaxLengthIsSelected;
+        this.passwordAverageLengthIsSelected = passwordAverageLengthIsSelected;
+        this.passwordMinLengthIsSelected = passwordMinLengthIsSelected;
+        this.topPopularSymbolIsSelected = topPopularSymbolIsSelected;
+        this.topPopularSymbolCount = topPopularSymbolCount;
+    }
 
     private void extractPassword(File file){
 
@@ -82,80 +103,111 @@ public class GenerateReport {
 
     public void rocket() throws IOException {
         qwerty();
-        System.out.println(passwords);
         generatePDF();
     }
 
     private void generatePDF() {
         String reportFilePath = Main.mainWorkDirectory + "/report.pdf";
-        try {
-            // Создание PDF-документа
-            PdfWriter pdfWriter = new PdfWriter(reportFilePath);
-            PdfDocument pdfDoc = new PdfDocument(pdfWriter);
-            Document document = new Document(pdfDoc);
+        try (PdfWriter pdfWriter = new PdfWriter(reportFilePath);
+             PdfDocument pdfDoc = new PdfDocument(pdfWriter);
+             Document document = new Document(pdfDoc))
+        {
 
-            PdfFont font = PdfFontFactory.createFont("src/main/resources/com/treasure_hunter_java/font/Times New Roman.ttf");
+            PdfFont font = PdfFontFactory.createFont(FONT_FILE_PATH);
 
             document.setFont(font);
 
-            writeReportInfo(document, font);
+            printReportInfo(document, font);
 
-            writeGeneralInfo(document, passwords);
+            printGeneralInfo(document, passwords, totalCountPasswords);
 
-            writeUniqueCount(document, passwords);
+            printUniqueCount(document, passwords, uniqueCountPasswords);
 
-            writeLengthData(document, passwords);
+            printLengthData(document, passwords);
 
-            writeMostPopularPassword(document, passwords);
+            printMostPopularPassword(document, passwords);
 
-            document.close();
+            printMostPopularSymbolGroup(document, passwords);
 
-            System.out.println("Отчет успешно сохранен в файл: " + reportFilePath);
+            printTopPopularSymbols(document, passwords);
+
+            printTopFrequentCharacters(document, passwords);
+
+            printImage(document);
+
+            logger.info(String.format("Отчет успешно сохранен в файл: %s", reportFilePath));
         } catch (IOException e) {
-            System.out.println("Ошибка при создании отчета: " + e.getMessage());
+            logger.log(Level.SEVERE, "Ошибка при создании отчета", e);
         }
 
     }
-    private static void writeReportInfo(Document document, PdfFont font) {
+    private static void printReportInfo(Document document, PdfFont font) {
         Paragraph paragraph = new Paragraph("Отчет")
                 .setFont(font)
                 .setFontSize(20)
                 .setTextAlignment(TextAlignment.CENTER)
                 .setCharacterSpacing(1);
         document.add(paragraph);
+        document.add(new Paragraph("Данный отчёт был создан автоматической утилитой Treasure Hunter.")
+                .setTextAlignment(TextAlignment.CENTER));
+        document.add(new Paragraph("Общая информация:").setItalic());
         String date = "Дата создания: " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        //String reportInfoText = "Данный отчёт был создан автоматической утилитой Treasure Hunter.";
 
-        //document.add(new Paragraph(reportInfoText).setBold());
-        document.add(new Paragraph(date));
+        document.add(new Paragraph(date).setMarginLeft(20));
+        document.add(new Paragraph("Отчёт собран на основе: " + Main.mainWorkDirectory).setMarginLeft(20));
     }
 
-    private static void writeGeneralInfo(Document document, ArrayList<Password> passwords) {
-        int totalCount = 0;
-        for (Password pas : passwords) {totalCount += pas.getUsageCount();}
-        document.add(new Paragraph("Общая информация:"));
-        document.add(new Paragraph("Total count password: " + totalCount));
+    private static void printGeneralInfo(Document document, ArrayList<Password> passwords, boolean totalCountPasswords) {
+        document.add(new Paragraph("Анализ паролей: ").setItalic());
+        if (totalCountPasswords) {
+            int totalCount = 0;
+            for (Password pas : passwords) {
+                totalCount += pas.getUsageCount();
+            }
+            document.add(new Paragraph("Общее количество найденных паролей: " + totalCount).setMarginLeft(20));
+        }
     }
-    private static void writeUniqueCount(Document document, ArrayList<Password> passwords) throws IOException {
-        long uniqueCount = passwords.stream().distinct().count();
-        document.add(new Paragraph("Unique passwords count: " + uniqueCount));
+    private static void printUniqueCount(Document document, ArrayList<Password> passwords, boolean uniqueCountPasswords) {
+        if (uniqueCountPasswords) {
+            long uniqueCount = passwords.stream().distinct().count();
+            document.add(new Paragraph("Количество уникальных паролей: " + uniqueCount).setMarginLeft(20));
+        }
 
-    }
-
-    private void writeLengthData(Document document, ArrayList<Password> passwords){
-        int maxLength = passwords.stream().mapToInt(Password::getLength).max().orElse(0);
-        double averageLength = passwords.stream().mapToInt(Password::getLength).average().orElse(0);
-        int minLength = passwords.stream().mapToInt(Password::getLength).min().orElse(0);
-
-        document.add(new Paragraph("Максимальная длина найденного пароля: " + maxLength));
-        document.add(new Paragraph("Средняя длина: " + averageLength));
-        document.add(new Paragraph("Минимальная длина: " + minLength));
     }
 
-    private void writeMostPopularPassword(Document document, ArrayList<Password> passwords) {
+    private void printLengthData(Document document, ArrayList<Password> passwords){
+        printMaxLength(document, passwords, passwordMaxLengthIsSelected);
+        printAverageLength(document, passwords, passwordAverageLengthIsSelected);
+        printMinLength(document, passwords, passwordMinLengthIsSelected);
+    }
+
+    private void printMaxLength(Document document, ArrayList<Password> passwords, boolean maxLengthIsSelected){
+        if (maxLengthIsSelected){
+            int maxLength = passwords.stream().mapToInt(Password::getLength).max().orElse(0);
+            document.add(new Paragraph("Максимальная длина найденного пароля: " + maxLength).setMarginLeft(20));
+        }
+    }
+
+    private void printAverageLength(Document document, ArrayList<Password> passwords, boolean averageLengthIsSelected){
+        if (averageLengthIsSelected){
+            double averageLength = round(passwords.stream().mapToInt(Password::getLength).average().orElse(0));
+            document.add(new Paragraph("Средняя длина: " + averageLength).setMarginLeft(20));
+        }
+    }
+
+    private void printMinLength(Document document, ArrayList<Password> passwords, boolean minLengthIsSelected){
+        if (minLengthIsSelected){
+            int minLength = passwords.stream().mapToInt(Password::getLength).min().orElse(0);
+            document.add(new Paragraph("Минимальная длина: " + minLength).setMarginLeft(20));
+        }
+    }
+
+    private void printMostPopularPassword(Document document, ArrayList<Password> passwords) {
         String pass = "";
         int usageCount = 0;
+        int totalCount = 0;
         for (Password password : passwords) {
+            totalCount += password.getUsageCount();
             if (password.getUsageCount() > usageCount) {
 
                 pass = password.getPassword();
@@ -163,8 +215,142 @@ public class GenerateReport {
 
             }
         }
-        document.add(new Paragraph("Самый распространённый пароль: " + pass +
-                " Использован: " + usageCount));
+        document.add(new Paragraph("Самый распространённый пароль: " + pass + " Использован: " + usageCount + " (" +
+                round((double) usageCount / totalCount * 100) + "%)").setMarginLeft(20));
+    }
+
+    private void printMostPopularSymbolGroup(Document document, ArrayList<Password> passwords) {
+        Map<String, Integer> occurrences = new HashMap<>();
+
+        for (Password password : passwords) {
+            String passwordValue = password.getPassword();
+            for (int i = 0; i <= passwordValue.length() - groupSymbolLength; i++) {
+                String substring = passwordValue.substring(i, i + groupSymbolLength);
+                occurrences.put(substring, occurrences.getOrDefault(substring, 0) + password.getUsageCount());
+            }
+        }
+
+        String mostCommonSubstring = "";
+        int maxOccurrences = 0;
+        for (Map.Entry<String, Integer> entry : occurrences.entrySet()) {
+            if (entry.getValue() > maxOccurrences) {
+                mostCommonSubstring = entry.getKey();
+                maxOccurrences = entry.getValue();
+            }
+        }
+
+        document.add(new Paragraph("Самая популярная группа символов (длина не менее двух символов): "
+                                    + mostCommonSubstring).setMarginLeft(20));
+        printTopOccurrencesByCategory(occurrences, document);
+    }
+
+    public void printTopOccurrencesByCategory(Map<String, Integer> occurrences, Document document) {
+        List<Map.Entry<String, Integer>> digitOccurrences = new ArrayList<>();
+        List<Map.Entry<String, Integer>> nonDigitOccurrences = new ArrayList<>();
+
+        for (Map.Entry<String, Integer> entry : occurrences.entrySet()) {
+            String substring = entry.getKey();
+            if (substring.matches("\\d+")) {
+                digitOccurrences.add(entry);
+            } else {
+                nonDigitOccurrences.add(entry);
+            }
+        }
+
+        digitOccurrences.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
+        nonDigitOccurrences.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
+
+        document.add(new Paragraph("Самые популярные группы из цифр:").setItalic());
+        int count = 0;
+        for (Map.Entry<String, Integer> entry : digitOccurrences) {
+            if (count >= topGroupSymbolsLength) {
+                break;
+            }
+            String substring = entry.getKey();
+            int frequency = entry.getValue();
+            document.add(new Paragraph(substring + ": " + frequency).setMarginLeft(20));
+            count++;
+        }
+        count = 0;
+        document.add(new Paragraph("Самые популярные группы из не цифр: ").setItalic());
+        for (Map.Entry<String, Integer> entry : nonDigitOccurrences) {
+            if (count >= topGroupSymbolsLength) {
+                break;
+            }
+            String substring = entry.getKey();
+            int frequency = entry.getValue();
+            document.add(new Paragraph(substring + ": " + frequency).setMarginLeft(20));
+            count++;
+        }
+    }
+
+    public static void printTopOccurrences(Map<String, Integer> occurrences) {
+        List<Map.Entry<String, Integer>> sortedOccurrences = new ArrayList<>(occurrences.entrySet());
+
+        sortedOccurrences.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
+
+        int count = 0;
+        for (Map.Entry<String, Integer> entry : sortedOccurrences) {
+            if (count >= 25) {
+                break;
+            }
+            String substring = entry.getKey();
+            int frequency = entry.getValue();
+            count++;
+        }
+    }
+
+    private void printTopPopularSymbols(Document document, ArrayList<Password> passwords){
+        if (topPopularSymbolIsSelected) {
+            Map<Character, Integer> charOccurrences = new HashMap<>();
+
+            for (Password password : passwords) {
+                for (char c : password.getPassword().toCharArray()) {
+                    charOccurrences.put(c, charOccurrences.getOrDefault(c, 0) + 1);
+                }
+            }
+
+            char mostFrequentChar = ' ';
+            int maxOccurrences = 0;
+            for (Map.Entry<Character, Integer> entry : charOccurrences.entrySet()) {
+                if (entry.getValue() > maxOccurrences) {
+                    mostFrequentChar = entry.getKey();
+                    maxOccurrences = entry.getValue();
+                }
+
+            }
+
+            document.add(new Paragraph("Самый популярный символ: " + mostFrequentChar));
+        }
+    }
+
+    public void printTopFrequentCharacters(Document document, ArrayList<Password> passwords) {
+        Map<Character, Integer> charOccurrences = new HashMap<>();
+
+        for (Password password : passwords) {
+            for (char c : password.getPassword().toCharArray()) {
+                charOccurrences.put(c, charOccurrences.getOrDefault(c, 0) + 1);
+            }
+        }
+
+        List<Map.Entry<Character, Integer>> sortedEntries = new ArrayList<>(charOccurrences.entrySet());
+        sortedEntries.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
+
+        int count = 0;
+        for (Map.Entry<Character, Integer> entry : sortedEntries) {
+            if (count >= topPopularSymbolCount) {
+                break;
+            }
+            char c = entry.getKey();
+            int occurrences = entry.getValue();
+            document.add(new Paragraph("Символ: " + c + ". Использован: " + occurrences));
+            count++;
+        }
+    }
+
+    private void printImage(Document document) throws MalformedURLException {
+        ImageData imageData = ImageDataFactory.create("src/main/resources/com/treasure_hunter_java/images/Печать.png");
+        document.add(new Image(imageData).setHeight(128).setWidth(128).setFixedPosition(400, 50));
     }
 
 }
