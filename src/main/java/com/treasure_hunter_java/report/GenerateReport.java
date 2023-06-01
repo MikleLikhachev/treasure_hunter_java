@@ -1,6 +1,8 @@
 package com.treasure_hunter_java.report;
 
+import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Image;
+import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.properties.TextAlignment;
 import com.treasure_hunter_java.Main;
 import com.treasure_hunter_java.dictionary.Password;
@@ -36,6 +38,8 @@ public class GenerateReport {
     private final boolean passwordMaxLengthIsSelected;
     private final boolean passwordAverageLengthIsSelected;
     private final boolean passwordMinLengthIsSelected;
+    private final boolean mostPopularGroupSymbols;
+    private final int topPopularGroupSymbolCount;
     private final boolean topPopularSymbolIsSelected;
     private final int topPopularSymbolCount;
     private static final String FONT_FILE_PATH = "src/main/resources/com/treasure_hunter_java/font/Times New Roman.ttf";
@@ -45,6 +49,7 @@ public class GenerateReport {
     public GenerateReport(int groupSymbolLength, int topGroupSymbolsLength, boolean totalCountPasswords,
                           boolean uniqueCountPasswords, boolean passwordMaxLengthIsSelected,
                           boolean passwordAverageLengthIsSelected, boolean passwordMinLengthIsSelected,
+                          boolean mostPopularGroupSymbols, int topPopularGroupSymbolCount,
                           boolean topPopularSymbolIsSelected, int topPopularSymbolCount) {
         this.groupSymbolLength = groupSymbolLength;
         this.topGroupSymbolsLength = topGroupSymbolsLength;
@@ -53,6 +58,8 @@ public class GenerateReport {
         this.passwordMaxLengthIsSelected = passwordMaxLengthIsSelected;
         this.passwordAverageLengthIsSelected = passwordAverageLengthIsSelected;
         this.passwordMinLengthIsSelected = passwordMinLengthIsSelected;
+        this.mostPopularGroupSymbols = mostPopularGroupSymbols;
+        this.topPopularGroupSymbolCount = topPopularGroupSymbolCount;
         this.topPopularSymbolIsSelected = topPopularSymbolIsSelected;
         this.topPopularSymbolCount = topPopularSymbolCount;
     }
@@ -74,7 +81,7 @@ public class GenerateReport {
                     Password currentPassword = foundPassword.get();
                     currentPassword.increaseCountUsed();
                 } else {
-                    passwords.add(new Password(password)); /// Разобраться, почему не работает без public
+                    passwords.add(new Password(password));
                 }
 
             }
@@ -83,7 +90,7 @@ public class GenerateReport {
         }
     }
 
-    private void qwerty() throws IOException{
+    private void collectPasswords() throws IOException{
         Files.walkFileTree(directory, new SimpleFileVisitor<>() {
             @Override
             public FileVisitResult visitFile(Path filePath, BasicFileAttributes attrs) throws IOException {
@@ -102,7 +109,7 @@ public class GenerateReport {
     }
 
     public void rocket() throws IOException {
-        qwerty();
+        collectPasswords();
         generatePDF();
     }
 
@@ -220,6 +227,7 @@ public class GenerateReport {
     }
 
     private void printMostPopularSymbolGroup(Document document, ArrayList<Password> passwords) {
+        if (!this.mostPopularGroupSymbols) {return;}
         Map<String, Integer> occurrences = new HashMap<>();
 
         for (Password password : passwords) {
@@ -239,7 +247,7 @@ public class GenerateReport {
             }
         }
 
-        document.add(new Paragraph("Самая популярная группа символов (длина не менее двух символов): "
+        document.add(new Paragraph("Самая популярная группа символов (Длины: " + groupSymbolLength + "): "
                                     + mostCommonSubstring).setMarginLeft(20));
         printTopOccurrencesByCategory(occurrences, document);
     }
@@ -261,63 +269,29 @@ public class GenerateReport {
         nonDigitOccurrences.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
 
         document.add(new Paragraph("Самые популярные группы из цифр:").setItalic());
-        int count = 0;
-        for (Map.Entry<String, Integer> entry : digitOccurrences) {
-            if (count >= topGroupSymbolsLength) {
-                break;
-            }
-            String substring = entry.getKey();
-            int frequency = entry.getValue();
-            document.add(new Paragraph(substring + ": " + frequency).setMarginLeft(20));
-            count++;
-        }
-        count = 0;
+
+        printTable(document, digitOccurrences, topPopularGroupSymbolCount, "Password");
         document.add(new Paragraph("Самые популярные группы из не цифр: ").setItalic());
-        for (Map.Entry<String, Integer> entry : nonDigitOccurrences) {
-            if (count >= topGroupSymbolsLength) {
-                break;
-            }
-            String substring = entry.getKey();
-            int frequency = entry.getValue();
-            document.add(new Paragraph(substring + ": " + frequency).setMarginLeft(20));
-            count++;
-        }
-    }
-
-    public static void printTopOccurrences(Map<String, Integer> occurrences) {
-        List<Map.Entry<String, Integer>> sortedOccurrences = new ArrayList<>(occurrences.entrySet());
-
-        sortedOccurrences.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
-
-        int count = 0;
-        for (Map.Entry<String, Integer> entry : sortedOccurrences) {
-            if (count >= 25) {
-                break;
-            }
-            String substring = entry.getKey();
-            int frequency = entry.getValue();
-            count++;
-        }
+        printTable(document, nonDigitOccurrences, topPopularGroupSymbolCount, "Password");
     }
 
     private void printTopPopularSymbols(Document document, ArrayList<Password> passwords){
         if (topPopularSymbolIsSelected) {
-            Map<Character, Integer> charOccurrences = new HashMap<>();
+            Map<String, Integer> charOccurrences = new HashMap<>();
 
             for (Password password : passwords) {
-                for (char c : password.getPassword().toCharArray()) {
-                    charOccurrences.put(c, charOccurrences.getOrDefault(c, 0) + 1);
+                for (String character : password.getPassword().split("")) {
+                    charOccurrences.put(character, charOccurrences.getOrDefault(character, 0) + 1);
                 }
             }
 
-            char mostFrequentChar = ' ';
+            String mostFrequentChar = "";
             int maxOccurrences = 0;
-            for (Map.Entry<Character, Integer> entry : charOccurrences.entrySet()) {
+            for (Map.Entry<String, Integer> entry : charOccurrences.entrySet()) {
                 if (entry.getValue() > maxOccurrences) {
                     mostFrequentChar = entry.getKey();
                     maxOccurrences = entry.getValue();
                 }
-
             }
 
             document.add(new Paragraph("Самый популярный символ: " + mostFrequentChar));
@@ -325,27 +299,54 @@ public class GenerateReport {
     }
 
     public void printTopFrequentCharacters(Document document, ArrayList<Password> passwords) {
-        Map<Character, Integer> charOccurrences = new HashMap<>();
+        if (!topPopularSymbolIsSelected) {
+            return;
+        }
+
+        Map<String, Integer> charOccurrences = new HashMap<>();
 
         for (Password password : passwords) {
-            for (char c : password.getPassword().toCharArray()) {
-                charOccurrences.put(c, charOccurrences.getOrDefault(c, 0) + 1);
+            for (String character : password.getPassword().split("")) {
+                charOccurrences.put(character, charOccurrences.getOrDefault(character, 0) + 1);
             }
         }
 
-        List<Map.Entry<Character, Integer>> sortedEntries = new ArrayList<>(charOccurrences.entrySet());
+        List<Map.Entry<String, Integer>> sortedEntries = new ArrayList<>(charOccurrences.entrySet());
         sortedEntries.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
 
+        printTable(document, sortedEntries, topPopularSymbolCount, "Symbol");
+    }
+
+    private void printTable(Document document, List<Map.Entry<String, Integer>> sortedEntries, int countString,
+                            String mode){
+        Table table = new Table(2);
+        if (mode.equals("Password")){
+            table.addCell(new Cell().add(new Paragraph("Пароль")));
+        } else {
+            table.addCell(new Cell().add(new Paragraph("Символ")));
+        }
+        table.addCell(new Cell().add(new Paragraph("Количество повторений")));
+
         int count = 0;
-        for (Map.Entry<Character, Integer> entry : sortedEntries) {
-            if (count >= topPopularSymbolCount) {
+
+        for (Map.Entry<String, Integer> entry : sortedEntries) {
+            if (count >= countString) {
                 break;
             }
-            char c = entry.getKey();
+
+            String c = entry.getKey();
             int occurrences = entry.getValue();
-            document.add(new Paragraph("Символ: " + c + ". Использован: " + occurrences));
+
+            Cell charCell = new Cell().add(new Paragraph(String.valueOf(c)));
+            Cell countCell = new Cell().add(new Paragraph(String.valueOf(occurrences)));
+
+            table.addCell(charCell);
+            table.addCell(countCell);
+
             count++;
         }
+
+        document.add(table);
     }
 
     private void printImage(Document document) throws MalformedURLException {
