@@ -146,7 +146,6 @@ public class GenerateReport {
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Ошибка при создании отчета", e);
         }
-
     }
     private static void printReportInfo(Document document, PdfFont font) {
         Paragraph paragraph = new Paragraph("Отчет")
@@ -179,7 +178,6 @@ public class GenerateReport {
             long uniqueCount = passwords.stream().distinct().count();
             document.add(new Paragraph("Количество уникальных паролей: " + uniqueCount).setMarginLeft(20));
         }
-
     }
 
     private void printLengthData(Document document, ArrayList<Password> passwords){
@@ -238,17 +236,8 @@ public class GenerateReport {
             }
         }
 
-        String mostCommonSubstring = "";
-        int maxOccurrences = 0;
-        for (Map.Entry<String, Integer> entry : occurrences.entrySet()) {
-            if (entry.getValue() > maxOccurrences) {
-                mostCommonSubstring = entry.getKey();
-                maxOccurrences = entry.getValue();
-            }
-        }
-
         document.add(new Paragraph("Самая популярная группа символов (Длины: " + groupSymbolLength + "): "
-                                    + mostCommonSubstring).setMarginLeft(20));
+                                    + searchSubstring(occurrences)).setMarginLeft(20));
         printTopOccurrencesByCategory(occurrences, document);
     }
 
@@ -285,23 +274,25 @@ public class GenerateReport {
                 }
             }
 
-            String mostFrequentChar = "";
-            int maxOccurrences = 0;
-            for (Map.Entry<String, Integer> entry : charOccurrences.entrySet()) {
-                if (entry.getValue() > maxOccurrences) {
-                    mostFrequentChar = entry.getKey();
-                    maxOccurrences = entry.getValue();
-                }
-            }
-
-            document.add(new Paragraph("Самый популярный символ: " + mostFrequentChar));
+            document.add(new Paragraph("Самый популярный символ: " + searchSubstring(charOccurrences)));
         }
     }
 
-    public void printTopFrequentCharacters(Document document, ArrayList<Password> passwords) {
-        if (!topPopularSymbolIsSelected) {
-            return;
+    private String searchSubstring(Map<String, Integer> charOccurrences) {
+        String mostFrequentChar = "";
+        int maxOccurrences = 0;
+        for (Map.Entry<String, Integer> entry : charOccurrences.entrySet()) {
+            if (entry.getValue() > maxOccurrences) {
+                mostFrequentChar = entry.getKey();
+                maxOccurrences = entry.getValue();
+            }
         }
+
+        return mostFrequentChar;
+    }
+
+    public void printTopFrequentCharacters(Document document, ArrayList<Password> passwords) {
+        if (!topPopularSymbolIsSelected) {return;}
 
         Map<String, Integer> charOccurrences = new HashMap<>();
 
@@ -320,10 +311,10 @@ public class GenerateReport {
     private void printTable(Document document, List<Map.Entry<String, Integer>> sortedEntries, int countString,
                             String mode){
         Table table = new Table(2);
-        if (mode.equals("Password")){
-            table.addCell(new Cell().add(new Paragraph("Пароль")));
-        } else {
+        if (mode.equals("Symbol")){
             table.addCell(new Cell().add(new Paragraph("Символ")));
+        } else {
+            table.addCell(new Cell().add(new Paragraph("Пароль")));
         }
         table.addCell(new Cell().add(new Paragraph("Количество повторений")));
 
