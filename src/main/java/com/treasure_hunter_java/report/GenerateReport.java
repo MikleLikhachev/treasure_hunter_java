@@ -45,22 +45,17 @@ public class GenerateReport {
     private static final Logger logger = Logger.getLogger(GenerateReport.class.getName());
 
 
-    public GenerateReport(int groupSymbolLength, int topGroupSymbolsLength, boolean totalCountPasswords,
-                          boolean uniqueCountPasswords, boolean passwordMaxLengthIsSelected,
-                          boolean passwordAverageLengthIsSelected, boolean passwordMinLengthIsSelected,
-                          boolean mostPopularGroupSymbols, int topPopularGroupSymbolCount,
-                          boolean topPopularSymbolIsSelected, int topPopularSymbolCount) {
-        this.groupSymbolLength = groupSymbolLength;
-        //this.topGroupSymbolsLength = topGroupSymbolsLength;
-        this.totalCountPasswords = totalCountPasswords;
-        this.uniqueCountPasswords = uniqueCountPasswords;
-        this.passwordMaxLengthIsSelected = passwordMaxLengthIsSelected;
-        this.passwordAverageLengthIsSelected = passwordAverageLengthIsSelected;
-        this.passwordMinLengthIsSelected = passwordMinLengthIsSelected;
-        this.mostPopularGroupSymbols = mostPopularGroupSymbols;
-        this.topPopularGroupSymbolCount = topPopularGroupSymbolCount;
-        this.topPopularSymbolIsSelected = topPopularSymbolIsSelected;
-        this.topPopularSymbolCount = topPopularSymbolCount;
+    public GenerateReport(GenerateReportBuilder builder) {
+        this.groupSymbolLength = builder.groupSymbolLength;
+        this.totalCountPasswords = builder.totalCountPasswords;
+        this.uniqueCountPasswords = builder.uniqueCountPasswords;
+        this.passwordMaxLengthIsSelected = builder.passwordMaxLengthIsSelected;
+        this.passwordAverageLengthIsSelected = builder.passwordAverageLengthIsSelected;
+        this.passwordMinLengthIsSelected = builder.passwordMinLengthIsSelected;
+        this.mostPopularGroupSymbols = builder.mostPopularGroupSymbols;
+        this.topPopularGroupSymbolCount = builder.topPopularGroupSymbolCount;
+        this.topPopularSymbolIsSelected = builder.topPopularSymbolIsSelected;
+        this.topPopularSymbolCount = builder.topPopularSymbolCount;
     }
 
     private void extractPassword(File file){
@@ -209,15 +204,15 @@ public class GenerateReport {
     private void printMostPopularPassword(Document document, ArrayList<Password> passwords) {
         String pass = "";
         int usageCount = 0;
-        int totalCount = 0;
+        int totalCount = passwords.size();
         for (Password password : passwords) {
-            totalCount += password.getUsageCount();
+            totalCount += (password.getUsageCount() - 1);
             if (password.getUsageCount() > usageCount) {
 
                 pass = password.getPassword();
                 usageCount = password.getUsageCount();
 
-            } else {usageCount = 1;}
+            }
         }
         document.add(new Paragraph("Самый распространённый пароль: " + pass + " Использован: " + usageCount + " (" +
                 round((double) usageCount / totalCount * 100) + "%)").setMarginLeft(20));

@@ -12,7 +12,6 @@ import java.io.File;
 public class TelegramBotFileSender extends TelegramLongPollingBot {
     private final String token;
     private final String chatId;
-    private String text;
 
     public TelegramBotFileSender(String token, String chatId){
         this.token = token;
@@ -21,7 +20,7 @@ public class TelegramBotFileSender extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        //q
+
     }
 
     public void sendFile(String filePath) {

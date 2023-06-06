@@ -122,6 +122,6 @@
       <TextField fx:id="token" layoutX="290.0" layoutY="74.0" promptText="TOKEN" />
       <TextField fx:id="chatId" layoutX="490.0" layoutY="74.0" promptText="CHAT_ID" />
       <Button fx:id="selectFile" layoutX="415.0" layoutY="331.0" mnemonicParsing="false" onAction="#onSelectFileButtonClick" text="Выбрать файлы" />
-      <TextArea layoutX="366.0" layoutY="117.0" prefHeight="200.0" prefWidth="200.0" promptText="Введите сообщение" />
+      <TextArea fx:id="textArea" layoutX="366.0" layoutY="117.0" prefHeight="200.0" prefWidth="200.0" promptText="Введите сообщение" />
    </children>
 </AnchorPane>

@@ -1,19 +1,19 @@
 package com.treasure_hunter_java.dictionary;
 
 import com.treasure_hunter_java.Main;
+import com.treasure_hunter_java.controllers.Controller;
+import javafx.scene.control.Alert;
 
 import java.io.*;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
-import java.util.regex.Pattern;
 
 public class GenerateDictionary {
 
     private ArrayList<Password> passwords = new ArrayList<>();
-    public Path dictionaryForCombining;
+    private Path dictionaryForCombining;
 
-    private boolean strictFilter;
     private boolean googleChromeIsSelected;
     private boolean operaIsSelected;
     private boolean chromiumIsSelected;
@@ -88,12 +88,12 @@ public class GenerateDictionary {
         this.atomIsSelected = atomIsSelected;
     }
 
-    public void setStrictFilterIsSelected(boolean strictFilterIsSelected){
-        this.strictFilter = strictFilterIsSelected;
-    }
-
     public void setDictionaryForCombiningIsSelected(boolean directoryForCombiningIsSelected){
         this.directoryForCombiningIsSelected = directoryForCombiningIsSelected;
+    }
+
+    public void setDictionaryForCombining(Path path){
+        this.dictionaryForCombining = path;
     }
 
     private String generateNameForDictionary(Filter filter) {
@@ -161,7 +161,7 @@ public class GenerateDictionary {
 
                 @Override
                 public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
-                    System.err.println("Failed to access file: " + file);
+                    Controller.showDialog("Failed to access file:" + file, Alert.AlertType.ERROR);
                     return FileVisitResult.CONTINUE;
                 }
             });

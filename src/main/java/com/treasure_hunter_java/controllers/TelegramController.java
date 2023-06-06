@@ -3,43 +3,13 @@ package com.treasure_hunter_java.controllers;
 import com.treasure_hunter_java.telegram.TelegramBotFileSender;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-import jfxtras.styles.jmetro.JMetro;
-import jfxtras.styles.jmetro.Style;
-
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Objects;
+
 
 public class TelegramController extends Controller{
-
-    @FXML
-    private Button searchPasswordsButton;
-
-    @FXML
-    private Button generateDictionaryButton;
-
-    @FXML
-    private Button reportButton;
-
-    @FXML
-    private Button zipButton;
-
-    @FXML
-    private Button telegramButton;
-
-    @FXML
-    private Button selectDirectoryButton;
-
-    @FXML
-    private Button start;
 
     @FXML
     private TextField token;
@@ -48,36 +18,35 @@ public class TelegramController extends Controller{
     private TextField chatId;
 
     @FXML
-    private Button selectFile;
-
-    @FXML
     private TextArea textArea;
 
     private String selectedFile;
 
+    @Override
     @FXML
     protected void onSearchPasswordsButtonClick() throws IOException {
         super.onSearchPasswordsButtonClick();
     }
 
+    @Override
     @FXML
-    protected void GenerateDictionaryButtonClick() throws IOException {
+    protected void onGenerateDictionaryButtonClick() throws IOException {
         super.onGenerateDictionaryButtonClick();
     }
 
+    @Override
     @FXML
-    protected void onReportButtonClick() throws Exception {
+    protected void onReportButtonClick() throws IOException {
         super.onReportButtonClick();
     }
 
+    @Override
     @FXML
     protected void onZipButtonClick() throws IOException {
         super.onZipButtonClick();
     }
 
-    @FXML
-    protected void onTelegramButtonClick() throws IOException {}
-
+    @Override
     @FXML
     protected void onSelectDirectoryButtonClick() {
 
@@ -97,7 +66,7 @@ public class TelegramController extends Controller{
 
 
     @FXML
-    public void onStartButtonClick(ActionEvent actionEvent) throws IOException {
+    public void onStartButtonClick(ActionEvent actionEvent) {
         TelegramBotFileSender telegramBotFileSender = new TelegramBotFileSender(token.getText(), chatId.getText());
         telegramBotFileSender.sendFile(selectedFile);
         if(!textArea.getText().isEmpty()){

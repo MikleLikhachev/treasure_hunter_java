@@ -1,10 +1,9 @@
 package com.treasure_hunter_java.browsers;
 
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
-public class Chromium {
+public class Chromium extends Browser{
 
     Path dirName = Path.of("C:/Users/Mikle/AppData/Local/Chromium/User Data/");
 
@@ -13,22 +12,11 @@ public class Chromium {
     ArrayList<Path> profiles = new ArrayList<>();
 
     public void collectProfiles() {
-
-        for (int i = 1; i < 10; i++) {
-            Path path = Path.of(dirName + "/Profile " + i);
-            if (Files.exists(path)) {
-                profiles.add(path);
-            } else if (Files.exists(Path.of(dirName + "/Default"))) {
-                profiles.add(Path.of(dirName + "/Default"));
-            }
-        }
-
-        if (profiles.isEmpty()) {
-            profiles.add(Path.of(dirName + ""));
-        }
-
+        super.collectProfiles(dirName);
+        profiles = super.getProfiles();
     }
 
+    @Override
     public ArrayList<Path> getProfiles() {
         return profiles;
     }

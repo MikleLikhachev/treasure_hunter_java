@@ -24,6 +24,7 @@ public class Main extends Application {
         JMetro jMetro = new JMetro(root, Style.LIGHT);
         Scene scene = new Scene(root, 750, 500);
         primaryStage.setScene(scene);
+        jMetro.setScene(primaryStage.getScene());
         primaryStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("icons/icon.png"))));
         primaryStage.show();
 

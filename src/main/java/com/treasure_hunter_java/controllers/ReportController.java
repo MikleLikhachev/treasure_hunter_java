@@ -1,6 +1,7 @@
 package com.treasure_hunter_java.controllers;
 
 import com.treasure_hunter_java.report.GenerateReport;
+import com.treasure_hunter_java.report.GenerateReportBuilder;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
@@ -32,12 +33,6 @@ public class ReportController extends Controller{
     protected CheckBox passwordMinLength;
 
     @FXML
-    protected CheckBox mostPopularPassword;
-
-    @FXML
-    protected CheckBox HowManyTimesMostPopularPasswordWasUsed;
-
-    @FXML
     protected CheckBox mostPopularSymbols;
 
     @FXML
@@ -61,45 +56,52 @@ public class ReportController extends Controller{
     @FXML
     protected Slider topPopularSymbolCount;
 
+    @Override
     @FXML
     protected void onSearchPasswordsButtonClick() throws IOException {
         super.onSearchPasswordsButtonClick();
     }
 
+    @Override
     @FXML
-    protected void GenerateDictionaryButtonClick() throws IOException {
+    protected void onGenerateDictionaryButtonClick() throws IOException {
         super.onGenerateDictionaryButtonClick();
     }
 
-    @FXML
-    protected void onReportButtonClick() throws Exception {
-
-    }
-
+    @Override
     @FXML
     protected void onZipButtonClick() throws IOException {
         super.onZipButtonClick();
     }
 
+    @Override
     @FXML
     protected void onTelegramButtonClick() throws IOException {
         super.onTelegramButtonClick();
     }
 
+    @Override
     @FXML
     protected void onSelectDirectoryButtonClick() {
         super.onSelectDirectoryButtonClick();
     }
 
+
     @FXML
     public void onStartButtonClick(ActionEvent actionEvent) throws IOException {
 
-        GenerateReport generateReport = new GenerateReport((int) groupSymbolLength.getValue(),
-                (int) topGroupSymbolsLength.getValue(), totalPasswordCount.isSelected(), uniquePasswordCount.isSelected(),
-                passwordMaxLength.isSelected(), passwordAverageLength.isSelected(), passwordMinLength.isSelected(),
-                mostPopularGroupSymbols.isSelected(), (int) topGroupSymbolsLength.getValue(),
-                topPopularSymbol.isSelected(), (int) topPopularSymbolCount.getValue());
-        generateReport.rocket();
+        GenerateReport report = new GenerateReportBuilder((int) groupSymbolLength.getValue())
+                .totalCountPasswords(totalPasswordCount.isSelected())
+                .uniqueCountPasswords(uniquePasswordCount.isSelected())
+                .passwordMaxLengthIsSelected(passwordMaxLength.isSelected())
+                .passwordAverageLengthIsSelected(passwordAverageLength.isSelected())
+                .passwordMinLengthIsSelected(passwordMinLength.isSelected())
+                .mostPopularGroupSymbols(mostPopularGroupSymbols.isSelected())
+                .topPopularGroupSymbolCount((int) topGroupSymbolsLength.getValue())
+                .topPopularSymbolIsSelected(topPopularSymbol.isSelected())
+                .topPopularSymbolCount((int) topPopularSymbolCount.getValue())
+                .build();
+        report.rocket();
     }
 
     @FXML

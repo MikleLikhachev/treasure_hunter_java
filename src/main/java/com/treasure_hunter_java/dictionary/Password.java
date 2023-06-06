@@ -12,7 +12,7 @@ public class Password {
 
     private final int countSmallLetters;
 
-    private int countUsed = 1;
+    private int countUsed = 0;
 
     private final String password;
 

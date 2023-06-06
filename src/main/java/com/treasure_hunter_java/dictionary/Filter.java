@@ -1,7 +1,5 @@
 package com.treasure_hunter_java.dictionary;
 
-import java.util.regex.Pattern;
-
 public class Filter {
 
     private boolean isStrict;
@@ -39,7 +37,7 @@ public class Filter {
 
     public Filter() {}
 
-    public Filter(boolean isStrict, boolean isContainsCapitalLetters, boolean isContainsSmallLetters, boolean isContainsDigits,
+    /*public Filter(boolean isStrict, boolean isContainsCapitalLetters, boolean isContainsSmallLetters, boolean isContainsDigits,
                   boolean isContainsSpecialSign, boolean isContainsSpace, int minLength, int maxLength,
                   int minCountDigits, int maxCountDigits, int minCountSpecialSign, int maxCountSpecialSign,
                   int minCountCapitalLetters, int maxCountCapitalLetters, int minCountSmallLetters,
@@ -62,6 +60,26 @@ public class Filter {
         this.minCountSmallLetters = minCountSmallLetters;
         this.maxCountSmallLetters = maxCountSmallLetters;
         this.mask = mask;
+    }*/
+
+    public Filter(FilterBuilder filterBuilder) {
+        this.isStrict = filterBuilder.isStrict;
+        this.isContainsCapitalLetters = filterBuilder.isContainsCapitalLetters;
+        this.isContainsSmallLetters = filterBuilder.isContainsSmallLetters;
+        this.isContainsDigits = filterBuilder.isContainsDigits;
+        this.isContainsSpecialSign = filterBuilder.isContainsSpecialSign;
+        this.isContainsSpace = filterBuilder.isContainsSpace;
+        this.minLength = filterBuilder.minLength;
+        this.maxLength = filterBuilder.maxLength;
+        this.minCountDigits = filterBuilder.minCountDigits;
+        this.maxCountDigits = filterBuilder.maxCountDigits;
+        this.minCountSpecialSign = filterBuilder.minCountSpecialSign;
+        this.maxCountSpecialSign = filterBuilder.maxCountSpecialSign;
+        this.minCountCapitalLetters = filterBuilder.minCountCapitalLetters;
+        this.maxCountCapitalLetters = filterBuilder.maxCountCapitalLetters;
+        this.minCountSmallLetters = filterBuilder.minCountSmallLetters;
+        this.maxCountSmallLetters = filterBuilder.maxCountSmallLetters;
+        this.mask = filterBuilder.mask;
     }
 
     public boolean isStrict(){return isStrict;}

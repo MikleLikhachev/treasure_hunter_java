@@ -50,14 +50,13 @@ public class Controller implements Initializable {
     @FXML
     protected void onGenerateDictionaryButtonClick() throws IOException {
 
-        DictionaryController dictionaryController = new DictionaryController();
         setScene(generateDictionaryButton, "/com/treasure_hunter_java/fxml/DictionaryScene.fxml");
     }
 
     @FXML
-    protected void onReportButtonClick() throws Exception {
-        setScene(zipButton, "/com/treasure_hunter_java/fxml/ReportScene.fxml");
+    protected void onReportButtonClick() throws IOException {
 
+        setScene(zipButton, "/com/treasure_hunter_java/fxml/ReportScene.fxml");
     }
 
     @FXML
@@ -70,7 +69,6 @@ public class Controller implements Initializable {
         } else {
             showDialog("Выберите папку для архивации!", Alert.AlertType.ERROR);
         }
-        //setScene(zipButton, "/com/treasure_hunter_java/fxml/ArchiveScene.fxml");
     }
 
     @FXML
@@ -100,11 +98,10 @@ public class Controller implements Initializable {
         Scene scene = new Scene(root, 750, 500);
         currentStage.setScene(scene);
         jMetro.setScene(currentStage.getScene());
-        //currentStage.show();
 
     }
 
-    protected void showDialog(String contentText, Alert.AlertType alertType) {
+    public static void showDialog(String contentText, Alert.AlertType alertType) {
         String title = "Treasure hunter";
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
@@ -112,7 +109,7 @@ public class Controller implements Initializable {
 
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
         stage.getIcons().add(new Image(Objects.requireNonNull(
-                getClass().getResourceAsStream("/com/treasure_hunter_java/icons/icon.png"))));
+                Controller.class.getResourceAsStream("/com/treasure_hunter_java/icons/icon.png"))));
 
         alert.showAndWait();
     }

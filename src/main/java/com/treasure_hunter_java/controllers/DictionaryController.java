@@ -1,6 +1,7 @@
 package com.treasure_hunter_java.controllers;
 
 import com.treasure_hunter_java.dictionary.Filter;
+import com.treasure_hunter_java.dictionary.FilterBuilder;
 import com.treasure_hunter_java.dictionary.GenerateDictionary;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,12 +18,6 @@ import java.util.Objects;
 public class DictionaryController extends Controller{
 
     private final GenerateDictionary dictionary = new GenerateDictionary();
-
-    @FXML
-    private Button searchPasswordsButton;
-
-    @FXML
-    private Button generateDictionaryButton;
 
     @FXML
     private CheckBox combiningDictionaries;
@@ -93,45 +88,33 @@ public class DictionaryController extends Controller{
     @FXML
     private TextField mask;
 
-    @FXML
-    private Button reportButton;
 
     @FXML
-    private Button zipButton;
-
-    @FXML
-    private Button telegramButton;
-
-    @FXML
-    private Button selectDirectoryButton;
-
-    @FXML
-    private Button start;
-
-    @FXML
+    @Override
     protected void onSearchPasswordsButtonClick() throws IOException {
         super.onSearchPasswordsButtonClick();
     }
 
     @FXML
-    protected void GenerateDictionaryButtonClick() throws IOException {}
-
-    @FXML
-    protected void onReportButtonClick() throws Exception {
+    @Override
+    protected void onReportButtonClick() throws IOException {
         super.onReportButtonClick();
     }
 
     @FXML
+    @Override
     protected void onZipButtonClick() throws IOException {
         super.onZipButtonClick();
     }
 
     @FXML
+    @Override
     protected void onTelegramButtonClick() throws IOException {
         super.onTelegramButtonClick();
     }
 
     @FXML
+    @Override
     protected void onSelectDirectoryButtonClick() {
         super.onSelectDirectoryButtonClick();
     }
@@ -139,19 +122,29 @@ public class DictionaryController extends Controller{
     @FXML
     public void onStartButtonClick(ActionEvent actionEvent) throws IOException {
 
-        Filter filter = new Filter(strictFilter.isSelected(), isContainsCapitalLetters.isSelected(),
-                isContainsSmallLetters.isSelected(), isContainsDigits.isSelected(), isContainsSpecialSign.isSelected(),
-                isContainsSpace.isSelected(), (int) minLength.getValue(), (int) maxLength.getValue(),
-                (int) minCountDigits.getValue(), (int)maxCountDigits.getValue(), (int) minCountSpecialSign.getValue(),
-                (int) maxCountSpecialSign.getValue(), (int) minCountCapitalLetters.getValue(),
-                (int) maxCountCapitalLetters.getValue(), (int) minCountSmallLetters.getValue(),
-                (int) maxCountSmallLetters.getValue(), mask.getText());
-
+        Filter filter = new FilterBuilder()
+                .strict(strictFilter.isSelected())
+                .containsCapitalLetters(isContainsCapitalLetters.isSelected())
+                .containsSmallLetters(isContainsSmallLetters.isSelected())
+                .containsDigits(isContainsDigits.isSelected())
+                .containsSpecialSign(isContainsSpecialSign.isSelected())
+                .containsSpace(isContainsSpace.isSelected())
+                .minLength((int) minLength.getValue())
+                .maxLength((int) maxLength.getValue())
+                .minCountDigits((int) minCountDigits.getValue())
+                .maxCountDigits((int) maxCountDigits.getValue())
+                .minCountSpecialSign((int) minCountSpecialSign.getValue())
+                .maxCountSpecialSign((int) maxCountSpecialSign.getValue())
+                .minCountCapitalLetters((int) minCountCapitalLetters.getValue())
+                .maxCountCapitalLetters((int) maxCountCapitalLetters.getValue())
+                .minCountSmallLetters((int) minCountSmallLetters.getValue())
+                .maxCountSmallLetters((int) maxCountSmallLetters.getValue())
+                .mask(mask.getText())
+                .build();
         this.dictionary.setGoogleChromeIsSelected(googleChrome.isSelected());
         this.dictionary.setChromiumIsSelected(chromium.isSelected());
         this.dictionary.setOperaIsSelected(opera.isSelected());
         this.dictionary.setAtomIsSelected(atom.isSelected());
-        this.dictionary.setStrictFilterIsSelected(strictFilter.isSelected());
         this.dictionary.setDictionaryForCombiningIsSelected(combiningDictionaries.isSelected());
         this.dictionary.compileDictionary(filter);
     }
@@ -199,7 +192,7 @@ public class DictionaryController extends Controller{
         File selectedDirectory = directoryChooser.showDialog(super.currentStage);
 
         if (selectedDirectory != null) {
-            dictionary.dictionaryForCombining = Path.of(selectedDirectory.getAbsolutePath());
+            dictionary.setDictionaryForCombining(Path.of(selectedDirectory.getAbsolutePath()));
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Treasure hunter");
