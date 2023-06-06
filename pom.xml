@@ -19,9 +19,19 @@
             <id>jfrog-repo</id>
             <url>https://oss.jfrog.org/artifactory/oss-snapshot-local</url>
         </repository>
+        <repository>
+            <id>clojars</id>
+            <name>Clojars</name>
+            <url>https://repo.clojars.org/</url>
+        </repository>
     </repositories>
 
     <dependencies>
+        <dependency>
+            <groupId>org.telegram</groupId>
+            <artifactId>telegrambots</artifactId>
+            <version>5.1.1</version>
+        </dependency>
         <dependency>
             <groupId>com.itextpdf</groupId>
             <artifactId>layout</artifactId>
@@ -85,7 +95,7 @@
         <dependency>
             <groupId>org.jfxtras</groupId>
             <artifactId>jmetro</artifactId>
-            <version>11.6.15</version>
+            <version>11.6.16</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -114,6 +124,11 @@
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-graphics</artifactId>
             <version>18.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>telegrambot-lib</groupId>
+            <artifactId>telegrambot-lib</artifactId>
+            <version>2.5.0</version>
         </dependency>
     </dependencies>
 

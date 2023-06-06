@@ -107,47 +107,11 @@ public class ReportController extends Controller{
         totalPasswordCount.disableProperty().bind(passwordCount.selectedProperty().not());
         uniquePasswordCount.disableProperty().bind(passwordCount.selectedProperty().not());
     }
-
-    @FXML
-    private void onTotalPasswordCountClick() {
-        // Ваш код для обработки события нажатия на CheckBox totalPasswordCount
-    }
-
-    @FXML
-    private void onUniquePasswordCountClick() {
-        // Ваш код для обработки события нажатия на CheckBox uniquePasswordCount
-    }
-
     @FXML
     private void onPasswordLengthClick() {
         passwordMaxLength.disableProperty().bind(passwordLength.selectedProperty().not());
         passwordAverageLength.disableProperty().bind(passwordLength.selectedProperty().not());
         passwordMinLength.disableProperty().bind(passwordLength.selectedProperty().not());
-    }
-
-    @FXML
-    private void onPasswordMaxLengthClick() {
-        // Ваш код для обработки события нажатия на CheckBox passwordMaxLength
-    }
-
-    @FXML
-    private void onPasswordAverageLengthClick() {
-        // Ваш код для обработки события нажатия на CheckBox passwordAverageLength
-    }
-
-    @FXML
-    private void onPasswordMinLengthClick() {
-        // Ваш код для обработки события нажатия на CheckBox passwordMinLength
-    }
-
-    @FXML
-    private void onMostPopularPasswordClick() {
-        // Ваш код для обработки события нажатия на CheckBox mostPopularPassword
-    }
-
-    @FXML
-    private void onHowManyTimesMostPopularPasswordWasUsedClick() {
-        // Ваш код для обработки события нажатия на CheckBox HowManyTimesMostPopularPasswordWasUsed
     }
 
     @FXML
@@ -164,20 +128,10 @@ public class ReportController extends Controller{
     }
 
     @FXML
-    private void onGroupSymbolLengthChange() {
-        // Ваш код для обработки изменения значения Slider groupSymbolLength
-    }
-
-    @FXML
     private void onTopMostPopularGroupSymbolClick() {
         topGroupSymbolsLength.valueProperty().addListener((observable, oldValue, newValue) ->
                 topGroupSymbolsLength.setValue(newValue.intValue()));
         topGroupSymbolsLength.disableProperty().bind(topMostPopularGroupSymbol.selectedProperty().not());
-    }
-
-    @FXML
-    private void onTopGroupSymbolsLengthChange() {
-        // Ваш код для обработки изменения значения Slider topGroupSymbolsLength
     }
 
     @FXML
@@ -190,11 +144,6 @@ public class ReportController extends Controller{
         topPopularSymbolCount.valueProperty().addListener((observable, oldValue, newValue) ->
                 topPopularSymbolCount.setValue(newValue.intValue()));
         topPopularSymbolCount.disableProperty().bind(topPopularSymbol.selectedProperty().not());
-    }
-
-    @FXML
-    private void onTopPopularSymbolLengthChange() {
-        // Ваш код для обработки изменения значения Slider topPopularSymbolLength
     }
 
 }

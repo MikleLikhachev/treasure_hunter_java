@@ -12,6 +12,8 @@ module com.treasure_hunter_java {
     requires kernel;
     requires layout;
     requires io;
+    requires telegrambots.meta;
+    requires telegrambots;
 
 
     opens com.treasure_hunter_java to javafx.fxml;

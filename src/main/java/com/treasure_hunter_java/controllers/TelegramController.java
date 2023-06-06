@@ -1,21 +1,22 @@
 package com.treasure_hunter_java.controllers;
 
-import com.treasure_hunter_java.Main;
-import com.treasure_hunter_java.dictionary.Filter;
+import com.treasure_hunter_java.telegram.TelegramBotFileSender;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.stage.DirectoryChooser;
+import javafx.scene.layout.StackPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import jfxtras.styles.jmetro.JMetro;
 import jfxtras.styles.jmetro.Style;
+
+import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Objects;
 
 public class TelegramController extends Controller{
 
@@ -39,6 +40,20 @@ public class TelegramController extends Controller{
 
     @FXML
     private Button start;
+
+    @FXML
+    private TextField token;
+
+    @FXML
+    private TextField chatId;
+
+    @FXML
+    private Button selectFile;
+
+    @FXML
+    private TextArea textArea;
+
+    private String selectedFile;
 
     @FXML
     protected void onSearchPasswordsButtonClick() throws IOException {
@@ -65,12 +80,30 @@ public class TelegramController extends Controller{
 
     @FXML
     protected void onSelectDirectoryButtonClick() {
+
         super.onSelectDirectoryButtonClick();
     }
 
     @FXML
-    public void onStartButtonClick(ActionEvent actionEvent) throws IOException {
+    protected void onSelectFileButtonClick() {
+        FileChooser fileChooser = new FileChooser();
+        File selectedFile = fileChooser.showOpenDialog(currentStage);
+        if (selectedFile != null) {
+            this.selectedFile = selectedFile.getAbsolutePath();
+        } else {
+            showDialog("Вы не выбрали файл!", Alert.AlertType.ERROR);
+        }
+    }
 
+
+    @FXML
+    public void onStartButtonClick(ActionEvent actionEvent) throws IOException {
+        TelegramBotFileSender telegramBotFileSender = new TelegramBotFileSender(token.getText(), chatId.getText());
+        telegramBotFileSender.sendFile(selectedFile);
+        if(!textArea.getText().isEmpty()){
+            telegramBotFileSender.sendText(textArea.getText());
+        }
+        showDialog("Данные успешно переданы!", Alert.AlertType.INFORMATION);
     }
 
 }

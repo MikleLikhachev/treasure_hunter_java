@@ -32,7 +32,6 @@ public class GenerateReport {
     Path directory = Path.of(Main.mainWorkDirectory.toUri());
     private final ArrayList<Password> passwords = new ArrayList<>();
     private final int groupSymbolLength;
-    private final int topGroupSymbolsLength;
     private final boolean totalCountPasswords;
     private final boolean uniqueCountPasswords;
     private final boolean passwordMaxLengthIsSelected;
@@ -52,7 +51,7 @@ public class GenerateReport {
                           boolean mostPopularGroupSymbols, int topPopularGroupSymbolCount,
                           boolean topPopularSymbolIsSelected, int topPopularSymbolCount) {
         this.groupSymbolLength = groupSymbolLength;
-        this.topGroupSymbolsLength = topGroupSymbolsLength;
+        //this.topGroupSymbolsLength = topGroupSymbolsLength;
         this.totalCountPasswords = totalCountPasswords;
         this.uniqueCountPasswords = uniqueCountPasswords;
         this.passwordMaxLengthIsSelected = passwordMaxLengthIsSelected;
@@ -102,7 +101,7 @@ public class GenerateReport {
 
             @Override
             public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
-                System.err.println("Failed to access file: " + file);
+                logger.log(Level.SEVERE,"Failed to access file: {0}.", file);
                 return FileVisitResult.CONTINUE;
             }
         });
@@ -142,7 +141,7 @@ public class GenerateReport {
 
             printImage(document);
 
-            logger.info(String.format("Отчет успешно сохранен в файл: %s", reportFilePath));
+            logger.log(Level.SEVERE, "Отчет успешно сохранен в файл: {0}.", reportFilePath);
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Ошибка при создании отчета", e);
         }
@@ -218,7 +217,7 @@ public class GenerateReport {
                 pass = password.getPassword();
                 usageCount = password.getUsageCount();
 
-            }
+            } else {usageCount = 1;}
         }
         document.add(new Paragraph("Самый распространённый пароль: " + pass + " Использован: " + usageCount + " (" +
                 round((double) usageCount / totalCount * 100) + "%)").setMarginLeft(20));
@@ -291,7 +290,7 @@ public class GenerateReport {
         return mostFrequentChar;
     }
 
-    public void printTopFrequentCharacters(Document document, ArrayList<Password> passwords) {
+    public void printTopFrequentCharacters(Document document, List<Password> passwords) {
         if (!topPopularSymbolIsSelected) {return;}
 
         Map<String, Integer> charOccurrences = new HashMap<>();

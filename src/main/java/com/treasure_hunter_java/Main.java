@@ -23,7 +23,6 @@ public class Main extends Application {
         primaryStage.setTitle("Treasure hunter");
         JMetro jMetro = new JMetro(root, Style.LIGHT);
         Scene scene = new Scene(root, 750, 500);
-        scene.getStylesheets().add("src/main/resources/com/treasure_hunter_java/style.css");
         primaryStage.setScene(scene);
         primaryStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("icons/icon.png"))));
         primaryStage.show();

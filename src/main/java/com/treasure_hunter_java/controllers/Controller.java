@@ -1,6 +1,7 @@
 package com.treasure_hunter_java.controllers;
 
 import com.treasure_hunter_java.Main;
+import com.treasure_hunter_java.zip.DirectoryArchiver;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -62,7 +63,14 @@ public class Controller implements Initializable {
     @FXML
     protected void onZipButtonClick() throws IOException {
 
-        setScene(zipButton, "/com/treasure_hunter_java/fxml/ArchiveScene.fxml");
+        if (Main.mainWorkDirectory != null) {
+            DirectoryArchiver directoryArchiver = new DirectoryArchiver();
+            directoryArchiver.archiveDirectory();
+            showDialog("Данные успешно архивированы!", Alert.AlertType.INFORMATION);
+        } else {
+            showDialog("Выберите папку для архивации!", Alert.AlertType.ERROR);
+        }
+        //setScene(zipButton, "/com/treasure_hunter_java/fxml/ArchiveScene.fxml");
     }
 
     @FXML
@@ -79,13 +87,7 @@ public class Controller implements Initializable {
         if (selectedDirectory != null) {
             Main.mainWorkDirectory = Path.of(selectedDirectory.getAbsolutePath());
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Treasure hunter");
-            alert.setHeaderText("Ошибка");
-            alert.setContentText("Вы не выбрали рабочую папку.");
-            Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-            stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("icons/icon.png"))));
-            alert.showAndWait();
+           showDialog("Вы не выбрали папку!", Alert.AlertType.ERROR);
         }
     }
 
@@ -96,14 +98,25 @@ public class Controller implements Initializable {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(path)));
         JMetro jMetro = new JMetro(root, Style.LIGHT);
         Scene scene = new Scene(root, 750, 500);
-
         currentStage.setScene(scene);
-        currentStage.show();
+        jMetro.setScene(currentStage.getScene());
+        //currentStage.show();
 
+    }
+
+    protected void showDialog(String contentText, Alert.AlertType alertType) {
+        String title = "Treasure hunter";
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setContentText(contentText);
+
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(new Image(Objects.requireNonNull(
+                getClass().getResourceAsStream("/com/treasure_hunter_java/icons/icon.png"))));
+
+        alert.showAndWait();
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-    }
+    public void initialize(URL url, ResourceBundle resourceBundle) {}
 }
