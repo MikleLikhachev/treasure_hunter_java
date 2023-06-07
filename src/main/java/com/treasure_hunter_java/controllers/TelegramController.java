@@ -64,7 +64,6 @@ public class TelegramController extends Controller{
         }
     }
 
-
     @FXML
     public void onStartButtonClick(ActionEvent actionEvent) {
         TelegramBotFileSender telegramBotFileSender = new TelegramBotFileSender(token.getText(), chatId.getText());

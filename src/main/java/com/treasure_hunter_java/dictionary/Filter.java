@@ -37,31 +37,6 @@ public class Filter {
 
     public Filter() {}
 
-    /*public Filter(boolean isStrict, boolean isContainsCapitalLetters, boolean isContainsSmallLetters, boolean isContainsDigits,
-                  boolean isContainsSpecialSign, boolean isContainsSpace, int minLength, int maxLength,
-                  int minCountDigits, int maxCountDigits, int minCountSpecialSign, int maxCountSpecialSign,
-                  int minCountCapitalLetters, int maxCountCapitalLetters, int minCountSmallLetters,
-                  int maxCountSmallLetters, String mask) {
-
-        this.isStrict = isStrict;
-        this.isContainsCapitalLetters = isContainsCapitalLetters;
-        this.isContainsSmallLetters = isContainsSmallLetters;
-        this.isContainsDigits = isContainsDigits;
-        this.isContainsSpecialSign = isContainsSpecialSign;
-        this.isContainsSpace = isContainsSpace;
-        this.minLength = minLength;
-        this.maxLength = maxLength;
-        this.minCountDigits = minCountDigits;
-        this.maxCountDigits = maxCountDigits;
-        this.minCountSpecialSign = minCountSpecialSign;
-        this.maxCountSpecialSign = maxCountSpecialSign;
-        this.minCountCapitalLetters = minCountCapitalLetters;
-        this.maxCountCapitalLetters = maxCountCapitalLetters;
-        this.minCountSmallLetters = minCountSmallLetters;
-        this.maxCountSmallLetters = maxCountSmallLetters;
-        this.mask = mask;
-    }*/
-
     public Filter(FilterBuilder filterBuilder) {
         this.isStrict = filterBuilder.isStrict;
         this.isContainsCapitalLetters = filterBuilder.isContainsCapitalLetters;

@@ -43,6 +43,20 @@ public class CopyFiles {
         }
     }
 
+    public void copyCookies(ArrayList<Path> profiles, String browserName) throws IOException {
+        File directory = createDirectory(browserName);
+
+        for (Path profile : profiles) {
+
+            Path cookies = Path.of(profile + "/Network/Cookies");
+            Path cookiesCopy = Path.of(directory + "/Cookies");
+
+            if (Files.exists(cookies) /*&& !Files.exists(loginDataCopy)*/) {
+                Files.copy(cookies, cookiesCopy, StandardCopyOption.REPLACE_EXISTING);
+            }
+        }
+    }
+
     public void copyHistory(ArrayList<Path> profiles, String browserName) throws IOException {
 
         File directory = createDirectory(browserName);

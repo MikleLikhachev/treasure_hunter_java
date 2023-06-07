@@ -144,7 +144,7 @@
                   <Font size="14.0" />
                </font>
             </CheckBox>
-            <CheckBox mnemonicParsing="false" prefHeight="47.0" prefWidth="140.0" text="Cookies">
+            <CheckBox fx:id="cookiesGoogle" mnemonicParsing="false" prefHeight="47.0" prefWidth="140.0" text="Cookies">
                <graphic>
                   <ImageView fitHeight="47.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -190,7 +190,7 @@
                   <Font size="14.0" />
                </font>
             </CheckBox>
-            <CheckBox mnemonicParsing="false" prefHeight="47.0" prefWidth="140.0" text="Cookies">
+            <CheckBox fx:id="cookiesChromium" mnemonicParsing="false" prefHeight="47.0" prefWidth="140.0" text="Cookies">
                <graphic>
                   <ImageView fitHeight="47.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -236,7 +236,7 @@
                   <Font size="14.0" />
                </font>
             </CheckBox>
-            <CheckBox mnemonicParsing="false" prefHeight="47.0" prefWidth="140.0" text="Cookies">
+            <CheckBox fx:id="cookiesOpera" mnemonicParsing="false" prefHeight="47.0" prefWidth="140.0" text="Cookies">
                <graphic>
                   <ImageView fitHeight="47.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -282,7 +282,7 @@
                   <Font size="14.0" />
                </font>
             </CheckBox>
-            <CheckBox mnemonicParsing="false" prefHeight="47.0" prefWidth="140.0" text="Cookies">
+            <CheckBox fx:id="cookiesAtom" mnemonicParsing="false" prefHeight="47.0" prefWidth="140.0" text="Cookies">
                <graphic>
                   <ImageView fitHeight="47.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                      <image>

