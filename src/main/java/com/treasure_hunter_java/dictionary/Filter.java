@@ -118,7 +118,8 @@ public class Filter {
     }
 
     public String getMask() {
-        return mask.replace("*", ".");
+        //return mask.replace("*", ".");
+        return mask;
 
     }
 }

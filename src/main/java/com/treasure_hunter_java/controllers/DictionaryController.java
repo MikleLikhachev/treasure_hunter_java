@@ -1,5 +1,6 @@
 package com.treasure_hunter_java.controllers;
 
+import com.treasure_hunter_java.Main;
 import com.treasure_hunter_java.dictionary.Filter;
 import com.treasure_hunter_java.dictionary.FilterBuilder;
 import com.treasure_hunter_java.dictionary.GenerateDictionary;
@@ -121,7 +122,7 @@ public class DictionaryController extends Controller{
 
     @FXML
     public void onStartButtonClick(ActionEvent actionEvent) throws IOException {
-
+        if(checkError()) {return;}
         Filter filter = new FilterBuilder()
                 .strict(strictFilter.isSelected())
                 .containsCapitalLetters(isContainsCapitalLetters.isSelected())

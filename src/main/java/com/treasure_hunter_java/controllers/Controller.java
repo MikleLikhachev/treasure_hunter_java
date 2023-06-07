@@ -114,6 +114,14 @@ public class Controller implements Initializable {
         alert.showAndWait();
     }
 
+    public static boolean checkError(){
+        if (Main.mainWorkDirectory == null) {
+            showDialog("Выберите папку!", Alert.AlertType.ERROR);
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {}
 }

@@ -71,13 +71,14 @@ public class GenerateReport {
                 }
                 Optional<Password> foundPassword = passwords.stream()
                         .filter(p -> p.getPassword().equals(password)).findFirst();
+
                 if (foundPassword.isPresent()) {
                     Password currentPassword = foundPassword.get();
                     currentPassword.increaseCountUsed();
                 } else {
                     passwords.add(new Password(password));
+                    passwords.get(passwords.size() - 1).increaseCountUsed();
                 }
-
             }
         } catch (IOException e) {
             e.printStackTrace();

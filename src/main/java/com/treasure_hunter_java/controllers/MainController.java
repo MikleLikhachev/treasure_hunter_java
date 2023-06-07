@@ -82,6 +82,7 @@ public class MainController extends Controller {
     @FXML
     protected void onStartButtonClick() throws Exception {
 
+        if(checkError()) {return;}
         ExtractFunctionality extractFunctionality = new ExtractFunctionality();
         extractFunctionality.getGoogleData(passwordsGoogle, cookiesGoogle, historyGoogle);
         extractFunctionality.getAtomData(passwordsAtom, cookiesAtom, historyAtom);

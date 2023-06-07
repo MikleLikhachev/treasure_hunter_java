@@ -20,7 +20,7 @@ public class TelegramBotFileSender extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-
+        //Метод был добавлен из-за требования наследования. Он не используется
     }
 
     public void sendFile(String filePath) {

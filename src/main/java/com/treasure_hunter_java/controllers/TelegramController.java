@@ -66,6 +66,13 @@ public class TelegramController extends Controller{
 
     @FXML
     public void onStartButtonClick(ActionEvent actionEvent) {
+        if (token.getText().isEmpty() || chatId.getText().isEmpty()) {
+            showDialog("Вы не указали TOKEN и/или CHAT_ID", Alert.AlertType.ERROR);
+            return;
+        } else if(selectedFile == null){
+            showDialog("Выберите файл!", Alert.AlertType.ERROR);
+            return;
+        }
         TelegramBotFileSender telegramBotFileSender = new TelegramBotFileSender(token.getText(), chatId.getText());
         telegramBotFileSender.sendFile(selectedFile);
         if(!textArea.getText().isEmpty()){

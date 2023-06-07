@@ -1,9 +1,11 @@
 package com.treasure_hunter_java.controllers;
 
+import com.treasure_hunter_java.Main;
 import com.treasure_hunter_java.report.GenerateReport;
 import com.treasure_hunter_java.report.GenerateReportBuilder;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
 
@@ -90,6 +92,7 @@ public class ReportController extends Controller{
     @FXML
     public void onStartButtonClick(ActionEvent actionEvent) throws IOException {
 
+        if(checkError()) {return;}
         GenerateReport report = new GenerateReportBuilder((int) groupSymbolLength.getValue())
                 .totalCountPasswords(totalPasswordCount.isSelected())
                 .uniqueCountPasswords(uniquePasswordCount.isSelected())

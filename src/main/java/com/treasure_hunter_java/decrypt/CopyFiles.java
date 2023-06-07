@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CopyFiles {
 
@@ -22,7 +23,7 @@ public class CopyFiles {
         return directory;
     }
 
-    public void copyLoginData(ArrayList<Path> profiles, Path localState, String browserName) throws IOException {
+    public void copyLoginData(List<Path> profiles, Path localState, String browserName) throws IOException {
 
         File directory = createDirectory(browserName);
         Path localStateCopy = Path.of(directory + "/Local State");
@@ -43,7 +44,7 @@ public class CopyFiles {
         }
     }
 
-    public void copyCookies(ArrayList<Path> profiles, String browserName) throws IOException {
+    public void copyCookies(List<Path> profiles, String browserName) throws IOException {
         File directory = createDirectory(browserName);
 
         for (Path profile : profiles) {
@@ -57,7 +58,7 @@ public class CopyFiles {
         }
     }
 
-    public void copyHistory(ArrayList<Path> profiles, String browserName) throws IOException {
+    public void copyHistory(List<Path> profiles, String browserName) throws IOException {
 
         File directory = createDirectory(browserName);
 

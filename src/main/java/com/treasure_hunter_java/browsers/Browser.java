@@ -3,10 +3,11 @@ package com.treasure_hunter_java.browsers;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Browser {
 
-    private ArrayList<Path> profiles = new ArrayList<>();
+    private List<Path> profiles = new ArrayList<>();
 
     public void collectProfiles(Path dirName) {
         for (int i = 1; i < 10; i++) {
@@ -26,7 +27,7 @@ public abstract class Browser {
         }
     }
 
-    public ArrayList<Path> getProfiles() {
+    public List<Path> getProfiles() {
         return profiles;
     }
 

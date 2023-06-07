@@ -2,6 +2,7 @@ package com.treasure_hunter_java.browsers;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Chromium extends Browser{
 
@@ -9,7 +10,7 @@ public class Chromium extends Browser{
 
     Path localStatePath = Path.of("C:/Users/Mikle/AppData/Local/Chromium/User Data/Local State");
 
-    ArrayList<Path> profiles = new ArrayList<>();
+    List<Path> profiles = new ArrayList<>();
 
     public void collectProfiles() {
         super.collectProfiles(dirName);
@@ -17,7 +18,7 @@ public class Chromium extends Browser{
     }
 
     @Override
-    public ArrayList<Path> getProfiles() {
+    public List<Path> getProfiles() {
         return profiles;
     }
 

@@ -17,12 +17,14 @@ import java.util.regex.Pattern;
 
 public class Decrypt {
 
+    private static String dbConnection = "jdbc:sqlite:";
+
     public static byte[] getMasterKey(String directory) throws Exception {
         Path localStateFile = Path.of(directory + "/Local State");
 
         String localState = Files.readString(localStateFile, StandardCharsets.UTF_8);
 
-        String masterKeyB64 = null;
+        String masterKeyB64 = "";
 
         Pattern pattern = Pattern.compile("\"encrypted_key\":\"([^\"]+)\"");
 
@@ -57,7 +59,7 @@ public class Decrypt {
         StringBuilder textBuilder = new StringBuilder("URL | LOGIN | PASSWORD\n");
 
         File dbFile = new File(directory + "/Login Data");
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbFile.getAbsolutePath());
+        try (Connection conn = DriverManager.getConnection(dbConnection + dbFile.getAbsolutePath());
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT action_url, username_value, password_value FROM logins")) {
 
@@ -83,7 +85,7 @@ public class Decrypt {
         byte[] key = getMasterKey(directory);
         StringBuilder textBuilder = new StringBuilder();
         File dbFile = new File(directory + "/Cookies");
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbFile.getAbsolutePath());
+        try (Connection conn = DriverManager.getConnection(dbConnection + dbFile.getAbsolutePath());
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT host_key, name, value, creation_utc, last_access_utc, expires_utc, encrypted_value FROM cookies")) {
 
@@ -124,7 +126,7 @@ public class Decrypt {
 
         File dbFile = new File(historyPath);
 
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbFile.getAbsolutePath());
+        try (Connection conn = DriverManager.getConnection(dbConnection + dbFile.getAbsolutePath());
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT u.id, u.url, u.title, " +
                      "datetime(v.visit_time / 1000000 + (strftime('%s', '1601-01-01')), 'unixepoch') " +

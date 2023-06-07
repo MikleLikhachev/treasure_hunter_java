@@ -2,6 +2,7 @@ package com.treasure_hunter_java.browsers;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Atom extends Browser{
 
@@ -9,7 +10,7 @@ public class Atom extends Browser{
 
     private final Path localStatePath = Path.of("C:/Users/Mikle/AppData/Local/Mail.Ru/Atom/User Data/Local State");
 
-    private ArrayList<Path> profiles = new ArrayList<>();
+    private List<Path> profiles = new ArrayList<>();
 
     public void collectProfiles() {
         super.collectProfiles(dirName);
@@ -17,7 +18,7 @@ public class Atom extends Browser{
     }
 
     @Override
-    public ArrayList<Path> getProfiles() {
+    public List<Path> getProfiles() {
         return profiles;
     }
 

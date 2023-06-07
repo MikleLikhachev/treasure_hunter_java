@@ -13,6 +13,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ExtractFunctionality {
 
@@ -29,7 +30,7 @@ public class ExtractFunctionality {
         }
     }
 
-    private void extractData(String browserName, CheckBox passwords, ArrayList<Path> profiles,
+    private void extractData(String browserName, CheckBox passwords, List<Path> profiles,
                              Path localState, CheckBox cookies, CheckBox history) throws Exception {
         if (passwords.isSelected()){
             copyFiles.copyLoginData(profiles, localState, browserName);
