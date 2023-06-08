@@ -30,7 +30,7 @@ public class ExtractFunctionality {
      * @throws IOException если возникают проблемы при записи данных в файл.
      */
     private void writeData(String text, String dataName, String browserDirectory) throws IOException {
-        File file = new File(Main.mainWorkDirectory + browserDirectory + dataName);
+        File file = new File(Main.getMainWorkDirectory() + browserDirectory + dataName);
 
         try (FileWriter fw = new FileWriter(file);
              BufferedWriter bw = new BufferedWriter(fw)) {
@@ -51,21 +51,22 @@ public class ExtractFunctionality {
      */
     private void extractData(String browserName, CheckBox passwords, List<Path> profiles,
                              Path localState, CheckBox cookies, CheckBox history) throws Exception {
+        Decrypt decrypt = new Decrypt();
         if (passwords.isSelected()) {
             copyFiles.copyLoginData(profiles, localState, browserName);
-            writeData(Decrypt.decryptPasswords(Main.mainWorkDirectory + browserName),
+            writeData(decrypt.decryptPasswords(Main.getMainWorkDirectory() + browserName),
                     "passwords.txt", browserName);
         }
 
         if (cookies.isSelected()) {
             copyFiles.copyCookies(profiles, browserName);
-            writeData(Decrypt.extractCookies(Main.mainWorkDirectory.toString() + browserName),
+            writeData(decrypt.extractCookies(Main.getMainWorkDirectory().toString() + browserName),
                     "cookies.txt", browserName);
         }
 
         if (history.isSelected()) {
             copyFiles.copyHistory(profiles, browserName);
-            writeData(Decrypt.getHistory(Main.mainWorkDirectory.toString() + browserName + "History"),
+            writeData(decrypt.getHistory(Main.getMainWorkDirectory().toString() + browserName + "History"),
                     "history.txt", browserName);
         }
     }

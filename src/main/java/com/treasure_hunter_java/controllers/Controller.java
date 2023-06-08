@@ -13,7 +13,6 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import jfxtras.styles.jmetro.JMetro;
 import jfxtras.styles.jmetro.Style;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -40,7 +39,6 @@ public class Controller {
 
     @FXML
     protected Button telegramButton;
-
     /**
      * Обработчик события при нажатии кнопки "Поиск паролей".
      * Переключает сцену на экран поиска паролей.
@@ -51,7 +49,6 @@ public class Controller {
     protected void onSearchPasswordsButtonClick() throws IOException {
         setScene(searchPasswordsButton, "/com/treasure_hunter_java/fxml/MainScene.fxml");
     }
-
     /**
      * Обработчик события при нажатии кнопки "Генерация словаря".
      * Переключает сцену на экран генерации словаря.
@@ -62,7 +59,6 @@ public class Controller {
     protected void onGenerateDictionaryButtonClick() throws IOException {
         setScene(generateDictionaryButton, "/com/treasure_hunter_java/fxml/DictionaryScene.fxml");
     }
-
     /**
      * Обработчик события при нажатии кнопки "Отчет".
      * Переключает сцену на экран отчета.
@@ -82,7 +78,7 @@ public class Controller {
      */
     @FXML
     protected void onZipButtonClick() throws IOException {
-        if (Main.mainWorkDirectory != null) {
+        if (Main.getMainWorkDirectory() != null) {
             DirectoryArchiver directoryArchiver = new DirectoryArchiver();
             directoryArchiver.archiveDirectory();
             showDialog("Данные успешно архивированы!", Alert.AlertType.INFORMATION);
@@ -90,7 +86,6 @@ public class Controller {
             showDialog("Выберите папку для архивации!", Alert.AlertType.ERROR);
         }
     }
-
     /**
      * Обработчик события при нажатии кнопки "Telegram".
      * Переключает сцену на экран Telegram.
@@ -101,7 +96,6 @@ public class Controller {
     protected void onTelegramButtonClick() throws IOException {
         setScene(telegramButton, "/com/treasure_hunter_java/fxml/TelegramScene.fxml");
     }
-
     /**
      * Обработчик события при нажатии кнопки "Выбрать папку".
      * Открывает диалог выбора папки и устанавливает выбранную папку как рабочую директорию.
@@ -112,12 +106,11 @@ public class Controller {
         File selectedDirectory = directoryChooser.showDialog(currentStage);
 
         if (selectedDirectory != null) {
-            Main.mainWorkDirectory = Path.of(selectedDirectory.getAbsolutePath());
+            Main.setMainWorkDirectory(Path.of(selectedDirectory.getAbsolutePath()));
         } else {
             showDialog("Вы не выбрали папку!", Alert.AlertType.ERROR);
         }
     }
-
     /**
      * Устанавливает новую сцену и стиль JMetro для текущего окна.
      *
@@ -161,7 +154,7 @@ public class Controller {
      * @return true, если есть ошибка, иначе false.
      */
     public static boolean checkError() {
-        if (Main.mainWorkDirectory == null) {
+        if (Main.getMainWorkDirectory() == null) {
             showDialog("Выберите папку!", Alert.AlertType.ERROR);
             return true;
         }

@@ -9,7 +9,6 @@ import java.util.List;
  * Он расширяет класс Browser и предоставляет специфическую функциональность
  * для работы с профилями и данными браузера Atom.
  */
-
 public class Atom extends Browser {
 
     // Путь к директории данных браузера Atom
@@ -38,7 +37,6 @@ public class Atom extends Browser {
     public List<Path> getProfiles() {
         return profiles;
     }
-
     /**
      * Возвращает путь к файлу Local State в браузере Atom.
      *

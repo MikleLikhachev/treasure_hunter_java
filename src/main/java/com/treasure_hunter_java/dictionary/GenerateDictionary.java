@@ -3,7 +3,6 @@ package com.treasure_hunter_java.dictionary;
 import com.treasure_hunter_java.Main;
 import com.treasure_hunter_java.controllers.Controller;
 import javafx.scene.control.Alert;
-
 import java.io.*;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -16,7 +15,6 @@ public class GenerateDictionary {
 
     private ArrayList<Password> passwords = new ArrayList<>();
     private Path dictionaryForCombining;
-
     private boolean googleChromeIsSelected;
     private boolean operaIsSelected;
     private boolean chromiumIsSelected;
@@ -25,7 +23,6 @@ public class GenerateDictionary {
 
     /**
      * Извлекает пароли из файла.
-     *
      * @param file Файл, содержащий пароли.
      */
     private void extractPassword(File file){
@@ -59,7 +56,7 @@ public class GenerateDictionary {
      */
     private void extractGooglePasswords() {
         if (googleChromeIsSelected) {
-            extractPassword(new File(Main.mainWorkDirectory + "/chrome_data/passwords.txt"));
+            extractPassword(new File(Main.getMainWorkDirectory() + "/chrome_data/passwords.txt"));
         }
     }
 
@@ -68,7 +65,7 @@ public class GenerateDictionary {
      */
     private void extractOperaPasswords(){
         if (operaIsSelected) {
-            extractPassword(new File(Main.mainWorkDirectory + "/opera_data/passwords.txt"));
+            extractPassword(new File(Main.getMainWorkDirectory() + "/opera_data/passwords.txt"));
         }
     }
 
@@ -77,7 +74,7 @@ public class GenerateDictionary {
      */
     private void extractChromiumPasswords(){
         if (chromiumIsSelected) {
-            extractPassword(new File(Main.mainWorkDirectory + "/chromium_data/passwords.txt"));
+            extractPassword(new File(Main.getMainWorkDirectory() + "/chromium_data/passwords.txt"));
         }
     }
 
@@ -86,18 +83,19 @@ public class GenerateDictionary {
      */
     private void extractAtomPasswords(){
         if (atomIsSelected) {
-            extractPassword(new File(Main.mainWorkDirectory + "/atom_data/passwords.txt"));
+            extractPassword(new File(Main.getMainWorkDirectory() + "/atom_data/passwords.txt"));
         }
     }
 
     /**
      * Конструктор класса GenerateDictionary.
      */
-    public GenerateDictionary() {}
+    public GenerateDictionary() {
+        // Стандартный конструктор
+    }
 
     /**
      * Устанавливает флаг выбора Google Chrome.
-     *
      * @param googleChromeIsSelected Флаг выбора Google Chrome.
      */
     public void setGoogleChromeIsSelected(boolean googleChromeIsSelected){
@@ -106,7 +104,6 @@ public class GenerateDictionary {
 
     /**
      * Устанавливает флаг выбора Opera.
-     *
      * @param operaIsSelected Флаг выбора Opera.
      */
     public void setOperaIsSelected(boolean operaIsSelected) {
@@ -115,7 +112,6 @@ public class GenerateDictionary {
 
     /**
      * Устанавливает флаг выбора Chromium.
-     *
      * @param chromiumIsSelected Флаг выбора Chromium.
      */
     public void setChromiumIsSelected(boolean chromiumIsSelected){
@@ -124,7 +120,6 @@ public class GenerateDictionary {
 
     /**
      * Устанавливает флаг выбора Atom.
-     *
      * @param atomIsSelected Флаг выбора Atom.
      */
     public void setAtomIsSelected(boolean atomIsSelected){
@@ -133,7 +128,6 @@ public class GenerateDictionary {
 
     /**
      * Устанавливает флаг выбора директории для объединения словарей.
-     *
      * @param directoryForCombiningIsSelected Флаг выбора директории для объединения словарей.
      */
     public void setDirectoryForCombiningIsSelected(boolean directoryForCombiningIsSelected){
@@ -142,7 +136,6 @@ public class GenerateDictionary {
 
     /**
      * Устанавливает путь к директории для объединения словарей.
-     *
      * @param path Путь к директории для объединения словарей.
      */
     public void setDictionaryForCombining(Path path){
@@ -151,12 +144,11 @@ public class GenerateDictionary {
 
     /**
      * Генерирует имя для словаря на основе фильтра.
-     *
      * @param filter Фильтр для генерации имени словаря.
      * @return Имя словаря.
      */
     private String generateNameForDictionary(Filter filter) {
-        File directory = new File(Main.mainWorkDirectory + "/filters");
+        File directory = new File(Main.getMainWorkDirectory() + "/filters");
         if (!directory.exists()) {
             directory.mkdir();
         }
@@ -185,7 +177,6 @@ public class GenerateDictionary {
 
     /**
      * Компилирует словарь на основе указанного фильтра.
-     *
      * @param filter Фильтр для компиляции словаря.
      * @throws IOException Если произошла ошибка ввода-вывода.
      */
@@ -199,7 +190,7 @@ public class GenerateDictionary {
         combiningDictionaries();
         FilterFunctionality filterFunctionality = new FilterFunctionality(passwords);
 
-        File dictionaryFile = new File(Main.mainWorkDirectory.toUri());
+        File dictionaryFile = new File(Main.getMainWorkDirectory().toUri());
         try (FileWriter fw = new FileWriter(dictionaryFile + generateNameForDictionary(filter));
              BufferedWriter bw = new BufferedWriter(fw))
         {
@@ -212,14 +203,11 @@ public class GenerateDictionary {
 
     /**
      * Объединяет словари из указанной директории.
-     *
      * @throws IOException Если произошла ошибка ввода-вывода.
      */
     private void combiningDictionaries() throws IOException {
-
         if (directoryForCombiningIsSelected) {
             Path directory = Paths.get(dictionaryForCombining.toUri());
-
             Files.walkFileTree(directory, new SimpleFileVisitor<>() {
                 @Override
                 public FileVisitResult visitFile(Path filePath, BasicFileAttributes attrs) throws IOException {
@@ -228,7 +216,6 @@ public class GenerateDictionary {
                     }
                     return FileVisitResult.CONTINUE;
                 }
-
                 @Override
                 public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
                     Controller.showDialog("Failed to access file:" + file, Alert.AlertType.ERROR);

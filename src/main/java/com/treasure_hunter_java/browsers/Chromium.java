@@ -56,5 +56,4 @@ public class Chromium extends Browser {
     public Path getLoginData(Path path) {
         return Path.of(path + "Login Data");
     }
-
 }

@@ -18,10 +18,8 @@ public class FilterFunctionality {
     public FilterFunctionality(List<Password> passwords) {
         this.passwords = passwords;
     }
-
     /**
      * Фильтрует список паролей с использованием строгого фильтра.
-     *
      * @param filter фильтр для применения.
      * @return отфильтрованный список паролей.
      */
@@ -40,7 +38,6 @@ public class FilterFunctionality {
 
     /**
      * Фильтрует список паролей с использованием нестрогого фильтра.
-     *
      * @param filter фильтр для применения.
      * @return отфильтрованный список паролей.
      */
@@ -59,7 +56,6 @@ public class FilterFunctionality {
 
     /**
      * Фильтрует список паролей с использованием заданного фильтра.
-     *
      * @param filter фильтр для применения.
      * @return отфильтрованный список паролей.
      */
@@ -73,7 +69,6 @@ public class FilterFunctionality {
 
     /**
      * Сравнивает длину пароля с заданными ограничениями.
-     *
      * @param filter   фильтр для применения.
      * @param password пароль для сравнения.
      * @return true, если длина пароля удовлетворяет ограничениям; false в противном случае.
@@ -84,7 +79,6 @@ public class FilterFunctionality {
 
     /**
      * Проверяет, содержит ли пароль заданное количество заглавных букв.
-     *
      * @param filter   фильтр для применения.
      * @param password пароль для проверки.
      * @return true, если пароль содержит заданное количество заглавных букв

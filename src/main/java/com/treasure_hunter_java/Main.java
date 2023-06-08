@@ -19,7 +19,7 @@ import java.util.Objects;
  */
 public class Main extends Application {
 
-    public static Path mainWorkDirectory;
+    private static Path mainWorkDirectory;
 
     /**
      * Метод start, который запускается при старте приложения.
@@ -41,10 +41,17 @@ public class Main extends Application {
 
     /**
      * Точка входа в приложение Treasure Hunter.
-     *
      * @param args Аргументы командной строки.
      */
     public static void main(String[] args) {
         launch();
+    }
+
+    public static Path getMainWorkDirectory(){
+        return mainWorkDirectory;
+    }
+
+    public static void setMainWorkDirectory(Path path){
+        mainWorkDirectory = path;
     }
 }

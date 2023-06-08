@@ -56,5 +56,4 @@ public class Opera extends Browser {
     public Path getLoginData(Path path) {
         return Path.of(path + "Login Data");
     }
-
 }

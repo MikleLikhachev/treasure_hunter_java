@@ -17,7 +17,7 @@ public class CopyFiles {
     /**
      * Рабочая директория приложения.
      */
-    private Path workDirectory = Main.mainWorkDirectory;
+    private Path workDirectory = Main.getMainWorkDirectory();
 
     /**
      * Создает директорию для хранения файлов.

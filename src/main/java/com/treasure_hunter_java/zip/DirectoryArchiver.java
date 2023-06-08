@@ -17,8 +17,8 @@ public class DirectoryArchiver {
      * Определяет путь к директории и путь к архивному файлу на основе значения переменной mainWorkDirectory в классе Main.
      */
     public DirectoryArchiver() {
-        if (Main.mainWorkDirectory != null) {
-            directoryPath = Main.mainWorkDirectory.toString();
+        if (Main.getMainWorkDirectory() != null) {
+            directoryPath = Main.getMainWorkDirectory().toString();
             outputFilePath = directoryPath + File.separator + "data.zip";
         }
     }

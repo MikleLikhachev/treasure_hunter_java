@@ -4,9 +4,8 @@ import com.treasure_hunter_java.decrypt.ExtractFunctionality;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import java.io.IOException;
-
 /**
- * Класс контроллера MainController, отвечающий за функциональность связанную с основным окном приложения Treasure Hunter.
+ * Класс контроллера MainController, отвечающий за функциональность связанную с основным окном.
  */
 public class MainController extends Controller {
 
@@ -45,7 +44,6 @@ public class MainController extends Controller {
 
     @FXML
     private CheckBox historyChromium;
-
     /**
      * Обрабатывает событие нажатия на кнопку "Поиск паролей".
      *
@@ -56,7 +54,6 @@ public class MainController extends Controller {
     protected void onSearchPasswordsButtonClick() throws IOException {
         super.onSearchPasswordsButtonClick();
     }
-
     /**
      * Обрабатывает событие нажатия на кнопку "Генерация словаря".
      *
@@ -67,7 +64,6 @@ public class MainController extends Controller {
     protected void onGenerateDictionaryButtonClick() throws IOException {
         super.onGenerateDictionaryButtonClick();
     }
-
     /**
      * Обрабатывает событие нажатия на кнопку "Создать отчет".
      *
@@ -78,10 +74,8 @@ public class MainController extends Controller {
     protected void onReportButtonClick() throws IOException {
         super.onReportButtonClick();
     }
-
     /**
      * Обрабатывает событие нажатия на кнопку "Упаковать".
-     *
      * @throws IOException если происходит ошибка ввода-вывода
      */
     @Override
@@ -89,10 +83,8 @@ public class MainController extends Controller {
     protected void onZipButtonClick() throws IOException {
         super.onZipButtonClick();
     }
-
     /**
      * Обрабатывает событие нажатия на кнопку "Telegram".
-     *
      * @throws IOException если происходит ошибка ввода-вывода
      */
     @Override
@@ -100,7 +92,6 @@ public class MainController extends Controller {
     protected void onTelegramButtonClick() throws IOException {
         super.onTelegramButtonClick();
     }
-
     /**
      * Обрабатывает событие нажатия на кнопку "Выбрать директорию".
      */
@@ -109,7 +100,6 @@ public class MainController extends Controller {
     protected void onSelectDirectoryButtonClick() {
         super.onSelectDirectoryButtonClick();
     }
-
     /**
      * Обрабатывает событие нажатия на кнопку "Старт".
      * Извлекает данные из выбранных браузеров
@@ -117,9 +107,7 @@ public class MainController extends Controller {
      */
     @FXML
     protected void onStartButtonClick() throws Exception {
-        if (checkError()) {
-            return;
-        }
+        if (checkError()) { return;}
         ExtractFunctionality extractFunctionality = new ExtractFunctionality();
         extractFunctionality.getGoogleData(passwordsGoogle, cookiesGoogle, historyGoogle);
         extractFunctionality.getAtomData(passwordsAtom, cookiesAtom, historyAtom);

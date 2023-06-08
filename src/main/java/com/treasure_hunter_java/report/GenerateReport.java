@@ -33,7 +33,7 @@ import static java.lang.Math.round;
 
 public class GenerateReport {
 
-    Path directory = Path.of(Main.mainWorkDirectory.toUri());
+    Path directory = Path.of(Main.getMainWorkDirectory().toUri());
     private final ArrayList<Password> passwords = new ArrayList<>();
     private final int groupSymbolLength;
     private final boolean totalCountPasswords;
@@ -134,7 +134,7 @@ public class GenerateReport {
      * самом популярном символе и изображении.
      */
     private void generatePDF() {
-        String reportFilePath = Main.mainWorkDirectory + "/report.pdf";
+        String reportFilePath = Main.getMainWorkDirectory() + "/report.pdf";
         try (PdfWriter pdfWriter = new PdfWriter(reportFilePath);
              PdfDocument pdfDoc = new PdfDocument(pdfWriter);
              Document document = new Document(pdfDoc))
@@ -188,7 +188,7 @@ public class GenerateReport {
         String date = "Дата создания: " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
         document.add(new Paragraph(date).setMarginLeft(20));
-        document.add(new Paragraph("Отчёт собран на основе: " + Main.mainWorkDirectory).setMarginLeft(20));
+        document.add(new Paragraph("Отчёт собран на основе: " + Main.getMainWorkDirectory()).setMarginLeft(20));
     }
 
     /**
