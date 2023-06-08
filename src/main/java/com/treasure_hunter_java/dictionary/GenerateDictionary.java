@@ -9,6 +9,9 @@ import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
 
+/**
+ * Класс GenerateDictionary отвечает за генерацию словаря на основе паролей из различных источников и применение фильтров к ним.
+ */
 public class GenerateDictionary {
 
     private ArrayList<Password> passwords = new ArrayList<>();
@@ -20,6 +23,11 @@ public class GenerateDictionary {
     private boolean atomIsSelected;
     private boolean directoryForCombiningIsSelected;
 
+    /**
+     * Извлекает пароли из файла.
+     *
+     * @param file Файл, содержащий пароли.
+     */
     private void extractPassword(File file){
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
@@ -46,63 +54,114 @@ public class GenerateDictionary {
         }
     }
 
+    /**
+     * Извлекает пароли из Google Chrome, если выбрано соответствующее условие.
+     */
     private void extractGooglePasswords() {
         if (googleChromeIsSelected) {
             extractPassword(new File(Main.mainWorkDirectory + "/chrome_data/passwords.txt"));
         }
     }
 
+    /**
+     * Извлекает пароли из Opera, если выбрано соответствующее условие.
+     */
     private void extractOperaPasswords(){
         if (operaIsSelected) {
             extractPassword(new File(Main.mainWorkDirectory + "/opera_data/passwords.txt"));
         }
     }
 
+    /**
+     * Извлекает пароли из Chromium, если выбрано соответствующее условие.
+     */
     private void extractChromiumPasswords(){
         if (chromiumIsSelected) {
             extractPassword(new File(Main.mainWorkDirectory + "/chromium_data/passwords.txt"));
         }
     }
 
+    /**
+     * Извлекает пароли из Atom, если выбрано соответствующее условие.
+     */
     private void extractAtomPasswords(){
         if (atomIsSelected) {
             extractPassword(new File(Main.mainWorkDirectory + "/atom_data/passwords.txt"));
         }
     }
 
+    /**
+     * Конструктор класса GenerateDictionary.
+     */
     public GenerateDictionary() {}
 
+    /**
+     * Устанавливает флаг выбора Google Chrome.
+     *
+     * @param googleChromeIsSelected Флаг выбора Google Chrome.
+     */
     public void setGoogleChromeIsSelected(boolean googleChromeIsSelected){
         this.googleChromeIsSelected = googleChromeIsSelected;
     }
 
+    /**
+     * Устанавливает флаг выбора Opera.
+     *
+     * @param operaIsSelected Флаг выбора Opera.
+     */
     public void setOperaIsSelected(boolean operaIsSelected) {
         this.operaIsSelected = operaIsSelected;
     }
 
+    /**
+     * Устанавливает флаг выбора Chromium.
+     *
+     * @param chromiumIsSelected Флаг выбора Chromium.
+     */
     public void setChromiumIsSelected(boolean chromiumIsSelected){
         this.chromiumIsSelected = chromiumIsSelected;
     }
 
+    /**
+     * Устанавливает флаг выбора Atom.
+     *
+     * @param atomIsSelected Флаг выбора Atom.
+     */
     public void setAtomIsSelected(boolean atomIsSelected){
         this.atomIsSelected = atomIsSelected;
     }
 
-    public void setDictionaryForCombiningIsSelected(boolean directoryForCombiningIsSelected){
+    /**
+     * Устанавливает флаг выбора директории для объединения словарей.
+     *
+     * @param directoryForCombiningIsSelected Флаг выбора директории для объединения словарей.
+     */
+    public void setDirectoryForCombiningIsSelected(boolean directoryForCombiningIsSelected){
         this.directoryForCombiningIsSelected = directoryForCombiningIsSelected;
     }
 
+    /**
+     * Устанавливает путь к директории для объединения словарей.
+     *
+     * @param path Путь к директории для объединения словарей.
+     */
     public void setDictionaryForCombining(Path path){
         this.dictionaryForCombining = path;
     }
 
+    /**
+     * Генерирует имя для словаря на основе фильтра.
+     *
+     * @param filter Фильтр для генерации имени словаря.
+     * @return Имя словаря.
+     */
     private String generateNameForDictionary(Filter filter) {
         File directory = new File(Main.mainWorkDirectory + "/filters");
         if (!directory.exists()) {
             directory.mkdir();
         }
         String name = "/filters/";
-        if (!filter.getMask().isEmpty()) {name += filter.getMask();}
+        if (!filter.getMask().isEmpty()) {name += filter.getMask().replace("*", "#");}
         if (filter.isStrict()) {name += "ST";}
         else {name += "NST";}
         name += "-L(" + filter.getMinLength() + "-" + filter.getMaxLength() + ")";
@@ -124,6 +183,12 @@ public class GenerateDictionary {
         return "/" + name + ".txt";
     }
 
+    /**
+     * Компилирует словарь на основе указанного фильтра.
+     *
+     * @param filter Фильтр для компиляции словаря.
+     * @throws IOException Если произошла ошибка ввода-вывода.
+     */
     public void compileDictionary(Filter filter) throws IOException {
 
         passwords.clear();
@@ -145,6 +210,11 @@ public class GenerateDictionary {
         }
     }
 
+    /**
+     * Объединяет словари из указанной директории.
+     *
+     * @throws IOException Если произошла ошибка ввода-вывода.
+     */
     private void combiningDictionaries() throws IOException {
 
         if (directoryForCombiningIsSelected) {

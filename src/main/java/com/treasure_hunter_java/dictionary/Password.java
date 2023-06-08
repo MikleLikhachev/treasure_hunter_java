@@ -1,43 +1,93 @@
 package com.treasure_hunter_java.dictionary;
 
+/**
+ * Представляет пароль с информацией о его свойствах и использовании.
+ */
 public class Password {
 
-    private final int length;
+    private final int length;                // Длина пароля
+    private final int countDigits;           // Количество цифр в пароле
+    private final int countSpecialSign;      // Количество специальных символов в пароле
+    private final int countCapitalLetters;   // Количество заглавных букв в пароле
+    private final int countSmallLetters;     // Количество строчных букв в пароле
+    private int countUsed = 0;               // Количество использований пароля
+    private final String password;           // Значение пароля
 
-    private final int countDigits;
-
-    private final int countSpecialSign;
-
-    private final int countCapitalLetters;
-
-    private final int countSmallLetters;
-
-    private int countUsed = 0;
-
-    private final String password;
-
-    public String getPassword(){
+    /**
+     * Возвращает значение пароля.
+     *
+     * @return Значение пароля.
+     */
+    public String getPassword() {
         return password;
     }
 
-    public void increaseCountUsed(){
+    /**
+     * Увеличивает счетчик использований пароля на 1.
+     */
+    public void increaseCountUsed() {
         this.countUsed += 1;
     }
 
-    public int getCountCapitalLetters() {return countCapitalLetters;}
+    /**
+     * Возвращает количество заглавных букв в пароле.
+     *
+     * @return Количество заглавных букв.
+     */
+    public int getCountCapitalLetters() {
+        return countCapitalLetters;
+    }
 
-    public int getCountSmallLetters() {return countSmallLetters;}
+    /**
+     * Возвращает количество строчных букв в пароле.
+     *
+     * @return Количество строчных букв.
+     */
+    public int getCountSmallLetters() {
+        return countSmallLetters;
+    }
 
+    /**
+     * Возвращает длину пароля.
+     *
+     * @return Длина пароля.
+     */
     public int getLength() {
         return length;
     }
 
-    public int getCountSpecialSign() {return countSpecialSign;}
+    /**
+     * Возвращает количество специальных символов в пароле.
+     *
+     * @return Количество специальных символов.
+     */
+    public int getCountSpecialSign() {
+        return countSpecialSign;
+    }
 
-    public int getCountDigits() {return countDigits;}
+    /**
+     * Возвращает количество цифр в пароле.
+     *
+     * @return Количество цифр.
+     */
+    public int getCountDigits() {
+        return countDigits;
+    }
 
-    public int getUsageCount() {return countUsed;}
+    /**
+     * Возвращает количество использований пароля.
+     *
+     * @return Количество использований пароля.
+     */
+    public int getUsageCount() {
+        return countUsed;
+    }
 
+    /**
+     * Создает новый экземпляр класса Password с заданным значением пароля.
+     *
+     * @param password Значение пароля.
+     */
     public Password(String password) {
         this.password = password;
         this.length = password.length();

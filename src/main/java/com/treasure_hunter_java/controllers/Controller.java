@@ -4,7 +4,6 @@ import com.treasure_hunter_java.Main;
 import com.treasure_hunter_java.zip.DirectoryArchiver;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -17,12 +16,13 @@ import jfxtras.styles.jmetro.Style;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Path;
 import java.util.Objects;
-import java.util.ResourceBundle;
 
-public class Controller implements Initializable {
+/**
+ * Класс Controller является базовым контроллером для управления событиями на главном экране приложения.
+ */
+public class Controller {
 
     protected Stage currentStage;
 
@@ -41,27 +41,47 @@ public class Controller implements Initializable {
     @FXML
     protected Button telegramButton;
 
+    /**
+     * Обработчик события при нажатии кнопки "Поиск паролей".
+     * Переключает сцену на экран поиска паролей.
+     *
+     * @throws IOException если возникают проблемы с загрузкой FXML-файла сцены.
+     */
     @FXML
     protected void onSearchPasswordsButtonClick() throws IOException {
-
         setScene(searchPasswordsButton, "/com/treasure_hunter_java/fxml/MainScene.fxml");
     }
 
+    /**
+     * Обработчик события при нажатии кнопки "Генерация словаря".
+     * Переключает сцену на экран генерации словаря.
+     *
+     * @throws IOException если возникают проблемы с загрузкой FXML-файла сцены.
+     */
     @FXML
     protected void onGenerateDictionaryButtonClick() throws IOException {
-
         setScene(generateDictionaryButton, "/com/treasure_hunter_java/fxml/DictionaryScene.fxml");
     }
 
+    /**
+     * Обработчик события при нажатии кнопки "Отчет".
+     * Переключает сцену на экран отчета.
+     *
+     * @throws IOException если возникают проблемы с загрузкой FXML-файла сцены.
+     */
     @FXML
     protected void onReportButtonClick() throws IOException {
-
         setScene(zipButton, "/com/treasure_hunter_java/fxml/ReportScene.fxml");
     }
 
+    /**
+     * Обработчик события при нажатии кнопки "Архивация".
+     * Архивирует текущую рабочую директорию и отображает диалоговое окно с информацией об успешной архивации.
+     *
+     * @throws IOException если возникают проблемы при архивации директории или при отображении диалогового окна.
+     */
     @FXML
     protected void onZipButtonClick() throws IOException {
-
         if (Main.mainWorkDirectory != null) {
             DirectoryArchiver directoryArchiver = new DirectoryArchiver();
             directoryArchiver.archiveDirectory();
@@ -71,12 +91,21 @@ public class Controller implements Initializable {
         }
     }
 
+    /**
+     * Обработчик события при нажатии кнопки "Telegram".
+     * Переключает сцену на экран Telegram.
+     *
+     * @throws IOException если возникают проблемы с загрузкой FXML-файла сцены.
+     */
     @FXML
     protected void onTelegramButtonClick() throws IOException {
-
         setScene(telegramButton, "/com/treasure_hunter_java/fxml/TelegramScene.fxml");
     }
 
+    /**
+     * Обработчик события при нажатии кнопки "Выбрать папку".
+     * Открывает диалог выбора папки и устанавливает выбранную папку как рабочую директорию.
+     */
     @FXML
     protected void onSelectDirectoryButtonClick() {
         DirectoryChooser directoryChooser = new DirectoryChooser();
@@ -85,12 +114,18 @@ public class Controller implements Initializable {
         if (selectedDirectory != null) {
             Main.mainWorkDirectory = Path.of(selectedDirectory.getAbsolutePath());
         } else {
-           showDialog("Вы не выбрали папку!", Alert.AlertType.ERROR);
+            showDialog("Вы не выбрали папку!", Alert.AlertType.ERROR);
         }
     }
 
+    /**
+     * Устанавливает новую сцену и стиль JMetro для текущего окна.
+     *
+     * @param sceneButton кнопка, вызывающая переключение сцены
+     * @param path        путь к FXML-файлу новой сцены
+     * @throws IOException если возникают проблемы с загрузкой FXML-файла сцены.
+     */
     private void setScene(Button sceneButton, String path) throws IOException {
-
         currentStage = (Stage) sceneButton.getScene().getWindow();
 
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(path)));
@@ -98,9 +133,14 @@ public class Controller implements Initializable {
         Scene scene = new Scene(root, 750, 500);
         currentStage.setScene(scene);
         jMetro.setScene(currentStage.getScene());
-
     }
 
+    /**
+     * Отображает диалоговое окно с заданным текстом и типом сообщения.
+     *
+     * @param contentText текст сообщения
+     * @param alertType   тип сообщения
+     */
     public static void showDialog(String contentText, Alert.AlertType alertType) {
         String title = "Treasure hunter";
         Alert alert = new Alert(alertType);
@@ -114,14 +154,17 @@ public class Controller implements Initializable {
         alert.showAndWait();
     }
 
-    public static boolean checkError(){
+    /**
+     * Проверяет наличие ошибки, связанной с не выбранной рабочей директорией.
+     * Если рабочая директория не выбрана, отображается соответствующее диалоговое окно ошибки.
+     *
+     * @return true, если есть ошибка, иначе false.
+     */
+    public static boolean checkError() {
         if (Main.mainWorkDirectory == null) {
             showDialog("Выберите папку!", Alert.AlertType.ERROR);
             return true;
         }
         return false;
     }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {}
 }

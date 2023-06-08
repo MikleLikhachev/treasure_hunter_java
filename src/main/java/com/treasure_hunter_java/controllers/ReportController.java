@@ -1,6 +1,5 @@
 package com.treasure_hunter_java.controllers;
 
-import com.treasure_hunter_java.Main;
 import com.treasure_hunter_java.report.GenerateReport;
 import com.treasure_hunter_java.report.GenerateReportBuilder;
 import javafx.event.ActionEvent;
@@ -11,7 +10,10 @@ import javafx.scene.control.Slider;
 
 import java.io.IOException;
 
-public class ReportController extends Controller{
+/**
+ * Класс контроллера ReportController, отвечающий за функциональность связанную с генерацией отчета.
+ */
+public class ReportController extends Controller {
 
     @FXML
     protected CheckBox passwordCount;
@@ -58,41 +60,70 @@ public class ReportController extends Controller{
     @FXML
     protected Slider topPopularSymbolCount;
 
+    /**
+     * Обрабатывает событие нажатия на кнопку "Поиск паролей".
+     *
+     * @throws IOException если происходит ошибка ввода-вывода
+     */
     @Override
     @FXML
     protected void onSearchPasswordsButtonClick() throws IOException {
         super.onSearchPasswordsButtonClick();
     }
 
+    /**
+     * Обрабатывает событие нажатия на кнопку "Генерация словаря".
+     *
+     * @throws IOException если происходит ошибка ввода-вывода
+     */
     @Override
     @FXML
     protected void onGenerateDictionaryButtonClick() throws IOException {
         super.onGenerateDictionaryButtonClick();
     }
 
+    /**
+     * Обрабатывает событие нажатия на кнопку "Упаковать".
+     *
+     * @throws IOException если происходит ошибка ввода-вывода
+     */
     @Override
     @FXML
     protected void onZipButtonClick() throws IOException {
         super.onZipButtonClick();
     }
 
+    /**
+     * Обрабатывает событие нажатия на кнопку "Telegram".
+     *
+     * @throws IOException если происходит ошибка ввода-вывода
+     */
     @Override
     @FXML
     protected void onTelegramButtonClick() throws IOException {
         super.onTelegramButtonClick();
     }
 
+    /**
+     * Обрабатывает событие нажатия на кнопку "Выбрать директорию".
+     */
     @Override
     @FXML
     protected void onSelectDirectoryButtonClick() {
         super.onSelectDirectoryButtonClick();
     }
 
-
+    /**
+     * Обрабатывает событие нажатия на кнопку "Старт".
+     * Генерируется отчет на основе параметров, заданных пользователем
+     * @param actionEvent событие нажатия на кнопку
+     * @throws IOException если происходит ошибка ввода-вывода
+     */
     @FXML
     public void onStartButtonClick(ActionEvent actionEvent) throws IOException {
-
-        if(checkError()) {return;}
+        if (checkError()) {
+            return;
+        }
         GenerateReport report = new GenerateReportBuilder((int) groupSymbolLength.getValue())
                 .totalCountPasswords(totalPasswordCount.isSelected())
                 .uniqueCountPasswords(uniquePasswordCount.isSelected())
@@ -101,17 +132,26 @@ public class ReportController extends Controller{
                 .passwordMinLengthIsSelected(passwordMinLength.isSelected())
                 .mostPopularGroupSymbols(mostPopularGroupSymbols.isSelected())
                 .topPopularGroupSymbolCount((int) topGroupSymbolsLength.getValue())
+                .mostPopularSymbolIsSelected(mostPopularSymbol.isSelected())
                 .topPopularSymbolIsSelected(topPopularSymbol.isSelected())
                 .topPopularSymbolCount((int) topPopularSymbolCount.getValue())
                 .build();
-        report.rocket();
+        report.startGenerate();
+        showDialog("Отчёт сгенерирован!", Alert.AlertType.INFORMATION);
     }
 
+    /**
+     * Обрабатывает событие нажатия на чекбокс "Количество паролей".
+     */
     @FXML
     private void onPasswordCountClick() {
         totalPasswordCount.disableProperty().bind(passwordCount.selectedProperty().not());
         uniquePasswordCount.disableProperty().bind(passwordCount.selectedProperty().not());
     }
+
+    /**
+     * Обрабатывает событие нажатия на чекбокс "Длина паролей".
+     */
     @FXML
     private void onPasswordLengthClick() {
         passwordMaxLength.disableProperty().bind(passwordLength.selectedProperty().not());
@@ -119,12 +159,18 @@ public class ReportController extends Controller{
         passwordMinLength.disableProperty().bind(passwordLength.selectedProperty().not());
     }
 
+    /**
+     * Обрабатывает событие нажатия на чекбокс "Самые популярные символы".
+     */
     @FXML
     private void onMostPopularSymbolsClick() {
         mostPopularGroupSymbols.disableProperty().bind(mostPopularSymbols.selectedProperty().not());
         topMostPopularGroupSymbol.disableProperty().bind(mostPopularSymbols.selectedProperty().not());
     }
 
+    /**
+     * Обрабатывает событие нажатия на чекбокс "Самые популярные группы символов".
+     */
     @FXML
     private void onMostPopularGroupSymbolsClick() {
         groupSymbolLength.valueProperty().addListener((observable, oldValue, newValue) ->
@@ -132,6 +178,9 @@ public class ReportController extends Controller{
         groupSymbolLength.disableProperty().bind(mostPopularGroupSymbols.selectedProperty().not());
     }
 
+    /**
+     * Обрабатывает событие нажатия на чекбокс "Самый популярный символ".
+     */
     @FXML
     private void onTopMostPopularGroupSymbolClick() {
         topGroupSymbolsLength.valueProperty().addListener((observable, oldValue, newValue) ->
@@ -139,16 +188,21 @@ public class ReportController extends Controller{
         topGroupSymbolsLength.disableProperty().bind(topMostPopularGroupSymbol.selectedProperty().not());
     }
 
+    /**
+     * Обрабатывает событие нажатия на чекбокс "Самый популярный символ".
+     */
     @FXML
     private void onMostPopularSymbolClick() {
         topPopularSymbol.disableProperty().bind(mostPopularSymbol.selectedProperty().not());
     }
 
+    /**
+     * Обрабатывает событие нажатия на чекбокс "Самый популярный символ".
+     */
     @FXML
     private void onTopPopularSymbolClick() {
         topPopularSymbolCount.valueProperty().addListener((observable, oldValue, newValue) ->
                 topPopularSymbolCount.setValue(newValue.intValue()));
         topPopularSymbolCount.disableProperty().bind(topPopularSymbol.selectedProperty().not());
     }
-
 }

@@ -27,6 +27,10 @@ import java.util.logging.Logger;
 
 import static java.lang.Math.round;
 
+/**
+ * Класс, описывающий создание отчета в формате .pdf
+ */
+
 public class GenerateReport {
 
     Path directory = Path.of(Main.mainWorkDirectory.toUri());
@@ -39,6 +43,7 @@ public class GenerateReport {
     private final boolean passwordMinLengthIsSelected;
     private final boolean mostPopularGroupSymbols;
     private final int topPopularGroupSymbolCount;
+    private final boolean mostPopularSymbolIsSelected;
     private final boolean topPopularSymbolIsSelected;
     private final int topPopularSymbolCount;
     private static final String FONT_FILE_PATH = "src/main/resources/com/treasure_hunter_java/font/Times New Roman.ttf";
@@ -54,10 +59,15 @@ public class GenerateReport {
         this.passwordMinLengthIsSelected = builder.passwordMinLengthIsSelected;
         this.mostPopularGroupSymbols = builder.mostPopularGroupSymbols;
         this.topPopularGroupSymbolCount = builder.topPopularGroupSymbolCount;
+        this.mostPopularSymbolIsSelected = builder.mostPopularSymbolIsSelected;
         this.topPopularSymbolIsSelected = builder.topPopularSymbolIsSelected;
         this.topPopularSymbolCount = builder.topPopularSymbolCount;
     }
 
+    /**
+     * Метод извлечения паролей из переданного файла
+     * @param file файл, хранящий в себе словарь с паролями.
+     */
     private void extractPassword(File file){
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
@@ -85,6 +95,11 @@ public class GenerateReport {
         }
     }
 
+    /**
+     * Обходит каждый .txt файл в директории и извлекает из него пароли.
+     *
+     * @throws IOException
+     */
     private void collectPasswords() throws IOException{
         Files.walkFileTree(directory, new SimpleFileVisitor<>() {
             @Override
@@ -103,11 +118,21 @@ public class GenerateReport {
         });
     }
 
-    public void rocket() throws IOException {
+    /**
+     * Начинает процесс генерации отчета. Собирает пароли и генерирует PDF-отчет.
+     * @throws IOException если произошла ошибка при сборе паролей или генерации отчета.
+     */
+    public void startGenerate() throws IOException {
         collectPasswords();
         generatePDF();
     }
 
+    /**
+     * Генерирует PDF-отчет на основе данных и сохраняет его в файле report.pdf.
+     * Отчет включает информацию о заголовке, общей информации, количестве уникальных паролей,
+     * информации о длине паролей, самом распространенном пароле, самой популярной группе символов,
+     * самом популярном символе и изображении.
+     */
     private void generatePDF() {
         String reportFilePath = Main.mainWorkDirectory + "/report.pdf";
         try (PdfWriter pdfWriter = new PdfWriter(reportFilePath);
@@ -131,7 +156,7 @@ public class GenerateReport {
 
             printMostPopularSymbolGroup(document, passwords);
 
-            printTopPopularSymbols(document, passwords);
+            printTopPopularSymbol(document, passwords);
 
             printTopFrequentCharacters(document, passwords);
 
@@ -142,6 +167,14 @@ public class GenerateReport {
             logger.log(Level.SEVERE, "Ошибка при создании отчета", e);
         }
     }
+
+    /**
+     * Выводит информацию о заголовке отчета и общей информации в документ document с использованием указанного шрифта font.
+     *
+     * @param document  Объект класса Document, представляющий PDF-документ,
+     *                  в который будет добавлена информация о заголовке отчета и общей информации.
+     * @param font      Шрифт, используемый для отображения текста в документе.
+     */
     private static void printReportInfo(Document document, PdfFont font) {
         Paragraph paragraph = new Paragraph("Отчет")
                 .setFont(font)
@@ -158,6 +191,14 @@ public class GenerateReport {
         document.add(new Paragraph("Отчёт собран на основе: " + Main.mainWorkDirectory).setMarginLeft(20));
     }
 
+    /**
+     * Выводит общую информацию об общем количестве паролей в документ document на основе указанного списка passwords.
+     *
+     * @param document              Объект класса Document, представляющий PDF-документ,
+     *                              в который будет добавлена общая информация об анализе паролей.
+     * @param passwords             Список паролей, для которых будет выведена общая информация.
+     * @param totalCountPasswords   Флаг, указывающий, следует ли выводить информацию об общем количестве найденных паролей.
+     */
     private static void printGeneralInfo(Document document, ArrayList<Password> passwords, boolean totalCountPasswords) {
         document.add(new Paragraph("Анализ паролей: ").setItalic());
         if (totalCountPasswords) {
@@ -168,6 +209,14 @@ public class GenerateReport {
             document.add(new Paragraph("Общее количество найденных паролей: " + totalCount).setMarginLeft(20));
         }
     }
+
+    /**
+     * Выводит информацию о количестве уникальных паролей в документ document на основе указанного списка passwords.
+     *
+     * @param document              Объект класса Document, представляющий PDF-документ, в который будет добавлена информация о количестве уникальных паролей.
+     * @param passwords             Список паролей, для которых будет выведена информация о количестве уникальных паролей.
+     * @param uniqueCountPasswords  Флаг, указывающий, следует ли выводить информацию о количестве уникальных паролей.
+     */
     private static void printUniqueCount(Document document, ArrayList<Password> passwords, boolean uniqueCountPasswords) {
         if (uniqueCountPasswords) {
             long uniqueCount = passwords.stream().distinct().count();
@@ -175,12 +224,26 @@ public class GenerateReport {
         }
     }
 
+    /**
+     * Выводит информацию о длине паролей в документ document на основе указанного списка passwords.
+     *
+     * @param document  Объект класса Document, представляющий PDF-документ, в который будет добавлена информация о длине паролей.
+     * @param passwords Список паролей, для которых будет выведена информация о длине паролей.
+     */
     private void printLengthData(Document document, ArrayList<Password> passwords){
         printMaxLength(document, passwords, passwordMaxLengthIsSelected);
         printAverageLength(document, passwords, passwordAverageLengthIsSelected);
         printMinLength(document, passwords, passwordMinLengthIsSelected);
     }
 
+    /**
+     * Выводит информацию о максимальной длине найденных паролей в указанном списке passwords в документ document.
+     *
+     * @param document              Объект класса Document, представляющий PDF-документ,
+     *                              в который будет добавлена информация о максимальной длине паролей.
+     * @param passwords             Список паролей, для которых будет определена максимальная длина.
+     * @param maxLengthIsSelected   Флаг, указывающий, следует ли выводить информацию о максимальной длине паролей.
+     */
     private void printMaxLength(Document document, ArrayList<Password> passwords, boolean maxLengthIsSelected){
         if (maxLengthIsSelected){
             int maxLength = passwords.stream().mapToInt(Password::getLength).max().orElse(0);
@@ -188,6 +251,14 @@ public class GenerateReport {
         }
     }
 
+    /**
+     * Выводит информацию о средней длине паролей в указанном списке passwords в документ document.
+     *
+     * @param document                  Объект класса Document, представляющий PDF-документ,
+     *                                  в который будет добавлена информация о средней длине паролей.
+     * @param passwords                 Список паролей, для которых будет определена средняя длина.
+     * @param averageLengthIsSelected   Флаг, указывающий, следует ли выводить информацию о средней длине паролей.
+     */
     private void printAverageLength(Document document, ArrayList<Password> passwords, boolean averageLengthIsSelected){
         if (averageLengthIsSelected){
             double averageLength = round(passwords.stream().mapToInt(Password::getLength).average().orElse(0));
@@ -195,6 +266,14 @@ public class GenerateReport {
         }
     }
 
+    /**
+     * Выводит информацию о минимальной длине пароля в указанном списке паролей passwords в документ document.
+     *
+     * @param document              Объект класса Document, представляющий PDF-документ,
+     *                              в который будет добавлена информация о минимальной длине пароля.
+     * @param passwords             Список паролей, для которых будет определена минимальная длина.
+     * @param minLengthIsSelected   Флаг, указывающий, следует ли выводить информацию о минимальной длине пароля.
+     */
     private void printMinLength(Document document, ArrayList<Password> passwords, boolean minLengthIsSelected){
         if (minLengthIsSelected){
             int minLength = passwords.stream().mapToInt(Password::getLength).min().orElse(0);
@@ -202,6 +281,13 @@ public class GenerateReport {
         }
     }
 
+    /**
+     * Выводит информацию о самом распространённом пароле в указанном списке паролей passwords в документ document.
+     *
+     * @param document   Объект класса Document, представляющий PDF-документ,
+     *                   в который будет добавлена информация о самом распространённом пароле.
+     * @param passwords  Список паролей, для которых будет определён самый распространённый пароль.
+     */
     private void printMostPopularPassword(Document document, ArrayList<Password> passwords) {
         String pass = "";
         int usageCount = 0;
@@ -219,6 +305,15 @@ public class GenerateReport {
                 round((double) usageCount / totalCount * 100) + "%)").setMarginLeft(20));
     }
 
+    /**
+     * Выводит информацию о самой популярной группе символов в указанном списке паролей passwords в документ document.
+     * Группа символов определяется с помощью параметра groupSymbolLength.
+     * Если mostPopularGroupSymbols имеет значение false, метод завершает свою работу без вывода информации.
+     *
+     * @param document   Объект класса Document, представляющий PDF-документ,
+     *                   в который будет добавлена информация о самой популярной группе символов.
+     * @param passwords  Список паролей, для которых будет определена самая популярная группа символов.
+     */
     private void printMostPopularSymbolGroup(Document document, ArrayList<Password> passwords) {
         if (!this.mostPopularGroupSymbols) {return;}
         Map<String, Integer> occurrences = new HashMap<>();
@@ -236,6 +331,14 @@ public class GenerateReport {
         printTopOccurrencesByCategory(occurrences, document);
     }
 
+    /**
+     * Выводит информацию о самых популярных группах символов, сортируя их по убыванию количества использований.
+     * Группы символов делятся на две категории: числовые и нечисловые.
+     *
+     * @param occurrences  Map, содержащая информацию о количестве вхождений каждой группы символов.
+     * @param document     Объект класса Document, представляющий PDF-документ,
+     *                     в который будет добавлена информация о популярных группах символов.
+     */
     public void printTopOccurrencesByCategory(Map<String, Integer> occurrences, Document document) {
         List<Map.Entry<String, Integer>> digitOccurrences = new ArrayList<>();
         List<Map.Entry<String, Integer>> nonDigitOccurrences = new ArrayList<>();
@@ -259,8 +362,14 @@ public class GenerateReport {
         printTable(document, nonDigitOccurrences, topPopularGroupSymbolCount, "Password");
     }
 
-    private void printTopPopularSymbols(Document document, ArrayList<Password> passwords){
-        if (topPopularSymbolIsSelected) {
+    /**
+     * Выводит информацию о самом популярном символе в списке паролей в указанный PDF-документ.
+     *
+     * @param document  Объект класса Document, представляющий PDF-документ, в который будет добавлена информация о популярном символе.
+     * @param passwords Список паролей, в котором будет производиться подсчет частоты символов.
+     */
+    private void printTopPopularSymbol(Document document, ArrayList<Password> passwords){
+        if (mostPopularSymbolIsSelected) {
             Map<String, Integer> charOccurrences = new HashMap<>();
 
             for (Password password : passwords) {
@@ -273,6 +382,12 @@ public class GenerateReport {
         }
     }
 
+    /**
+     * Выполняет поиск наиболее часто встречающегося символа в словаре charOccurrences.
+     *
+     * @param charOccurrences Словарь, содержащий символы в качестве ключей и их количество в качестве значений.
+     * @return Наиболее часто встречающийся символ.
+     */
     private String searchSubstring(Map<String, Integer> charOccurrences) {
         String mostFrequentChar = "";
         int maxOccurrences = 0;
@@ -286,6 +401,12 @@ public class GenerateReport {
         return mostFrequentChar;
     }
 
+    /**
+     * Выводит таблицу с наиболее часто встречающимися символами из списка паролей.
+     *
+     * @param document  Объект класса Document, представляющий PDF-документ, в который будет добавлена таблица.
+     * @param passwords Список паролей, из которых будет производиться подсчет частоты символов.
+     */
     public void printTopFrequentCharacters(Document document, List<Password> passwords) {
         if (!topPopularSymbolIsSelected) {return;}
 
@@ -303,6 +424,15 @@ public class GenerateReport {
         printTable(document, sortedEntries, topPopularSymbolCount, "Symbol");
     }
 
+    /**
+     * Создает и добавляет таблицу в PDF-документ на основе отсортированных записей (символ-количество),
+     * выводя указанное количество строк и используя указанный режим.
+     *
+     * @param document      Объект класса Document, представляющий PDF-документ, в который будет добавлена таблица.
+     * @param sortedEntries Отсортированный список записей (символ-количество).
+     * @param countString   Количество строк, которые будут добавлены в таблицу.
+     * @param mode          Режим таблицы ("Symbol" или "Password").
+     */
     private void printTable(Document document, List<Map.Entry<String, Integer>> sortedEntries, int countString,
                             String mode){
         Table table = new Table(2);
@@ -335,6 +465,12 @@ public class GenerateReport {
         document.add(table);
     }
 
+    /**
+     * Добавляет печать в сгенерированный PDF-документ.
+     *
+     * @param document Объект класса Document, представляющий PDF-документ, в который будет добавлено изображение.
+     * @throws MalformedURLException Если указанный URL изображения недействителен.
+     */
     private void printImage(Document document) throws MalformedURLException {
         ImageData imageData = ImageDataFactory.create("src/main/resources/com/treasure_hunter_java/images/Печать.png");
         document.add(new Image(imageData).setHeight(128).setWidth(128).setFixedPosition(400, 50));

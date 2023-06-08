@@ -13,10 +13,20 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Objects;
 
+/**
+ * Main - класс, являющийся точкой входа в приложение.
+ * Отображает графический интерфейс и запускает приложение Treasure Hunter.
+ */
 public class Main extends Application {
 
     public static Path mainWorkDirectory;
 
+    /**
+     * Метод start, который запускается при старте приложения.
+     *
+     * @param primaryStage Главная сцена приложения.
+     * @throws IOException Если возникают ошибки ввода-вывода при загрузке графического интерфейса.
+     */
     @Override
     public void start(Stage primaryStage) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("fxml/MainScene.fxml")));
@@ -27,9 +37,13 @@ public class Main extends Application {
         jMetro.setScene(primaryStage.getScene());
         primaryStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("icons/icon.png"))));
         primaryStage.show();
-
     }
 
+    /**
+     * Точка входа в приложение Treasure Hunter.
+     *
+     * @param args Аргументы командной строки.
+     */
     public static void main(String[] args) {
         launch();
     }
