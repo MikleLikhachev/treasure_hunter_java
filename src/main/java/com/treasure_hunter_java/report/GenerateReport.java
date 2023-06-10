@@ -4,7 +4,6 @@ import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.properties.TextAlignment;
-import com.treasure_hunter_java.Main;
 import com.treasure_hunter_java.dictionary.Password;
 import java.io.*;
 import java.net.MalformedURLException;
@@ -22,6 +21,8 @@ import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
+import com.treasure_hunter_java.directory.Directory;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,7 +34,7 @@ import static java.lang.Math.round;
 
 public class GenerateReport {
 
-    Path directory = Path.of(Main.getMainWorkDirectory().toUri());
+    Path directory = Path.of(Directory.getWorkDirectory().toUri());
     private final ArrayList<Password> passwords = new ArrayList<>();
     private final int groupSymbolLength;
     private final boolean totalCountPasswords;
@@ -103,7 +104,7 @@ public class GenerateReport {
     private void collectPasswords() throws IOException{
         Files.walkFileTree(directory, new SimpleFileVisitor<>() {
             @Override
-            public FileVisitResult visitFile(Path filePath, BasicFileAttributes attrs) throws IOException {
+            public FileVisitResult visitFile(Path filePath, BasicFileAttributes attrs) {
                 if (Files.isRegularFile(filePath) && filePath.toString().endsWith("passwords.txt")) {
                     extractPassword(filePath.toFile());
                 }
@@ -111,7 +112,7 @@ public class GenerateReport {
             }
 
             @Override
-            public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
+            public FileVisitResult visitFileFailed(Path file, IOException exc) {
                 logger.log(Level.SEVERE,"Failed to access file: {0}.", file);
                 return FileVisitResult.CONTINUE;
             }
@@ -134,7 +135,7 @@ public class GenerateReport {
      * самом популярном символе и изображении.
      */
     private void generatePDF() {
-        String reportFilePath = Main.getMainWorkDirectory() + "/report.pdf";
+        String reportFilePath = Directory.getWorkDirectory() + "/report.pdf";
         try (PdfWriter pdfWriter = new PdfWriter(reportFilePath);
              PdfDocument pdfDoc = new PdfDocument(pdfWriter);
              Document document = new Document(pdfDoc))
@@ -188,7 +189,7 @@ public class GenerateReport {
         String date = "Дата создания: " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
         document.add(new Paragraph(date).setMarginLeft(20));
-        document.add(new Paragraph("Отчёт собран на основе: " + Main.getMainWorkDirectory()).setMarginLeft(20));
+        document.add(new Paragraph("Отчёт собран на основе: " + Directory.getWorkDirectory()).setMarginLeft(20));
     }
 
     /**

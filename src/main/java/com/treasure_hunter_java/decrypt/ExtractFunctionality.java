@@ -1,10 +1,10 @@
 package com.treasure_hunter_java.decrypt;
 
-import com.treasure_hunter_java.Main;
 import com.treasure_hunter_java.browsers.Atom;
 import com.treasure_hunter_java.browsers.Chrome;
 import com.treasure_hunter_java.browsers.Chromium;
 import com.treasure_hunter_java.browsers.Opera;
+import com.treasure_hunter_java.directory.Directory;
 import javafx.scene.control.CheckBox;
 
 import java.io.BufferedWriter;
@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class ExtractFunctionality {
 
-    private CopyFiles copyFiles = new CopyFiles();
+    private final CopyFiles copyFiles = new CopyFiles();
 
     /**
      * Записывает данные в файл.
@@ -30,7 +30,7 @@ public class ExtractFunctionality {
      * @throws IOException если возникают проблемы при записи данных в файл.
      */
     private void writeData(String text, String dataName, String browserDirectory) throws IOException {
-        File file = new File(Main.getMainWorkDirectory() + browserDirectory + dataName);
+        File file = new File(Directory.getWorkDirectory() + browserDirectory + dataName);
 
         try (FileWriter fw = new FileWriter(file);
              BufferedWriter bw = new BufferedWriter(fw)) {
@@ -54,19 +54,19 @@ public class ExtractFunctionality {
         Decrypt decrypt = new Decrypt();
         if (passwords.isSelected()) {
             copyFiles.copyLoginData(profiles, localState, browserName);
-            writeData(decrypt.decryptPasswords(Main.getMainWorkDirectory() + browserName),
+            writeData(decrypt.decryptPasswords(Directory.getWorkDirectory() + browserName),
                     "passwords.txt", browserName);
         }
 
         if (cookies.isSelected()) {
             copyFiles.copyCookies(profiles, browserName);
-            writeData(decrypt.extractCookies(Main.getMainWorkDirectory().toString() + browserName),
+            writeData(decrypt.extractCookies(Directory.getWorkDirectory().toString() + browserName),
                     "cookies.txt", browserName);
         }
 
         if (history.isSelected()) {
             copyFiles.copyHistory(profiles, browserName);
-            writeData(decrypt.getHistory(Main.getMainWorkDirectory().toString() + browserName + "History"),
+            writeData(decrypt.getHistory(Directory.getWorkDirectory().toString() + browserName + "History"),
                     "history.txt", browserName);
         }
     }

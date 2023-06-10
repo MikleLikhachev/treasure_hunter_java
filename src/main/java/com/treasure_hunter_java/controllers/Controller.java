@@ -1,6 +1,6 @@
 package com.treasure_hunter_java.controllers;
 
-import com.treasure_hunter_java.Main;
+import com.treasure_hunter_java.directory.Directory;
 import com.treasure_hunter_java.zip.DirectoryArchiver;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,13 +9,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import jfxtras.styles.jmetro.JMetro;
 import jfxtras.styles.jmetro.Style;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.Objects;
 
 /**
@@ -24,6 +21,8 @@ import java.util.Objects;
 public class Controller {
 
     protected Stage currentStage;
+
+    protected Directory directory = new Directory();
 
     @FXML
     protected Button searchPasswordsButton;
@@ -78,7 +77,7 @@ public class Controller {
      */
     @FXML
     protected void onZipButtonClick() throws IOException {
-        if (Main.getMainWorkDirectory() != null) {
+        if (Directory.getWorkDirectory() != null) {
             DirectoryArchiver directoryArchiver = new DirectoryArchiver();
             directoryArchiver.archiveDirectory();
             showDialog("Данные успешно архивированы!", Alert.AlertType.INFORMATION);
@@ -102,14 +101,7 @@ public class Controller {
      */
     @FXML
     protected void onSelectDirectoryButtonClick() {
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        File selectedDirectory = directoryChooser.showDialog(currentStage);
-
-        if (selectedDirectory != null) {
-            Main.setMainWorkDirectory(Path.of(selectedDirectory.getAbsolutePath()));
-        } else {
-            showDialog("Вы не выбрали папку!", Alert.AlertType.ERROR);
-        }
+        directory.selectDirectory(currentStage);
     }
     /**
      * Устанавливает новую сцену и стиль JMetro для текущего окна.
@@ -154,7 +146,7 @@ public class Controller {
      * @return true, если есть ошибка, иначе false.
      */
     public static boolean checkError() {
-        if (Main.getMainWorkDirectory() == null) {
+        if (Directory.getWorkDirectory() == null) {
             showDialog("Выберите папку!", Alert.AlertType.ERROR);
             return true;
         }

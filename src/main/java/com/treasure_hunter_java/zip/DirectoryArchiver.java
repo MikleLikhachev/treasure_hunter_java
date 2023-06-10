@@ -1,6 +1,6 @@
 package com.treasure_hunter_java.zip;
 
-import com.treasure_hunter_java.Main;
+import com.treasure_hunter_java.directory.Directory;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
 import java.io.*;
@@ -17,8 +17,8 @@ public class DirectoryArchiver {
      * Определяет путь к директории и путь к архивному файлу на основе значения переменной mainWorkDirectory в классе Main.
      */
     public DirectoryArchiver() {
-        if (Main.getMainWorkDirectory() != null) {
-            directoryPath = Main.getMainWorkDirectory().toString();
+        if (Directory.getWorkDirectory() != null) {
+            directoryPath = Directory.getWorkDirectory().toString();
             outputFilePath = directoryPath + File.separator + "data.zip";
         }
     }

@@ -10,7 +10,6 @@ import javafx.stage.Stage;
 import jfxtras.styles.jmetro.*;
 
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.Objects;
 
 /**
@@ -18,8 +17,6 @@ import java.util.Objects;
  * Отображает графический интерфейс и запускает приложение Treasure Hunter.
  */
 public class Main extends Application {
-
-    private static Path mainWorkDirectory;
 
     /**
      * Метод start, который запускается при старте приложения.
@@ -47,11 +44,4 @@ public class Main extends Application {
         launch();
     }
 
-    public static Path getMainWorkDirectory(){
-        return mainWorkDirectory;
-    }
-
-    public static void setMainWorkDirectory(Path path){
-        mainWorkDirectory = path;
-    }
 }

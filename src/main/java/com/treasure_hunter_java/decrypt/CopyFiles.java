@@ -1,6 +1,6 @@
 package com.treasure_hunter_java.decrypt;
 
-import com.treasure_hunter_java.Main;
+import com.treasure_hunter_java.directory.Directory;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +17,7 @@ public class CopyFiles {
     /**
      * Рабочая директория приложения.
      */
-    private Path workDirectory = Main.getMainWorkDirectory();
+    private final Path workDirectory = Directory.getWorkDirectory();
 
     /**
      * Создает директорию для хранения файлов.

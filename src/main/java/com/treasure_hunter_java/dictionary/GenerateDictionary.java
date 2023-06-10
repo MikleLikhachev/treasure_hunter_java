@@ -1,7 +1,7 @@
 package com.treasure_hunter_java.dictionary;
 
-import com.treasure_hunter_java.Main;
 import com.treasure_hunter_java.controllers.Controller;
+import com.treasure_hunter_java.directory.Directory;
 import javafx.scene.control.Alert;
 import java.io.*;
 import java.nio.file.*;
@@ -56,7 +56,7 @@ public class GenerateDictionary {
      */
     private void extractGooglePasswords() {
         if (googleChromeIsSelected) {
-            extractPassword(new File(Main.getMainWorkDirectory() + "/chrome_data/passwords.txt"));
+            extractPassword(new File(Directory.getWorkDirectory() + "/chrome_data/passwords.txt"));
         }
     }
 
@@ -65,7 +65,7 @@ public class GenerateDictionary {
      */
     private void extractOperaPasswords(){
         if (operaIsSelected) {
-            extractPassword(new File(Main.getMainWorkDirectory() + "/opera_data/passwords.txt"));
+            extractPassword(new File(Directory.getWorkDirectory() + "/opera_data/passwords.txt"));
         }
     }
 
@@ -74,7 +74,7 @@ public class GenerateDictionary {
      */
     private void extractChromiumPasswords(){
         if (chromiumIsSelected) {
-            extractPassword(new File(Main.getMainWorkDirectory() + "/chromium_data/passwords.txt"));
+            extractPassword(new File(Directory.getWorkDirectory() + "/chromium_data/passwords.txt"));
         }
     }
 
@@ -83,7 +83,7 @@ public class GenerateDictionary {
      */
     private void extractAtomPasswords(){
         if (atomIsSelected) {
-            extractPassword(new File(Main.getMainWorkDirectory() + "/atom_data/passwords.txt"));
+            extractPassword(new File(Directory.getWorkDirectory() + "/atom_data/passwords.txt"));
         }
     }
 
@@ -148,7 +148,7 @@ public class GenerateDictionary {
      * @return Имя словаря.
      */
     private String generateNameForDictionary(Filter filter) {
-        File directory = new File(Main.getMainWorkDirectory() + "/filters");
+        File directory = new File(Directory.getWorkDirectory() + "/filters");
         if (!directory.exists()) {
             directory.mkdir();
         }
@@ -190,7 +190,7 @@ public class GenerateDictionary {
         combiningDictionaries();
         FilterFunctionality filterFunctionality = new FilterFunctionality(passwords);
 
-        File dictionaryFile = new File(Main.getMainWorkDirectory().toUri());
+        File dictionaryFile = new File(Directory.getWorkDirectory().toUri());
         try (FileWriter fw = new FileWriter(dictionaryFile + generateNameForDictionary(filter));
              BufferedWriter bw = new BufferedWriter(fw))
         {
@@ -210,14 +210,14 @@ public class GenerateDictionary {
             Path directory = Paths.get(dictionaryForCombining.toUri());
             Files.walkFileTree(directory, new SimpleFileVisitor<>() {
                 @Override
-                public FileVisitResult visitFile(Path filePath, BasicFileAttributes attrs) throws IOException {
+                public FileVisitResult visitFile(Path filePath, BasicFileAttributes attrs) {
                     if (Files.isRegularFile(filePath) && filePath.toString().endsWith(".txt")) {
                         extractPassword(filePath.toFile());
                     }
                     return FileVisitResult.CONTINUE;
                 }
                 @Override
-                public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
+                public FileVisitResult visitFileFailed(Path file, IOException exc) {
                     Controller.showDialog("Failed to access file:" + file, Alert.AlertType.ERROR);
                     return FileVisitResult.CONTINUE;
                 }
