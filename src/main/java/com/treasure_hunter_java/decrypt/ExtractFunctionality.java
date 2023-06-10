@@ -52,24 +52,76 @@ public class ExtractFunctionality {
     private void extractData(String browserName, CheckBox passwords, List<Path> profiles,
                              Path localState, CheckBox cookies, CheckBox history) throws Exception {
         Decrypt decrypt = new Decrypt();
+
+        extractPasswords(decrypt, browserName, passwords, profiles, localState);
+        extractCookies(decrypt, browserName, cookies, profiles);
+        extractHistory(decrypt, browserName, history, profiles);
+    }
+
+    /**
+     * Метод для извлечения паролей из браузеров.
+     *
+     * @param decrypt      объект класса Decrypt для расшифровки данных
+     * @param browserName  название браузера
+     * @param passwords    флажок, указывающий, нужно ли извлекать пароли
+     * @param profiles     список путей к профилям браузера
+     * @param localState   путь к файлу Local State
+     * @throws Exception если происходит ошибка при извлечении паролей
+     */
+    private void extractPasswords(Decrypt decrypt, String browserName, CheckBox passwords,
+                                  List<Path> profiles, Path localState) throws Exception {
         if (passwords.isSelected()) {
+            // Копируем файл Login Data для извлечения паролей
             copyFiles.copyLoginData(profiles, localState, browserName);
+
+            // Расшифровываем пароли и записываем в файл
             writeData(decrypt.decryptPasswords(Directory.getWorkDirectory() + browserName),
                     "passwords.txt", browserName);
         }
+    }
 
+    /**
+     * Метод для извлечения cookies из браузеров.
+     *
+     * @param decrypt      объект класса Decrypt для расшифровки данных
+     * @param browserName  название браузера
+     * @param cookies      флажок, указывающий, нужно ли извлекать cookies
+     * @param profiles     список путей к профилям браузера
+     * @throws Exception если происходит ошибка при извлечении cookies
+     */
+    private void extractCookies(Decrypt decrypt, String browserName, CheckBox cookies,
+                                List<Path> profiles) throws Exception {
         if (cookies.isSelected()) {
+            // Копируем файл Cookies для извлечения cookies
             copyFiles.copyCookies(profiles, browserName);
+
+            // Извлекаем и записываем cookies в файл
             writeData(decrypt.extractCookies(Directory.getWorkDirectory().toString() + browserName),
                     "cookies.txt", browserName);
         }
+    }
 
+    /**
+     * Метод для извлечения истории посещений из браузеров.
+     *
+     * @param decrypt      объект класса Decrypt для расшифровки данных
+     * @param browserName  название браузера
+     * @param history      флажок, указывающий, нужно ли извлекать историю
+     * @param profiles     список путей к профилям браузера
+     * @throws Exception если происходит ошибка при извлечении истории
+     */
+    private void extractHistory(Decrypt decrypt, String browserName, CheckBox history,
+                                List<Path> profiles) throws Exception {
         if (history.isSelected()) {
+            // Копируем файл истории для извлечения истории посещений
             copyFiles.copyHistory(profiles, browserName);
+
+            // Извлекаем и записываем историю посещений в файл
             writeData(decrypt.getHistory(Directory.getWorkDirectory().toString() + browserName + "History"),
                     "history.txt", browserName);
         }
     }
+
 
     /**
      * Извлекает данные из Google Chrome.
